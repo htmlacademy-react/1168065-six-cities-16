@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Алексей Жила](https://up.htmlacademy.ru/react/16/user/1168065).
-* Наставник: `Неизвестно`.
+* Наставник: [Arthur Litovko](https://htmlacademy.ru/profile/id6927).
 
 ---
 
