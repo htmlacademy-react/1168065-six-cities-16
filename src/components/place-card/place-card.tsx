@@ -28,7 +28,8 @@ export default function PlaceCard(props: PlaceCard): JSX.Element {
   const { title, type, price, isFavorite, isPremium, rating, previewImage } =
     props;
 
-  const bookmarkClass = clsx(
+  const bookmarkClass: string = clsx(
+    'place-card__bookmark-button button',
     isFavorite && 'place-card__bookmark-button--active'
   );
 
@@ -63,10 +64,7 @@ export default function PlaceCard(props: PlaceCard): JSX.Element {
           </div>
 
           {/* Добавление в закладки, активный класс place-card__bookmark-button--active */}
-          <button
-            className={`place-card__bookmark-button button ${bookmarkClass}`}
-            type="button"
-          >
+          <button className={bookmarkClass} type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
