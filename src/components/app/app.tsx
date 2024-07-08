@@ -1,5 +1,9 @@
 import MainPage from '@pages/main-page';
 
-export default function App(): JSX.Element {
-  return <MainPage placesAmount={312} />;
+type AppProps = {
+  placesAmount: number;
+};
+
+export default function App({ placesAmount }: AppProps): JSX.Element {
+  return <MainPage placesAmount={placesAmount} />;
 }
