@@ -4,7 +4,11 @@ import PlaceCard from '@components/place-card/place-card';
 import Sorting from '@components/sorting/sorting';
 import Layout from '@components/layout/layout';
 
-export default function MainPage(): JSX.Element {
+type MainPageProps = {
+  placesAmount: number;
+};
+
+export default function MainPage({ placesAmount }: MainPageProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <Layout>
@@ -17,7 +21,9 @@ export default function MainPage(): JSX.Element {
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">312 places to stay in Amsterdam</b>
+                <b className="places__found">
+                  {placesAmount} places to stay in Amsterdam
+                </b>
 
                 <Sorting />
 
