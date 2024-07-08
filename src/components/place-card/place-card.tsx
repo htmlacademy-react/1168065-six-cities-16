@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 
 type PlaceCard = {
-  id: string;
+  // id: string;
   title: string;
   type: string;
   price: number;

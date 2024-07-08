@@ -3,7 +3,7 @@ import Layout from '@components/layout/layout';
 export default function Favourites(): JSX.Element {
   return (
     <div className="page">
-      <Layout showFooter={true}>
+      <Layout showFooter>
         <main className="page__main page__main--favorites">
           <div className="page__favorites-container container">
             <section className="favorites">

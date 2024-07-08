@@ -3,7 +3,7 @@ import Layout from '@components/layout/layout';
 export default function FavouritesEmpty(): JSX.Element {
   return (
     <div className="page page--favorites-empty">
-      <Layout showFooter={true}>
+      <Layout showFooter>
         <main className="page__main page__main--favorites page__main--favorites-empty">
           <div className="page__favorites-container container">
             <section className="favorites favorites--empty">
