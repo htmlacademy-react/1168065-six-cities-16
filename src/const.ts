@@ -5,6 +5,7 @@ export const enum AppRoutes {
   Favourites = '/favourites',
   Login = '/login',
   Offer = '/offer',
+  NotFound = '/404'
 }
 
 export const CITIES: Array<CityRoute> = [
