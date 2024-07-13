@@ -1,14 +1,11 @@
+import { CityRoute } from '@entities/cities';
+
 export const enum AppRoutes {
   Main = '/',
   Favourites = '/favourites',
   Login = '/login',
   Offer = '/offer',
 }
-
-type CityRoute = {
-  slug: string;
-  name: string;
-};
 
 export const CITIES: Array<CityRoute> = [
   {
