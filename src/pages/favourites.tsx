@@ -1,14 +1,32 @@
 import Layout from '@components/layout/layout';
 
 /**
+ * Компонент страницы избранного при отсутствии добавленных объявлений
+ */
+// пока закомментировал, чтобы не было ошибки линтера
+// function FavouritesEmpty(): JSX.Element {
+//   return (
+//     <div className="favorites__status-wrapper">
+//       <b className="favorites__status">Nothing yet saved.</b>
+//       <p className="favorites__status-description">
+//         Save properties to narrow down search or plan your future trips.
+//       </p>
+//     </div>
+//   );
+// }
+
+/**
  * Страница избранного
  */
 export default function Favourites(): JSX.Element {
   return (
+    // модификатор при отсутствии объявлений page--favorites-empty
     <Layout className="page" showFooter>
+      {/* модификатор при отсутствии объявлений page__main--favorites-empty */}
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
           <section className="favorites">
+            {/* заголовок при отсутствии объявлений  "Favorites (empty)"*/}
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
               <li className="favorites__locations-items">
