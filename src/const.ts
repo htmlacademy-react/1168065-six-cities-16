@@ -5,7 +5,12 @@ export const enum AppRoutes {
   Favourites = '/favourites',
   Login = '/login',
   Offer = '/offer',
-  NotFound = '/404'
+}
+
+export const enum AuthStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
 }
 
 export const CITIES: Array<CityRoute> = [
