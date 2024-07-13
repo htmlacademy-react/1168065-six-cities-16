@@ -3,7 +3,7 @@ import Layout from '@components/layout/layout';
 /**
  * Страница логина
  */
-export default function AuthPage(): JSX.Element {
+export default function LoginPage(): JSX.Element {
   return (
     <Layout className="page page--gray page--login">
       <main className="page__main page__main--login">

@@ -18,7 +18,7 @@ import Layout from '@components/layout/layout';
 /**
  * Страница избранного
  */
-export default function Favourites(): JSX.Element {
+export default function FavouritesPage(): JSX.Element {
   return (
     // модификатор при отсутствии объявлений page--favorites-empty
     <Layout className="page" showFooter>
