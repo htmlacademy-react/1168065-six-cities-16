@@ -1,7 +1,10 @@
 import { AppRoutes } from '@src/const';
 import { Link } from 'react-router-dom';
 
-export default function Logo() {
+/**
+ * Логотип
+ */
+export default function Logo(): JSX.Element {
   return (
     <Link
       to={AppRoutes.Main}

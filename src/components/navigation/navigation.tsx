@@ -3,6 +3,9 @@ import { NavLink } from 'react-router-dom';
 import { CityRoute } from '@entities/cities';
 import clsx from 'clsx';
 
+/**
+ * Элемент навигации
+ */
 function LocationItem({ slug, name }: CityRoute) {
   return (
     <li className="locations__item">
@@ -25,6 +28,9 @@ type LocationListProps = {
   locations: CityRoute[];
 };
 
+/**
+ * Список навигации
+ */
 function LocationList({ locations }: LocationListProps) {
   return (
     <ul className="locations__list tabs__list">

@@ -9,6 +9,10 @@ type MainPageProps = {
   city: string;
 };
 
+/**
+ * Страница объявлений по выбранному городу
+ * @returns {JSX.Element}
+ */
 export default function MainPage({ city }: MainPageProps): JSX.Element {
   return (
     <Layout className="page page--gray page--main">

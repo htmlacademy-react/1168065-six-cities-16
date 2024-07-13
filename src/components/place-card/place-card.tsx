@@ -1,6 +1,9 @@
+import { AppRoutes } from '@src/const';
 import clsx from 'clsx';
+import { Link } from 'react-router-dom';
 
 type PlaceCard = {
+  id: string;
   title: string;
   type: string;
   price: number;
@@ -10,9 +13,20 @@ type PlaceCard = {
   previewImage: string;
 };
 
+/**
+ * Карточка объявления
+ */
 export default function PlaceCard(props: PlaceCard): JSX.Element {
-  const { title, type, price, isFavorite, isPremium, rating, previewImage } =
-    props;
+  const {
+    id,
+    title,
+    type,
+    price,
+    isFavorite,
+    isPremium,
+    rating,
+    previewImage,
+  } = props;
 
   const bookmarkClass: string = clsx(
     'place-card__bookmark-button button',
@@ -30,7 +44,7 @@ export default function PlaceCard(props: PlaceCard): JSX.Element {
 
       {/* Изображение */}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
+        <Link to={`${AppRoutes.Offer}/${id}`}>
           <img
             className="place-card__image"
             src={previewImage}
@@ -38,7 +52,7 @@ export default function PlaceCard(props: PlaceCard): JSX.Element {
             height="200"
             alt="Place image"
           />
-        </a>
+        </Link>
       </div>
 
       {/* Основная информация */}
