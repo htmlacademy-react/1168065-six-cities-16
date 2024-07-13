@@ -9,10 +9,9 @@ import { AppRoutes, CITIES } from '@src/const';
 import OfferPage from '@src/pages/offer-page';
 
 export default function App(): JSX.Element {
-  const CitiesRoutes = CITIES.map(({ slug, name }, i) => ({
+  const CitiesRoutes = CITIES.map(({ slug, name }) => ({
     path: slug,
     element: <MainPage city={name} />,
-    index: i === 0,
   }));
 
   const router = createBrowserRouter([
