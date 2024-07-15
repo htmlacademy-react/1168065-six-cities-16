@@ -1,0 +1,23 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100svh;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: 100%;
+}
+
+.link {
+  transition: text-shadow .3s;
+}
+
+.link:hover,
+.link:focus {
+  text-shadow: .5px 0 0,-.5px 0 0;
+}
