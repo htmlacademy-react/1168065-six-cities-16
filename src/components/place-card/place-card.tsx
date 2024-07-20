@@ -5,8 +5,8 @@ import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 
 type PlaceCard = Place & {
-  onMouseEnter: Function;
-  onMouseLeave: Function;
+  // onMouseEnter: Function;
+  // onMouseLeave: Function;
 };
 
 /**
@@ -22,8 +22,9 @@ export default function PlaceCard(props: PlaceCard): JSX.Element {
     isPremium,
     rating,
     previewImage,
-    onMouseEnter,
-    onMouseLeave,
+    // onMouseEnter,
+    // onMouseLeave,
+    setActiveCard,
   } = props;
 
   const bookmarkClass: string = clsx(
@@ -33,8 +34,8 @@ export default function PlaceCard(props: PlaceCard): JSX.Element {
 
   return (
     <article
-      onMouseEnter={() => {}}
-      onMouseLeave={() => {}}
+      onMouseEnter={() => setActiveCard(id)}
+      onMouseLeave={() => setActiveCard(null)}
       className="cities__card place-card"
     >
       {/* Лейбл "премиум" */}
