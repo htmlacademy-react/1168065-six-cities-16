@@ -3,7 +3,7 @@ import {
   Navigate,
   RouterProvider,
 } from 'react-router-dom';
-import { AppRoutes, AuthStatus, CITIES } from '@src/const';
+import { AppRoute, AuthStatus, CITIES } from '@src/const';
 import OfferPage from '@src/pages/offer-page/offer-page';
 import MainPage from '@src/pages/main-page/main-page';
 import FavouritesPage from '@src/pages/favourites-page/favourites-page';
@@ -21,14 +21,14 @@ export default function App(): JSX.Element {
 
   const privateRoutes = [
     {
-      path: AppRoutes.Favourites,
+      path: AppRoute.Favourites,
       element: <FavouritesPage />,
     },
   ];
 
   const router = createBrowserRouter([
     {
-      path: AppRoutes.Main,
+      path: AppRoute.Main,
       element: <Navigate to={CITIES[0].slug} />,
       index: true,
       errorElement: <NotFoundPage />,
@@ -38,11 +38,11 @@ export default function App(): JSX.Element {
       children: privateRoutes,
     },
     {
-      path: AppRoutes.Login,
+      path: AppRoute.Login,
       element: <LoginPage />,
     },
     {
-      path: AppRoutes.Offer,
+      path: AppRoute.Offer,
       children: [
         {
           path: ':id',

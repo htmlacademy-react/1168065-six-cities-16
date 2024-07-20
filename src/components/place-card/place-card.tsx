@@ -1,4 +1,4 @@
-import { AppRoutes } from '@src/const';
+import { AppRoute } from '@src/const';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 
@@ -44,7 +44,7 @@ export default function PlaceCard(props: PlaceCard): JSX.Element {
 
       {/* Изображение */}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to={`${AppRoutes.Offer}/${id}`}>
+        <Link to={`${AppRoute.Offer}/${id}`}>
           <img
             className="place-card__image"
             src={previewImage}

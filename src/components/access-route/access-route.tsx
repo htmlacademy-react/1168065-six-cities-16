@@ -1,11 +1,11 @@
-import { AppRoutes, AuthStatus } from '@src/const';
+import { AppRoute, AuthStatus } from '@src/const';
 import { Navigate, Outlet } from 'react-router-dom';
 
 type AccessRouteProps = {
   status: AuthStatus;
 };
 
-const createAccessRoute = (statusToCheck: AuthStatus, fallback: AppRoutes) =>
+const createAccessRoute = (statusToCheck: AuthStatus, fallback: AppRoute) =>
   function AccessRoute({ status }: AccessRouteProps) {
     // сравниваем переданный статус и возвращаем нужный элемент
     switch (status) {
@@ -21,5 +21,5 @@ const createAccessRoute = (statusToCheck: AuthStatus, fallback: AppRoutes) =>
     }
   };
 
-export const PrivateRoute = createAccessRoute(AuthStatus.Auth, AppRoutes.Login);
-export const PublicRoute = createAccessRoute(AuthStatus.NoAuth, AppRoutes.Main);
+export const PrivateRoute = createAccessRoute(AuthStatus.Auth, AppRoute.Login);
+export const PublicRoute = createAccessRoute(AuthStatus.NoAuth, AppRoute.Main);

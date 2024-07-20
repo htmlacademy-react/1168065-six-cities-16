@@ -1,4 +1,4 @@
-import { AppRoutes } from '@src/const';
+import { AppRoute } from '@src/const';
 import { Link } from 'react-router-dom';
 
 /**
@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 export default function Logo(): JSX.Element {
   return (
     <Link
-      to={AppRoutes.Main}
+      to={AppRoute.Main}
       className="header__logo-link header__logo-link--active"
     >
       <img

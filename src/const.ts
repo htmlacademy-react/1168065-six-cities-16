@@ -1,6 +1,6 @@
 import { CityRoute } from '@entities/cities';
 
-export const enum AppRoutes {
+export const enum AppRoute {
   Main = '/',
   Favourites = '/favourites',
   Login = '/login',
