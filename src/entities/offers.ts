@@ -21,3 +21,5 @@ export interface Offer {
   rating: number;
   previewImage: string;
 }
+
+export type Place = Omit<Offer, 'location' | 'city'>;

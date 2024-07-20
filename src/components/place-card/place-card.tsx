@@ -1,9 +1,13 @@
 import { AppRoute } from '@src/const';
-import { Offer } from '@src/entities/offers';
+import { Place } from '@src/entities/offers';
+
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 
-type PlaceCard = Omit<Offer, 'location' | 'city'>;
+type PlaceCard = Place & {
+  onMouseEnter: Function;
+  onMouseLeave: Function;
+};
 
 /**
  * Карточка объявления
@@ -18,6 +22,8 @@ export default function PlaceCard(props: PlaceCard): JSX.Element {
     isPremium,
     rating,
     previewImage,
+    onMouseEnter,
+    onMouseLeave,
   } = props;
 
   const bookmarkClass: string = clsx(
@@ -26,7 +32,11 @@ export default function PlaceCard(props: PlaceCard): JSX.Element {
   );
 
   return (
-    <article className="cities__card place-card">
+    <article
+      onMouseEnter={() => {}}
+      onMouseLeave={() => {}}
+      className="cities__card place-card"
+    >
       {/* Лейбл "премиум" */}
       {isPremium && (
         <div className="place-card__mark">
