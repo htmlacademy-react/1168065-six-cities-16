@@ -1,10 +1,10 @@
 import Map from '@components/map/map';
 import Navigation from '@components/navigation/navigation';
-import PlaceCard from '@components/place-card/place-card';
 import Sorting from '@components/sorting/sorting';
 import Layout from '@components/layout/layout';
 import { places } from '@src/mocks/places';
 import clsx from 'clsx';
+import PlaceCardList from './components/place-card-list';
 
 /**
  * Если объявлений нет
@@ -58,11 +58,7 @@ export default function MainPage({ city }: MainPageProps): JSX.Element {
 
                 <Sorting />
 
-                <div className="cities__places-list places__list tabs__content">
-                  {places.map((item) => (
-                    <PlaceCard key={item.id} {...item} />
-                  ))}
-                </div>
+                <PlaceCardList places={places} />
               </section>
             ) : (
               <PlacesEmpty />
