@@ -1,5 +1,8 @@
 import { CityRoute } from '@entities/cities';
 
+/**
+ * Роут приложения
+ */
 export const enum AppRoute {
   Main = '/',
   Favourites = '/favourites',
@@ -7,12 +10,18 @@ export const enum AppRoute {
   Offer = '/offer',
 }
 
+/**
+ * Статус авторизации
+ */
 export const enum AuthStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
 
+/**
+ * Конфигурация городов
+ */
 export const CITIES: Array<CityRoute> = [
   {
     slug: '/paris',

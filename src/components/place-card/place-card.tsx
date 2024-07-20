@@ -1,17 +1,9 @@
 import { AppRoute } from '@src/const';
+import { Offer } from '@src/entities/offers';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 
-type PlaceCard = {
-  id: string;
-  title: string;
-  type: string;
-  price: number;
-  isFavorite: boolean;
-  isPremium: boolean;
-  rating: number;
-  previewImage: string;
-};
+type PlaceCard = Omit<Offer, 'location' | 'city'>;
 
 /**
  * Карточка объявления
