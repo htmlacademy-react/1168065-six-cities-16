@@ -5,6 +5,7 @@ import Layout from '@components/layout/layout';
 import { places } from '@src/mocks/places';
 import clsx from 'clsx';
 import PlaceCardList from './components/place-card-list';
+import { useState } from 'react';
 
 /**
  * Если объявлений нет
@@ -30,6 +31,10 @@ type MainPageProps = {
  * Страница объявлений по выбранному городу
  */
 export default function MainPage({ city }: MainPageProps): JSX.Element {
+  // временно отключил, поскольку пока не знадействовано
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [selectedOffer, setSelectedOffer] = useState<string | null>(null);
+
   const mainClass = clsx(
     'page__main page__main--index',
     places?.length === 0 && 'page__main--index-empty'
@@ -58,7 +63,10 @@ export default function MainPage({ city }: MainPageProps): JSX.Element {
 
                 <Sorting />
 
-                <PlaceCardList places={places} />
+                <PlaceCardList
+                  places={places}
+                  setSelectedOffer={setSelectedOffer}
+                />
               </section>
             ) : (
               <PlacesEmpty />
