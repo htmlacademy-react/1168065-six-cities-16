@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { HTMLProps } from 'react';
 
 import { Link } from 'react-router-dom';
+import BookmarkButton from '../bookmark-button/bookmark-button';
 
 type PlaceCard = Place & HTMLProps<HTMLElement>;
 
@@ -59,16 +60,12 @@ export default function PlaceCard(props: PlaceCard): JSX.Element {
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
 
-          {/* Добавление в закладки, активный класс place-card__bookmark-button--active */}
-          <button className={bookmarkClass} type="button">
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            {/* Текст меняется для доступности */}
-            <span className="visually-hidden">
-              {isFavorite ? 'In' : 'To'} bookmarks
-            </span>
-          </button>
+          {/* Добавление в закладки */}
+          <BookmarkButton
+            bemblock="place-card"
+            isFavorite={isFavorite}
+            iconSize={{ width: 18, height: 19 }}
+          />
         </div>
 
         {/* Рейтинг */}

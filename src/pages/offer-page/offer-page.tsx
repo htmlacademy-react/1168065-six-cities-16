@@ -1,6 +1,8 @@
 import Layout from '@components/layout/layout';
+import BookmarkButton from '@src/components/bookmark-button/bookmark-button';
 import { AuthStatus } from '@src/const';
 import { singleOffer } from '@src/mocks/single-offer';
+import { clsx } from 'clsx';
 
 type OfferPageProps = {
   userStatus: string;
@@ -13,6 +15,7 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
   const {
     images,
     isPremium,
+    isFavorite,
     title,
     rating,
     type,
@@ -56,12 +59,12 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
 
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">{title}</h1>
-                <button className="offer__bookmark-button button" type="button">
-                  <svg className="offer__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+
+                <BookmarkButton
+                  bemblock="offer"
+                  isFavorite={isFavorite}
+                  iconSize={{ width: 31, height: 33 }}
+                />
               </div>
 
               {rating && (
