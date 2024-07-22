@@ -75,7 +75,7 @@ export default function PlaceCard(props: PlaceCard): JSX.Element {
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
             {/* Количество звезд завязано на параметр width с шагом 20% */}
-            <span style={{ width: `${rating * 20}%` }}></span>
+            <span style={{ width: `${Math.round(rating) * 20}%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

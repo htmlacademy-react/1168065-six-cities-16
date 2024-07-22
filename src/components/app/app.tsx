@@ -12,13 +12,19 @@ import { PrivateRoute } from '../access-route/access-route';
 import LoginPage from '@src/pages/login-page/login-page';
 
 export default function App(): JSX.Element {
-  const userStatus: AuthStatus = AuthStatus.NoAuth;
+  const userStatus: AuthStatus = AuthStatus.Auth;
 
+  /**
+   * Сгенерированные роуты по городам
+   */
   const citiesRoutes = CITIES.map(({ slug, name }) => ({
     path: slug,
     element: <MainPage city={name} />,
   }));
 
+  /**
+   * Приватные роуты
+   */
   const privateRoutes = [
     {
       path: AppRoute.Favourites,
@@ -46,7 +52,7 @@ export default function App(): JSX.Element {
       children: [
         {
           path: ':id',
-          element: <OfferPage />,
+          element: <OfferPage userStatus={userStatus} />,
         },
       ],
     },

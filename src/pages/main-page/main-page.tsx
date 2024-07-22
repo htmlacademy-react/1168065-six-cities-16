@@ -2,7 +2,7 @@ import Map from '@components/map/map';
 import Navigation from '@components/navigation/navigation';
 import Sorting from '@components/sorting/sorting';
 import Layout from '@components/layout/layout';
-import { offers as offerMocks } from '@src/mocks/places';
+import { offers as offerMocks } from '@src/mocks/offers';
 import clsx from 'clsx';
 import PlaceCardList from './components/place-card-list';
 import { useEffect, useState } from 'react';
