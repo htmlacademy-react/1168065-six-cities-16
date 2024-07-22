@@ -2,10 +2,11 @@ import Map from '@components/map/map';
 import Navigation from '@components/navigation/navigation';
 import Sorting from '@components/sorting/sorting';
 import Layout from '@components/layout/layout';
-import { places } from '@src/mocks/places';
+import { offers as offerMocks } from '@src/mocks/places';
 import clsx from 'clsx';
 import PlaceCardList from './components/place-card-list';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Offer } from '@src/entities/offers';
 
 /**
  * Если объявлений нет
@@ -34,15 +35,26 @@ export default function MainPage({ city }: MainPageProps): JSX.Element {
   // временно отключил, поскольку пока не знадействовано
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedOffer, setSelectedOffer] = useState<string | null>(null);
+  const [offers, setOffers] = useState(
+    // По какой-то причине тс не распознает Object.groupBy
+    // Также не очень понятно, как типизировать получившийся объект, чтобы не было any
+    Object.groupBy(offerMocks, ({ city }: Offer) => city.name)
+  );
+  const [offersByCity, setOffersByCity] = useState<Offer[]>([]);
+
+  useEffect(() => {
+    // записываем в стейт предложения по выбранному городу или пустой массив
+    offers[city] ? setOffersByCity(offers[city]) : setOffersByCity([]);
+  }, [city]);
 
   const mainClass = clsx(
     'page__main page__main--index',
-    places?.length === 0 && 'page__main--index-empty'
+    offersByCity?.length === 0 && 'page__main--index-empty'
   );
 
   const placesContainerClass = clsx(
     'cities__places-container container',
-    places?.length === 0 && 'cities__places-container--empty'
+    offersByCity?.length === 0 && 'cities__places-container--empty'
   );
 
   return (
@@ -54,17 +66,17 @@ export default function MainPage({ city }: MainPageProps): JSX.Element {
 
         <div className="cities">
           <div className={placesContainerClass}>
-            {places?.length > 0 ? (
+            {offersByCity?.length > 0 ? (
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
                 <b className="places__found">
-                  {places.length} places to stay in {city}
+                  {offersByCity.length} places to stay in {city}
                 </b>
 
                 <Sorting />
 
                 <PlaceCardList
-                  places={places}
+                  places={offersByCity}
                   setSelectedOffer={setSelectedOffer}
                 />
               </section>
@@ -73,7 +85,7 @@ export default function MainPage({ city }: MainPageProps): JSX.Element {
             )}
 
             <div className="cities__right-section">
-              {places?.length > 0 && <Map />}
+              {offersByCity?.length > 0 && <Map />}
             </div>
           </div>
         </div>
