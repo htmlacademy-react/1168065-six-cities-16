@@ -1,8 +1,11 @@
 import Layout from '@components/layout/layout';
 import BookmarkButton from '@src/components/bookmark-button/bookmark-button';
 import { AuthStatus } from '@src/const';
+import { Comment } from '@src/entities/comments';
+import { comments } from '@src/mocks/comments';
 import { singleOffer } from '@src/mocks/single-offer';
-import { clsx } from 'clsx';
+import { convertDateToYYMMDD } from '@src/utils/date-formatter';
+import clsx from 'clsx';
 
 type OfferPageProps = {
   userStatus: string;
@@ -27,6 +30,11 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
     description,
   } = singleOffer;
 
+  const hostAvatarClasses = clsx(
+    'offer__avatar-wrapper user__avatar-wrapper',
+    host?.isPro && 'offer__avatar-wrapper--pro'
+  );
+
   return (
     <Layout className="page">
       <main className="page__main page__main--offer">
@@ -34,7 +42,8 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
           {images?.length > 0 && (
             <div className="offer__gallery-container container">
               <div className="offer__gallery">
-                {images.map((item: string) => {
+                {/* выводим только первые 6 изображений */}
+                {images.slice(0, 6).map((item: string) => {
                   return (
                     <div key={item} className="offer__image-wrapper">
                       <img
@@ -118,7 +127,7 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
-                  <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+                  <div className={hostAvatarClasses}>
                     <img
                       className="offer__avatar user__avatar"
                       src={host.avatarUrl}
@@ -142,40 +151,56 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
 
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">
-                  Reviews &middot; <span className="reviews__amount">1</span>
+                  Reviews &middot;{' '}
+                  <span className="reviews__amount">{comments.length}</span>
                 </h2>
 
                 <ul className="reviews__list">
-                  <li className="reviews__item">
-                    <div className="reviews__user user">
-                      <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                        <img
-                          className="reviews__avatar user__avatar"
-                          src="img/avatar-max.jpg"
-                          width="54"
-                          height="54"
-                          alt="Reviews avatar"
-                        />
-                      </div>
-                      <span className="reviews__user-name">Max</span>
-                    </div>
-                    <div className="reviews__info">
-                      <div className="reviews__rating rating">
-                        <div className="reviews__stars rating__stars">
-                          <span style={{ width: '80%' }}></span>
-                          <span className="visually-hidden">Rating</span>
+                  {/* выводим не более 10 отзывов */}
+                  {comments.slice(0, 10).map((item: Comment) => {
+                    const { id, date, user, comment, rating } = item;
+                    const { name, avatarUrl } = user;
+
+                    const dateObj = new Date(date);
+                    const month = dateObj.toLocaleString('en-us', {
+                      month: 'long',
+                    });
+                    const year = dateObj.toLocaleString('default', {
+                      year: 'numeric',
+                    });
+                    const dateTime = convertDateToYYMMDD(dateObj);
+
+                    return (
+                      <li key={id} className="reviews__item">
+                        <div className="reviews__user user">
+                          <div className="reviews__avatar-wrapper user__avatar-wrapper">
+                            <img
+                              className="reviews__avatar user__avatar"
+                              src={avatarUrl}
+                              width="54"
+                              height="54"
+                              alt="Reviews avatar"
+                            />
+                          </div>
+                          <span className="reviews__user-name">{name}</span>
                         </div>
-                      </div>
-                      <p className="reviews__text">
-                        A quiet cozy and picturesque that hides behind a a river
-                        by the unique lightness of Amsterdam. The building is
-                        green and from 18th century.
-                      </p>
-                      <time className="reviews__time" dateTime="2019-04-24">
-                        April 2019
-                      </time>
-                    </div>
-                  </li>
+                        <div className="reviews__info">
+                          <div className="reviews__rating rating">
+                            <div className="reviews__stars rating__stars">
+                              <span
+                                style={{ width: `${Math.round(rating) * 20}%` }}
+                              ></span>
+                              <span className="visually-hidden">Rating</span>
+                            </div>
+                          </div>
+                          <p className="reviews__text">{comment}</p>
+                          <time className="reviews__time" dateTime={dateTime}>
+                            {month} {year}
+                          </time>
+                        </div>
+                      </li>
+                    );
+                  })}
                 </ul>
 
                 {userStatus === AuthStatus.Auth && (
