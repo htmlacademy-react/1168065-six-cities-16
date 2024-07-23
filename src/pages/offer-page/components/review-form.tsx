@@ -1,9 +1,13 @@
-type ReviewFormType = {
-  comment: string;
-  rating: number;
-};
+import { COMMENT_LENGTH } from '@src/const';
+import { useState } from 'react';
 
+/**
+ * Компонент формы отзыва
+ */
 export default function ReviewForm() {
+  const [rating, setRating] = useState<number>(0);
+  const [comment, setComment] = useState<string>('');
+
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">
@@ -16,6 +20,7 @@ export default function ReviewForm() {
           value="5"
           id="5-stars"
           type="radio"
+          onChange={(evt) => setRating(parseInt(evt.target.value))}
         />
         <label
           htmlFor="5-stars"
@@ -95,22 +100,32 @@ export default function ReviewForm() {
           </svg>
         </label>
       </div>
+
       <textarea
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
+        minLength={COMMENT_LENGTH.min}
+        maxLength={COMMENT_LENGTH.max}
+        value={comment}
+        onChange={(evt) => setComment(evt.target.value)}
       ></textarea>
+
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set{' '}
           <span className="reviews__star">rating</span> and describe your stay
-          with at least <b className="reviews__text-amount">50 characters</b>.
+          with at least{' '}
+          <b className="reviews__text-amount">
+            {COMMENT_LENGTH.min} characters
+          </b>
+          .
         </p>
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled
+          {...{ disabled: comment.length > 1000 ? true : false }}
         >
           Submit
         </button>
