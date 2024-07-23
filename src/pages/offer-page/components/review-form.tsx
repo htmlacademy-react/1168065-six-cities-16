@@ -1,5 +1,5 @@
-import { COMMENT_LENGTH } from '@src/const';
-import { useState } from 'react';
+import { COMMENT_LENGTH, RATING_CONFIG } from '@src/const';
+import { Fragment, useEffect, useState } from 'react';
 
 /**
  * Компонент формы отзыва
@@ -7,6 +7,13 @@ import { useState } from 'react';
 export default function ReviewForm() {
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>('');
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
+
+  useEffect(() => {
+    comment.length > COMMENT_LENGTH.min
+      ? setIsDisabled(false)
+      : setIsDisabled(true);
+  }, [comment]);
 
   return (
     <form className="reviews__form form" action="#" method="post">
@@ -14,91 +21,29 @@ export default function ReviewForm() {
         Your review
       </label>
       <div className="reviews__rating-form form__rating">
-        <input
-          className="form__rating-input visually-hidden"
-          name="rating"
-          value="5"
-          id="5-stars"
-          type="radio"
-          onChange={(evt) => setRating(parseInt(evt.target.value))}
-        />
-        <label
-          htmlFor="5-stars"
-          className="reviews__rating-label form__rating-label"
-          title="perfect"
-        >
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input
-          className="form__rating-input visually-hidden"
-          name="rating"
-          value="4"
-          id="4-stars"
-          type="radio"
-        />
-        <label
-          htmlFor="4-stars"
-          className="reviews__rating-label form__rating-label"
-          title="good"
-        >
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input
-          className="form__rating-input visually-hidden"
-          name="rating"
-          value="3"
-          id="3-stars"
-          type="radio"
-        />
-        <label
-          htmlFor="3-stars"
-          className="reviews__rating-label form__rating-label"
-          title="not bad"
-        >
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input
-          className="form__rating-input visually-hidden"
-          name="rating"
-          value="2"
-          id="2-stars"
-          type="radio"
-        />
-        <label
-          htmlFor="2-stars"
-          className="reviews__rating-label form__rating-label"
-          title="badly"
-        >
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input
-          className="form__rating-input visually-hidden"
-          name="rating"
-          value="1"
-          id="1-star"
-          type="radio"
-        />
-        <label
-          htmlFor="1-star"
-          className="reviews__rating-label form__rating-label"
-          title="terribly"
-        >
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
+        {RATING_CONFIG.map(({ id, title, value }) => {
+          return (
+            <Fragment key={id}>
+              <input
+                className="form__rating-input visually-hidden"
+                name="rating"
+                value={value}
+                id={id}
+                type="radio"
+                onChange={(evt) => setRating(parseInt(evt.target.value))}
+              />
+              <label
+                htmlFor={id}
+                className="reviews__rating-label form__rating-label"
+                title={title}
+              >
+                <svg className="form__star-image" width="37" height="33">
+                  <use xlinkHref="#icon-star"></use>
+                </svg>
+              </label>
+            </Fragment>
+          );
+        })}
       </div>
 
       <textarea
@@ -109,7 +54,13 @@ export default function ReviewForm() {
         minLength={COMMENT_LENGTH.min}
         maxLength={COMMENT_LENGTH.max}
         value={comment}
-        onChange={(evt) => setComment(evt.target.value)}
+        onChange={(evt) => {
+          if (evt.target.value.length > COMMENT_LENGTH.max) {
+            return;
+          }
+
+          setComment(evt.target.value);
+        }}
       ></textarea>
 
       <div className="reviews__button-wrapper">
@@ -125,7 +76,7 @@ export default function ReviewForm() {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          {...{ disabled: comment.length > 1000 ? true : false }}
+          disabled={isDisabled}
         >
           Submit
         </button>
