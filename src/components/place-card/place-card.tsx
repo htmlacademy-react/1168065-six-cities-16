@@ -1,14 +1,18 @@
 import { AppRoute } from '@src/const';
 import { Place } from '@src/entities/offers';
-
-import clsx from 'clsx';
 import { HTMLProps } from 'react';
-
 import { Link } from 'react-router-dom';
 import BookmarkButton from '../bookmark-button/bookmark-button';
 import Rating from '../rating/rating';
 
-type PlaceCard = Place & HTMLProps<HTMLElement>;
+type PlaceCard = Place &
+  HTMLProps<HTMLElement> & {
+    bemblock: string;
+    imageSize: {
+      width: number | string;
+      height: number | string;
+    };
+  };
 
 /**
  * Карточка объявления
@@ -23,16 +27,13 @@ export default function PlaceCard(props: PlaceCard): JSX.Element {
     isPremium,
     rating,
     previewImage,
+    bemblock,
+    imageSize,
     ...htmlProps
   } = props;
 
-  const bookmarkClass: string = clsx(
-    'place-card__bookmark-button button',
-    isFavorite && 'place-card__bookmark-button--active'
-  );
-
   return (
-    <article className="cities__card place-card" {...htmlProps}>
+    <article className={`${bemblock}__card place-card`} {...htmlProps}>
       {/* Лейбл "премиум" */}
       {isPremium && (
         <div className="place-card__mark">
@@ -41,13 +42,12 @@ export default function PlaceCard(props: PlaceCard): JSX.Element {
       )}
 
       {/* Изображение */}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={`${bemblock}__image-wrapper place-card__image-wrapper`}>
         <Link to={`${AppRoute.Offer}/${id}`}>
           <img
             className="place-card__image"
             src={previewImage}
-            width="260"
-            height="200"
+            style={{ ...imageSize }}
             alt="Place image"
           />
         </Link>

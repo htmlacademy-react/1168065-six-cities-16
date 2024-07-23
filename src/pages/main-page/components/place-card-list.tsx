@@ -18,6 +18,8 @@ export default function PlaceCardList({
       {places.map((item) => (
         <PlaceCard
           key={item.id}
+          bemblock="cities"
+          imageSize={{ width: 260, height: 200 }}
           onMouseEnter={() => setSelectedOffer(item.id)}
           onMouseLeave={() => setSelectedOffer(null)}
           {...item}

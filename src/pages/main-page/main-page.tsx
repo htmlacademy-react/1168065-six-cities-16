@@ -48,10 +48,11 @@ export default function MainPage({ city }: MainPageProps): JSX.Element {
   );
   const [offersByCity, setOffersByCity] = useState<Offer[]>([]);
 
-  useEffect(() => {
+  useEffect(
     // записываем в стейт предложения по выбранному городу или пустой массив
-    offers[city] ? setOffersByCity(offers[city]) : setOffersByCity([]);
-  }, [city]);
+    () => (offers[city] ? setOffersByCity(offers[city]) : setOffersByCity([])),
+    [city]
+  );
 
   const mainClass = clsx(
     'page__main page__main--index',
