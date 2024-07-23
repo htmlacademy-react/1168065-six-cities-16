@@ -6,6 +6,7 @@ import { HTMLProps } from 'react';
 
 import { Link } from 'react-router-dom';
 import BookmarkButton from '../bookmark-button/bookmark-button';
+import Rating from '../rating/rating';
 
 type PlaceCard = Place & HTMLProps<HTMLElement>;
 
@@ -69,13 +70,7 @@ export default function PlaceCard(props: PlaceCard): JSX.Element {
         </div>
 
         {/* Рейтинг */}
-        <div className="place-card__rating rating">
-          <div className="place-card__stars rating__stars">
-            {/* Количество звезд завязано на параметр width с шагом 20% */}
-            <span style={{ width: `${Math.round(rating) * 20}%` }}></span>
-            <span className="visually-hidden">Rating</span>
-          </div>
-        </div>
+        <Rating bemblock="place-card" rating={rating} />
 
         {/* Название и тип */}
         <h2 className="place-card__name">
