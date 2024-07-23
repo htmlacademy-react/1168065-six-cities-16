@@ -119,6 +119,7 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
 
                 {/* Форма отправки отзыва (для авторизованного пользователя) */}
                 {/* The two values in this comparison do not have a shared enum type. */}
+                {/* Не понимаю, как разрешить эту ошибку */}
                 {userStatus === AuthStatus.Auth && <ReviewForm />}
               </section>
             </div>
