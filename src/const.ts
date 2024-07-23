@@ -48,3 +48,13 @@ export const CITIES: Array<CityRoute> = [
     name: 'Dusseldorf',
   },
 ];
+
+/**
+ * Максимальное количество изображений на странице предложения
+ */
+export const OFFER_MAX_IMAGES = 6;
+
+/**
+ * Максимальное количество комментариев на странице предложения
+ */
+export const OFFER_MAX_COMMENTS = 10;

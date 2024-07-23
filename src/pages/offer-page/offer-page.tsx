@@ -6,7 +6,10 @@ import { Comment } from '@src/entities/comments';
 import { comments } from '@src/mocks/comments';
 import { singleOffer } from '@src/mocks/single-offer';
 import { convertDateToYYMMDD } from '@src/utils/date-formatter';
-import clsx from 'clsx';
+import Gallery from './components/gallery';
+import Goods from './components/goods';
+import Host from './components/host';
+import Comments from './components/comments';
 
 type OfferPageProps = {
   userStatus: string;
@@ -31,36 +34,16 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
     description,
   } = singleOffer;
 
-  const hostAvatarClasses = clsx(
-    'offer__avatar-wrapper user__avatar-wrapper',
-    host?.isPro && 'offer__avatar-wrapper--pro'
-  );
-
   return (
     <Layout className="page">
       <main className="page__main page__main--offer">
         <section className="offer">
-          {images?.length > 0 && (
-            <div className="offer__gallery-container container">
-              <div className="offer__gallery">
-                {/* выводим только первые 6 изображений */}
-                {images.slice(0, 6).map((item: string) => {
-                  return (
-                    <div key={item} className="offer__image-wrapper">
-                      <img
-                        className="offer__image"
-                        src={item}
-                        alt="Photo studio"
-                      />
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
+          {/* Галерея фото */}
+          {images?.length > 0 && <Gallery images={images} />}
 
           <div className="offer__container container">
             <div className="offer__wrapper">
+              {/* Лейбл премиум */}
               {isPremium && (
                 <div className="offer__mark">
                   <span>Premium</span>
@@ -70,6 +53,7 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">{title}</h1>
 
+                {/* Добавить в избранное */}
                 <BookmarkButton
                   bemblock="offer"
                   isFavorite={isFavorite}
@@ -77,20 +61,10 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
                 />
               </div>
 
-              {rating && (
-                <div className="offer__rating rating">
-                  <div className="offer__stars rating__stars">
-                    <span
-                      style={{ width: `${Math.round(rating) * 20}%` }}
-                    ></span>
-                    <span className="visually-hidden">Rating</span>
-                  </div>
-                  <span className="offer__rating-value rating__value">
-                    {rating}
-                  </span>
-                </div>
-              )}
+              {/* Рейтинг */}
+              {rating && <Rating bemblock="offer" rating={rating} />}
 
+              {/* Основные характеристики */}
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">
                   {type.charAt(0).toUpperCase() + type.slice(1)}
@@ -107,42 +81,22 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
                 )}
               </ul>
 
+              {/* Цена */}
               <div className="offer__price">
                 <b className="offer__price-value">&euro;{price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
 
-              {goods?.length > 0 && (
-                <div className="offer__inside">
-                  <h2 className="offer__inside-title">What&apos;s inside</h2>
-                  <ul className="offer__inside-list">
-                    {goods.map((item) => (
-                      <li key={item} className="offer__inside-item">
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+              {/* Удобства */}
+              {goods?.length > 0 && <Goods goods={goods} />}
 
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
-                <div className="offer__host-user user">
-                  <div className={hostAvatarClasses}>
-                    <img
-                      className="offer__avatar user__avatar"
-                      src={host.avatarUrl}
-                      width="74"
-                      height="74"
-                      alt="Host avatar"
-                    />
-                  </div>
-                  <span className="offer__user-name">{host.name}</span>
-                  {host?.isPro && (
-                    <span className="offer__user-status">Pro</span>
-                  )}
-                </div>
 
+                {/* Хост */}
+                <Host host={host} />
+
+                {/* Описание места */}
                 {description && (
                   <div className="offer__description">
                     <p className="offer__text">{description}</p>
@@ -153,58 +107,12 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">
                   Reviews &middot;{' '}
-                  <span className="reviews__amount">{comments.length}</span>
+                  <span className="reviews__amount">
+                    {comments.length ?? 0}
+                  </span>
                 </h2>
 
-                <ul className="reviews__list">
-                  {/* выводим не более 10 отзывов */}
-                  {comments.slice(0, 10).map((item: Comment) => {
-                    const { id, date, user, comment, rating } = item;
-                    const { name, avatarUrl } = user;
-
-                    const dateObj = new Date(date);
-                    const month = dateObj.toLocaleString('en-us', {
-                      month: 'long',
-                    });
-                    const year = dateObj.toLocaleString('default', {
-                      year: 'numeric',
-                    });
-                    const dateTime = convertDateToYYMMDD(dateObj);
-
-                    return (
-                      <li key={id} className="reviews__item">
-                        {/* Пользователь */}
-                        <div className="reviews__user user">
-                          {/* Аватар */}
-                          <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                            <img
-                              className="reviews__avatar user__avatar"
-                              src={avatarUrl}
-                              width="54"
-                              height="54"
-                              alt="Reviews avatar"
-                            />
-                          </div>
-                          {/* Имя */}
-                          <span className="reviews__user-name">{name}</span>
-                        </div>
-
-                        <div className="reviews__info">
-                          {/* Рейтинг */}
-                          <Rating bemblock="reviews" rating={rating} />
-
-                          {/* Комментарий */}
-                          <p className="reviews__text">{comment}</p>
-
-                          {/* Дата */}
-                          <time className="reviews__time" dateTime={dateTime}>
-                            {month} {year}
-                          </time>
-                        </div>
-                      </li>
-                    );
-                  })}
-                </ul>
+                {comments?.length > 0 && <Comments comments={comments} />}
 
                 {userStatus === AuthStatus.Auth && (
                   <form className="reviews__form form" action="#" method="post">
@@ -346,8 +254,10 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
               </section>
             </div>
           </div>
+
           <section className="offer__map map"></section>
         </section>
+
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">
