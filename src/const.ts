@@ -60,6 +60,11 @@ export const OFFER_MAX_IMAGES = 6;
 export const OFFER_MAX_COMMENTS = 10;
 
 /**
+ * Максимальное количество предложений рядом на странице предложения
+ */
+export const OFFER_MAX_NEARBY = 3;
+
+/**
  * Длина комментария для отправки отзыва
  */
 export const COMMENT_LENGTH = {

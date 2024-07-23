@@ -27,6 +27,7 @@ export default function FavouritesPage(): JSX.Element {
   const [favourites, setFavourites] = useState<Offer[]>(favouritesMocks);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [favouritesByCity, setFavouritesByCity] = useState<OffersByCity>(
+    // Argument of type 'Partial<Record<string, Offer[]>>' is not assignable to parameter of type 'OffersByCity | (() => OffersByCity)'.ts(2345)
     Object.groupBy(favourites, ({ city }: Offer) => city.name)
   );
 
