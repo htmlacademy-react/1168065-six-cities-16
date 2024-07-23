@@ -6,7 +6,7 @@ import { offers as offerMocks } from '@src/mocks/offers';
 import clsx from 'clsx';
 import PlaceCardList from './components/place-card-list';
 import { useEffect, useState } from 'react';
-import { Offer } from '@src/entities/offers';
+import { Offer, OffersByCity } from '@src/entities/offers';
 
 /**
  * Если объявлений нет
@@ -26,11 +26,6 @@ function PlacesEmpty(): JSX.Element {
 
 type MainPageProps = {
   city: string;
-};
-
-type OffersByCity = {
-  // Как сделать, чтобы ключом был именно city.name? Или можно оставить и так?
-  [key: string]: Offer[];
 };
 
 /**

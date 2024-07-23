@@ -20,6 +20,11 @@ export interface Offer {
   previewImage: string;
 }
 
+export type OffersByCity = {
+  // Как сделать, чтобы ключом был именно city.name? Или можно оставить и так?
+  [key: string]: Offer[];
+};
+
 export type Place = Omit<Offer, 'location' | 'city'>;
 
 export type OfferDetailed = Omit<Offer, 'previewImage'> & {
