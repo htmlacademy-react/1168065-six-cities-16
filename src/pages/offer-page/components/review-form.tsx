@@ -1,49 +1,65 @@
 import { COMMENT_LENGTH, RATING_CONFIG } from '@src/const';
-import { Fragment, useEffect, useState } from 'react';
+import { FormEvent, Fragment, useEffect, useState } from 'react';
 
 /**
  * Компонент формы отзыва
  */
 export default function ReviewForm() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>('');
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
-  useEffect(() => {
-    comment.length > COMMENT_LENGTH.min
-      ? setIsDisabled(false)
-      : setIsDisabled(true);
-  }, [comment]);
+  useEffect(
+    () =>
+      comment.length > COMMENT_LENGTH.min
+        ? setIsDisabled(false)
+        : setIsDisabled(true),
+    [comment]
+  );
+
+  const formSubmitHandler = (evt: FormEvent) => {
+    evt.preventDefault();
+
+    const formData = { rating, comment };
+
+    // Добавил временный вывод в консоль
+    // eslint-disable-next-line no-console
+    console.log(formData);
+  };
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form
+      className="reviews__form form"
+      action="#"
+      method="post"
+      onSubmit={formSubmitHandler}
+    >
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
       <div className="reviews__rating-form form__rating">
-        {RATING_CONFIG.map(({ id, title, value }) => {
-          return (
-            <Fragment key={id}>
-              <input
-                className="form__rating-input visually-hidden"
-                name="rating"
-                value={value}
-                id={id}
-                type="radio"
-                onChange={(evt) => setRating(parseInt(evt.target.value))}
-              />
-              <label
-                htmlFor={id}
-                className="reviews__rating-label form__rating-label"
-                title={title}
-              >
-                <svg className="form__star-image" width="37" height="33">
-                  <use xlinkHref="#icon-star"></use>
-                </svg>
-              </label>
-            </Fragment>
-          );
-        })}
+        {RATING_CONFIG.map(({ id, title, value }) => (
+          <Fragment key={id}>
+            <input
+              className="form__rating-input visually-hidden"
+              name="rating"
+              value={value}
+              id={id}
+              type="radio"
+              onChange={(evt) => setRating(parseInt(evt.target.value, 10))}
+            />
+            <label
+              htmlFor={id}
+              className="reviews__rating-label form__rating-label"
+              title={title}
+            >
+              <svg className="form__star-image" width="37" height="33">
+                <use xlinkHref="#icon-star"></use>
+              </svg>
+            </label>
+          </Fragment>
+        ))}
       </div>
 
       <textarea

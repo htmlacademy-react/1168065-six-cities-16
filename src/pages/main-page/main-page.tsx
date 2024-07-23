@@ -40,6 +40,7 @@ export default function MainPage({ city }: MainPageProps): JSX.Element {
   // временно отключил, поскольку пока не знадействовано
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedOffer, setSelectedOffer] = useState<string | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [offers, setOffers] = useState<OffersByCity>(
     // По какой-то причине тс не распознает Object.groupBy
     // Также не очень понятно, как типизировать получившийся объект, чтобы не было any
