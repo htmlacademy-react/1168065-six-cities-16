@@ -40,7 +40,7 @@ export default function MainPage({ city }: MainPageProps): JSX.Element {
     // По какой-то причине тс не распознает Object.groupBy
     // Также не очень понятно, как типизировать получившийся объект, чтобы не было any
     // Argument of type 'Partial<Record<string, Offer[]>>' is not assignable to parameter of type 'OffersByCity | (() => OffersByCity)'.ts(2345)
-    Object.groupBy(offerMocks, ({ city }: Offer) => city.name)
+    Object.groupBy(offerMocks, (item: Offer) => item.city.name)
   );
   const [offersByCity, setOffersByCity] = useState<Offer[]>([]);
 
