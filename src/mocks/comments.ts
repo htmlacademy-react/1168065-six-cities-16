@@ -25,7 +25,7 @@ export const comments = [
   {
     id: '530aa7fa-67b2-47f2-b781-12b3f3374ac4',
     comment:
-      "Home is amazing. It's like staying in a museum. The rooms, furnishings and artworks are incredible. The views of My Vesuvius",
+      'Home is amazing. It\'s like staying in a museum. The rooms, furnishings and artworks are incredible. The views of My Vesuvius',
     date: '2024-06-27T10:05:47.083Z',
     rating: 3,
     user: {
