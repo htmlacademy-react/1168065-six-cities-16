@@ -23,11 +23,8 @@ function FavouritesEmpty(): JSX.Element {
  * Страница избранного
  */
 export default function FavouritesPage(): JSX.Element {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [favourites, setFavourites] = useState<Offer[]>(favouritesMocks);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [favouritesByCity, setFavouritesByCity] = useState<OffersByCity>(
-    // Argument of type 'Partial<Record<string, Offer[]>>' is not assignable to parameter of type 'OffersByCity | (() => OffersByCity)'.ts(2345)
+  const [favourites] = useState<Offer[]>(favouritesMocks);
+  const [favouritesByCity] = useState<OffersByCity>(
     Object.groupBy(favourites, ({ city }: Offer) => city.name)
   );
 
@@ -69,7 +66,7 @@ export default function FavouritesPage(): JSX.Element {
                         </div>
                       </div>
                       <div className="favorites__places">
-                        {offers.map((offer) => (
+                        {offers!.map((offer) => (
                           <PlaceCard
                             key={offer.id}
                             bemblock="favorites"

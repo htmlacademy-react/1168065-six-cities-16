@@ -19,5 +19,5 @@
 
 .link:hover,
 .link:focus {
-  text-shadow: .5px 0 0,-.5px 0 0;
+  text-shadow: .5px 0 0, -.5px 0 0;
 }

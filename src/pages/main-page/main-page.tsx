@@ -33,13 +33,10 @@ type MainPageProps = {
  */
 export default function MainPage({ city }: MainPageProps): JSX.Element {
   // временно отключил, поскольку пока не знадействовано
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedOffer, setSelectedOffer] = useState<string | null>(null);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [offers, setOffers] = useState<OffersByCity>(
-    // По какой-то причине тс не распознает Object.groupBy
+
+  const [, setSelectedOffer] = useState<string | null>(null);
+  const [offers] = useState<OffersByCity>(
     // Также не очень понятно, как типизировать получившийся объект, чтобы не было any
-    // Argument of type 'Partial<Record<string, Offer[]>>' is not assignable to parameter of type 'OffersByCity | (() => OffersByCity)'.ts(2345)
     Object.groupBy(offerMocks, (item: Offer) => item.city.name)
   );
   const [offersByCity, setOffersByCity] = useState<Offer[]>([]);

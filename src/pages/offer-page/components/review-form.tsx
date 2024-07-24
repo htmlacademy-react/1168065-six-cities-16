@@ -77,8 +77,7 @@ export default function ReviewForm() {
 
           setComment(evt.target.value);
         }}
-      >
-      </textarea>
+      />
 
       <div className="reviews__button-wrapper">
         <p className="reviews__help">

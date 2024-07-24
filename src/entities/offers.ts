@@ -22,7 +22,7 @@ export interface Offer {
 
 export type OffersByCity = {
   // Как сделать, чтобы ключом был именно city.name? Или можно оставить и так?
-  [key: string]: Offer[];
+  [key: string]: Offer[] | undefined;
 };
 
 export type Place = Omit<Offer, 'location' | 'city'>;
