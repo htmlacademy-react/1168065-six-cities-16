@@ -13,7 +13,7 @@ import { offers } from '@src/mocks/offers';
 import PlaceCard from '@src/components/place-card/place-card';
 
 type OfferPageProps = {
-  userStatus: string;
+  userStatus: AuthStatus;
 };
 
 /**
@@ -118,8 +118,6 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
                 {comments?.length > 0 && <Comments comments={comments} />}
 
                 {/* Форма отправки отзыва (для авторизованного пользователя) */}
-                {/* The two values in this comparison do not have a shared enum type. */}
-                {/* Не понимаю, как разрешить эту ошибку */}
                 {userStatus === AuthStatus.Auth && <ReviewForm />}
               </section>
             </div>
