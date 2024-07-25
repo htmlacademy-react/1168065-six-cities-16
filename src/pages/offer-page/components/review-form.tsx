@@ -1,22 +1,20 @@
 import { COMMENT_LENGTH, RATING_CONFIG } from '@src/const';
-import { FormEvent, Fragment, useEffect, useState } from 'react';
+import { type FormEvent, Fragment, useState } from 'react';
 
 /**
  * Компонент формы отзыва
  */
 export default function ReviewForm() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>('');
-  const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
-  useEffect(
-    () =>
-      comment.length > COMMENT_LENGTH.min
-        ? setIsDisabled(false)
-        : setIsDisabled(true),
-    [comment]
+  const validateForm = () => (
+    rating &&
+      comment.length >= COMMENT_LENGTH.min &&
+      comment.length <= COMMENT_LENGTH.max
   );
+
+  const isDisabled = !validateForm();
 
   const formSubmitHandler = (evt: FormEvent) => {
     evt.preventDefault();
@@ -47,7 +45,8 @@ export default function ReviewForm() {
               value={value}
               id={id}
               type="radio"
-              onChange={(evt) => setRating(parseInt(evt.target.value, 10))}
+              onChange={(evt) =>
+                setRating(Number.parseInt(evt.target.value, 10))}
             />
             <label
               htmlFor={id}
@@ -71,10 +70,6 @@ export default function ReviewForm() {
         maxLength={COMMENT_LENGTH.max}
         value={comment}
         onChange={(evt) => {
-          if (evt.target.value.length > COMMENT_LENGTH.max) {
-            return;
-          }
-
           setComment(evt.target.value);
         }}
       />

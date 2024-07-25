@@ -5,8 +5,8 @@ import Layout from '@components/layout/layout';
 import { offers as offerMocks } from '@src/mocks/offers';
 import clsx from 'clsx';
 import PlaceCardList from './components/place-card-list';
-import { useEffect, useState } from 'react';
-import { Offer, OffersByCity } from '@src/entities/offers';
+import { useState } from 'react';
+import type { OffersByCity } from '@src/entities/offers';
 
 /**
  * Если объявлений нет
@@ -37,15 +37,10 @@ export default function MainPage({ city }: MainPageProps): JSX.Element {
   const [, setSelectedOffer] = useState<string | null>(null);
   const [offers] = useState<OffersByCity>(
     // Также не очень понятно, как типизировать получившийся объект, чтобы не было any
-    Object.groupBy(offerMocks, (item: Offer) => item.city.name)
+    Object.groupBy(offerMocks, (item) => item.city.name)
   );
-  const [offersByCity, setOffersByCity] = useState<Offer[]>([]);
 
-  useEffect(
-    // записываем в стейт предложения по выбранному городу или пустой массив
-    () => (offers[city] ? setOffersByCity(offers[city]) : setOffersByCity([])),
-    [city]
-  );
+  const offersByCity = offers[city] ?? [];
 
   const mainClass = clsx(
     'page__main page__main--index',

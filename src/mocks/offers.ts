@@ -1,6 +1,8 @@
 // import { faker } from '@faker-js/faker';
 // import { Place } from '@src/entities/offers';
 
+import type { Offer } from '@src/entities/offers';
+
 // export function createRandomPlace(): Place {
 //   return {
 //     id: faker.string.uuid(),
@@ -16,7 +18,7 @@
 
 // export const places = faker.helpers.multiple(createRandomPlace, { count: 5 });
 
-export const offers = [
+export const offers: Offer[] = [
   {
     id: '4af11f9d-bee3-4d3a-8bfd-bd48be5300d2',
     title: 'The Joshua Tree House',

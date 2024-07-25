@@ -1,4 +1,6 @@
-export const comments = [
+import type { Comment } from '@src/entities/comments';
+
+export const comments: Comment[] = [
   {
     id: '1a043721-c2e2-4876-a8ba-6a47f09c42ef',
     comment:

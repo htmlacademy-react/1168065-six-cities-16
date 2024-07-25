@@ -1,4 +1,6 @@
-export const singleOffer = {
+import type { OfferDetailed } from '@src/entities/offers';
+
+export const singleOffer: OfferDetailed = {
   id: '4af11f9d-bee3-4d3a-8bfd-bd48be5300d2',
   title: 'The Joshua Tree House',
   description:

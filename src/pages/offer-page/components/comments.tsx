@@ -1,6 +1,5 @@
-import { Comment } from '@src/entities/comments';
+import type { Comment } from '@src/entities/comments';
 import Rating from '@src/components/rating/rating';
-import { convertDateToYYMMDD } from '@src/utils/date-formatter';
 import { OFFER_MAX_COMMENTS } from '@src/const';
 
 type CommentsProps = {
@@ -17,14 +16,10 @@ export default function Comments({ comments }: CommentsProps) {
         const { id, date, user, comment, rating } = item;
         const { name, avatarUrl } = user;
 
-        const dateObj = new Date(date);
-        const month = dateObj.toLocaleString('en-us', {
+        const dateToShow = new Date(date).toLocaleString('en-us', {
           month: 'long',
-        });
-        const year = dateObj.toLocaleString('default', {
           year: 'numeric',
         });
-        const dateTime = convertDateToYYMMDD(dateObj);
 
         return (
           <li key={id} className="reviews__item">
@@ -52,8 +47,8 @@ export default function Comments({ comments }: CommentsProps) {
               <p className="reviews__text">{comment}</p>
 
               {/* Дата */}
-              <time className="reviews__time" dateTime={dateTime}>
-                {month} {year}
+              <time className="reviews__time" dateTime={date}>
+                {dateToShow}
               </time>
             </div>
           </li>
