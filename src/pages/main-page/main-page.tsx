@@ -1,10 +1,12 @@
 import Map from '@components/map/map';
 import Navigation from '@components/navigation/navigation';
-import PlaceCard from '@components/place-card/place-card';
 import Sorting from '@components/sorting/sorting';
 import Layout from '@components/layout/layout';
-import { places } from '@src/mocks/places';
+import { offers as offerMocks } from '@src/mocks/offers';
 import clsx from 'clsx';
+import PlaceCardList from './components/place-card-list';
+import { useState } from 'react';
+import type { OffersByCity } from '@src/entities/offers';
 
 /**
  * Если объявлений нет
@@ -30,14 +32,21 @@ type MainPageProps = {
  * Страница объявлений по выбранному городу
  */
 export default function MainPage({ city }: MainPageProps): JSX.Element {
+  const [, setSelectedOffer] = useState<string | null>(null);
+  const [offers] = useState<OffersByCity>(
+    Object.groupBy(offerMocks, (item) => item.city.name)
+  );
+
+  const offersByCity = offers[city] ?? [];
+
   const mainClass = clsx(
     'page__main page__main--index',
-    places?.length === 0 && 'page__main--index-empty'
+    offersByCity?.length === 0 && 'page__main--index-empty'
   );
 
   const placesContainerClass = clsx(
     'cities__places-container container',
-    places?.length === 0 && 'cities__places-container--empty'
+    offersByCity?.length === 0 && 'cities__places-container--empty'
   );
 
   return (
@@ -49,27 +58,26 @@ export default function MainPage({ city }: MainPageProps): JSX.Element {
 
         <div className="cities">
           <div className={placesContainerClass}>
-            {places?.length > 0 ? (
+            {offersByCity?.length > 0 ? (
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
                 <b className="places__found">
-                  {places.length} places to stay in {city}
+                  {offersByCity.length} places to stay in {city}
                 </b>
 
                 <Sorting />
 
-                <div className="cities__places-list places__list tabs__content">
-                  {places.map((item) => (
-                    <PlaceCard key={item.id} {...item} />
-                  ))}
-                </div>
+                <PlaceCardList
+                  places={offersByCity}
+                  setSelectedOffer={setSelectedOffer}
+                />
               </section>
             ) : (
               <PlacesEmpty />
             )}
 
             <div className="cities__right-section">
-              {places?.length > 0 && <Map />}
+              {offersByCity?.length > 0 && <Map />}
             </div>
           </div>
         </div>

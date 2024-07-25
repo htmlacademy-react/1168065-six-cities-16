@@ -1,17 +1,18 @@
-import { AppRoutes } from '@src/const';
-import clsx from 'clsx';
+import { AppRoute } from '@src/const';
+import { Place } from '@src/entities/offers';
+import { HTMLProps } from 'react';
 import { Link } from 'react-router-dom';
+import BookmarkButton from '../bookmark-button/bookmark-button';
+import Rating from '../rating/rating';
 
-type PlaceCard = {
-  id: string;
-  title: string;
-  type: string;
-  price: number;
-  isFavorite: boolean;
-  isPremium: boolean;
-  rating: number;
-  previewImage: string;
-};
+type PlaceCard = Place &
+  HTMLProps<HTMLElement> & {
+    bemblock: string;
+    imageSize: {
+      width: number | string;
+      height: number | string;
+    };
+  };
 
 /**
  * Карточка объявления
@@ -26,15 +27,13 @@ export default function PlaceCard(props: PlaceCard): JSX.Element {
     isPremium,
     rating,
     previewImage,
+    bemblock,
+    imageSize,
+    ...htmlProps
   } = props;
 
-  const bookmarkClass: string = clsx(
-    'place-card__bookmark-button button',
-    isFavorite && 'place-card__bookmark-button--active'
-  );
-
   return (
-    <article className="cities__card place-card">
+    <article className={`${bemblock}__card place-card`} {...htmlProps}>
       {/* Лейбл "премиум" */}
       {isPremium && (
         <div className="place-card__mark">
@@ -43,13 +42,12 @@ export default function PlaceCard(props: PlaceCard): JSX.Element {
       )}
 
       {/* Изображение */}
-      <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to={`${AppRoutes.Offer}/${id}`}>
+      <div className={`${bemblock}__image-wrapper place-card__image-wrapper`}>
+        <Link to={`${AppRoute.Offer}/${id}`}>
           <img
             className="place-card__image"
             src={previewImage}
-            width="260"
-            height="200"
+            style={{ ...imageSize }}
             alt="Place image"
           />
         </Link>
@@ -63,26 +61,16 @@ export default function PlaceCard(props: PlaceCard): JSX.Element {
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
 
-          {/* Добавление в закладки, активный класс place-card__bookmark-button--active */}
-          <button className={bookmarkClass} type="button">
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            {/* Текст меняется для доступности */}
-            <span className="visually-hidden">
-              {isFavorite ? 'In' : 'To'} bookmarks
-            </span>
-          </button>
+          {/* Добавление в закладки */}
+          <BookmarkButton
+            bemblock="place-card"
+            isFavorite={isFavorite}
+            iconSize={{ width: 18, height: 19 }}
+          />
         </div>
 
         {/* Рейтинг */}
-        <div className="place-card__rating rating">
-          <div className="place-card__stars rating__stars">
-            {/* Количество звезд завязано на параметр width с шагом 20% */}
-            <span style={{ width: `${rating * 20}%` }}></span>
-            <span className="visually-hidden">Rating</span>
-          </div>
-        </div>
+        <Rating bemblock="place-card" rating={rating} />
 
         {/* Название и тип */}
         <h2 className="place-card__name">
