@@ -32,11 +32,8 @@ type MainPageProps = {
  * Страница объявлений по выбранному городу
  */
 export default function MainPage({ city }: MainPageProps): JSX.Element {
-  // временно отключил, поскольку пока не знадействовано
-
   const [, setSelectedOffer] = useState<string | null>(null);
   const [offers] = useState<OffersByCity>(
-    // Также не очень понятно, как типизировать получившийся объект, чтобы не было any
     Object.groupBy(offerMocks, (item) => item.city.name)
   );
 
