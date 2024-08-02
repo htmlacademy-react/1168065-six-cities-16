@@ -6,8 +6,7 @@ import { offers as offerMocks } from '@src/mocks/offers';
 import clsx from 'clsx';
 import PlaceCardList from './components/place-card-list';
 import { useState } from 'react';
-import type { OffersByCity } from '@src/entities/offers';
-import type { Location } from '../../entities/offers';
+import type { Offer, OffersByCity, Location } from '@src/entities/offers';
 
 /**
  * Если объявлений нет
@@ -37,7 +36,7 @@ export default function MainPage({
   city,
   location,
 }: MainPageProps): JSX.Element {
-  const [, setSelectedOffer] = useState<string | null>(null);
+  const [, setSelectedOffer] = useState<Offer | null>(null);
   const [offers] = useState<OffersByCity>(
     Object.groupBy(offerMocks, (item) => item.city.name)
   );

@@ -3,7 +3,7 @@ import type { Offer } from '@src/entities/offers';
 
 type PlaceCardList = {
   offers: Offer[];
-  setSelectedOffer: (id: string | null) => void;
+  setSelectedOffer: (offer: Offer | null) => void;
 };
 
 /**
@@ -20,7 +20,7 @@ export default function PlaceCardList({
           key={item.id}
           bemblock="cities"
           imageSize={{ width: 260, height: 200 }}
-          onMouseEnter={() => setSelectedOffer(item.id)}
+          onMouseEnter={() => setSelectedOffer(item)}
           onMouseLeave={() => setSelectedOffer(null)}
           {...item}
         />
