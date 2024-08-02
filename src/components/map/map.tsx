@@ -4,6 +4,24 @@ import { useEffect, useRef } from 'react';
 import { useLeaflet } from '@src/hooks/leaflet-hook';
 import leaflet from 'leaflet';
 
+/**
+ * иконка точки на карте
+ */
+const defaultPinIcon = leaflet.icon({
+  iconUrl: '/img/pin.svg',
+  iconSize: [27, 39],
+  iconAnchor: [13.5, 39],
+});
+
+/**
+ * иконка активной точки на карте
+ */
+const activePinIcon = leaflet.icon({
+  iconUrl: '/img/pin-active.svg',
+  iconSize: [27, 39],
+  iconAnchor: [13.5, 39],
+});
+
 type MapProps = {
   active: Offer | null;
   bemblock: string;
@@ -15,18 +33,9 @@ type MapProps = {
   };
 };
 
-const defaultPinIcon = leaflet.icon({
-  iconUrl: '/img/pin.svg',
-  iconSize: [27, 39],
-  iconAnchor: [13.5, 39],
-});
-
-const activePinIcon = leaflet.icon({
-  iconUrl: '/img/pin-active.svg',
-  iconSize: [27, 39],
-  iconAnchor: [13.5, 39],
-});
-
+/**
+ * Компонент карты предложений
+ */
 export default function Map({
   active,
   bemblock,

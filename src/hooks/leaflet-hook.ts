@@ -9,10 +9,17 @@ const tileLayerOptions = {
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
 };
 
+/**
+ * Хук для инициализации Leaflet
+ *
+ * @param {RefObject<HTMLElement | null>} mapRef реф элемента, куда будет рендериться карта
+ * @param {Location} location координаты места
+ * @returns {leaflet.Map | null}
+ */
 export function useLeaflet(
   mapRef: RefObject<HTMLElement | null>,
   location: Location
-) {
+): leaflet.Map | null {
   const [map, setMap] = useState<leaflet.Map | null>(null);
   const isRenderedRef = useRef<boolean>(false);
 
