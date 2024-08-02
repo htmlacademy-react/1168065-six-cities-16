@@ -22,7 +22,7 @@ export default function PlaceCardList({
           imageSize={{ width: 260, height: 200 }}
           onMouseEnter={() => setSelectedOffer(item)}
           onMouseLeave={() => setSelectedOffer(null)}
-          {...item}
+          place={item}
         />
       ))}
     </div>

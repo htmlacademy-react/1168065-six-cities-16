@@ -6,19 +6,21 @@ import BookmarkButton from '../bookmark-button/bookmark-button';
 import Rating from '../rating/rating';
 import { capitalizeFirstLetter } from '@src/utils/capitalizeFirstLetter';
 
-type PlaceCard = Offer &
-  HTMLProps<HTMLElement> & {
-    bemblock: string;
-    imageSize: {
-      width: number | string;
-      height: number | string;
-    };
+type PlaceCard = HTMLProps<HTMLElement> & {
+  place: Omit<Offer, 'city'>;
+  bemblock: string;
+  imageSize: {
+    width: number | string;
+    height: number | string;
   };
+};
 
 /**
  * Карточка объявления
  */
 export default function PlaceCard(props: PlaceCard): JSX.Element {
+  const { place, bemblock, imageSize, ...htmlProps } = props;
+
   const {
     id,
     title,
@@ -28,10 +30,7 @@ export default function PlaceCard(props: PlaceCard): JSX.Element {
     isPremium,
     rating,
     previewImage,
-    bemblock,
-    imageSize,
-    ...htmlProps
-  } = props;
+  } = place;
 
   return (
     <article className={`${bemblock}__card place-card`} {...htmlProps}>

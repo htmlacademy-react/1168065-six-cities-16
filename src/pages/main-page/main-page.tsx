@@ -81,7 +81,9 @@ export default function MainPage({
             )}
 
             <div className="cities__right-section">
-              {offersByCity?.length > 0 && <Map bemblock="cities" />}
+              {offersByCity?.length > 0 && (
+                <Map bemblock="cities" size={{ height: '500px' }} />
+              )}
             </div>
           </div>
         </div>

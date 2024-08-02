@@ -140,7 +140,7 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
                   key={item.id}
                   bemblock="near-places"
                   imageSize={{ width: 260, height: 200 }}
-                  {...item}
+                  place={item}
                 />
               ))}
             </div>
