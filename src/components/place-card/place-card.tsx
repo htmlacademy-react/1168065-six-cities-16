@@ -1,11 +1,12 @@
 import { AppRoute } from '@src/const';
-import { Place } from '@src/entities/offers';
-import { HTMLProps } from 'react';
+import type { Offer } from '@src/entities/offers';
+import type { HTMLProps } from 'react';
 import { Link } from 'react-router-dom';
 import BookmarkButton from '../bookmark-button/bookmark-button';
 import Rating from '../rating/rating';
+import { capitalizeFirstLetter } from '@src/utils/capitalizeFirstLetter';
 
-type PlaceCard = Place &
+type PlaceCard = Offer &
   HTMLProps<HTMLElement> & {
     bemblock: string;
     imageSize: {
@@ -76,7 +77,7 @@ export default function PlaceCard(props: PlaceCard): JSX.Element {
         <h2 className="place-card__name">
           <a href="#">{title}</a>
         </h2>
-        <p className="place-card__type">{type}</p>
+        <p className="place-card__type">{capitalizeFirstLetter(type)}</p>
       </div>
     </article>
   );

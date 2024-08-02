@@ -11,6 +11,7 @@ import Comments from './components/comments';
 import ReviewForm from './components/review-form';
 import { offers } from '@src/mocks/offers';
 import PlaceCard from '@src/components/place-card/place-card';
+import { capitalizeFirstLetter } from '@src/utils/capitalizeFirstLetter';
 
 type OfferPageProps = {
   userStatus: AuthStatus;
@@ -68,7 +69,7 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
               {/* Основные характеристики */}
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">
-                  {type.charAt(0).toUpperCase() + type.slice(1)}
+                  {capitalizeFirstLetter(type)}
                 </li>
                 {bedrooms && (
                   <li className="offer__feature offer__feature--bedrooms">
