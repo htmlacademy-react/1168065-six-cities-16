@@ -36,7 +36,7 @@ export default function MainPage({
   city,
   location,
 }: MainPageProps): JSX.Element {
-  const [, setSelectedOffer] = useState<Offer | null>(null);
+  const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
   const [offers] = useState<OffersByCity>(
     Object.groupBy(offerMocks, (item) => item.city.name)
   );
@@ -82,7 +82,13 @@ export default function MainPage({
 
             <div className="cities__right-section">
               {offersByCity?.length > 0 && (
-                <Map bemblock="cities" size={{ height: '500px' }} />
+                <Map
+                  bemblock="cities"
+                  size={{ height: '100%' }}
+                  location={location}
+                  offers={offersByCity}
+                  active={selectedOffer}
+                />
               )}
             </div>
           </div>
