@@ -37,6 +37,8 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
     description,
   } = singleOffer;
 
+  const offersNearby = offers.slice(0, OFFER_MAX_NEARBY);
+
   return (
     <Layout className="page">
       <main className="page__main page__main--offer">
@@ -125,7 +127,12 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
             </div>
           </div>
 
-          <Map bemblock="offer" />
+          <Map
+            bemblock="offer"
+            active={singleOffer}
+            location={singleOffer.city.location}
+            offers={[singleOffer, ...offersNearby]}
+          />
         </section>
 
         <div className="container">
@@ -135,7 +142,7 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
             </h2>
 
             <div className="near-places__list places__list">
-              {offers.slice(0, OFFER_MAX_NEARBY).map((item) => (
+              {offersNearby.map((item) => (
                 <PlaceCard
                   key={item.id}
                   bemblock="near-places"

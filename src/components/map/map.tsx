@@ -23,10 +23,10 @@ const activePinIcon = leaflet.icon({
 });
 
 type MapProps = {
-  active: Offer | null;
+  active: Pick<Offer, 'id'> | null;
   bemblock: string;
   location: Location;
-  offers: Offer[];
+  offers: Pick<Offer, 'id' | 'location'>[];
   size?: {
     height: number | string;
     width?: number | string;
@@ -48,17 +48,20 @@ export default function Map({
 
   useEffect(() => {
     if (map) {
-      map.panTo({ lat: location.latitude, lng: location.longitude });
+      map.flyTo(
+        { lat: location.latitude, lng: location.longitude },
+        location.zoom
+      );
 
-      offers.forEach(({ id, location }) => {
+      offers.forEach((offer) => {
         leaflet
           .marker(
             {
-              lat: location.latitude,
-              lng: location.longitude,
+              lat: offer.location.latitude,
+              lng: offer.location.longitude,
             },
             {
-              icon: active?.id === id ? activePinIcon : defaultPinIcon,
+              icon: active?.id === offer.id ? activePinIcon : defaultPinIcon,
             }
           )
           .addTo(map);
