@@ -14,8 +14,7 @@ function LocationItem({ slug, name }: CityConfig) {
           clsx(
             'locations__item-link tabs__item',
             isActive && 'tabs__item--active'
-          )
-        }
+          )}
         to={slug}
       >
         <span>{name}</span>
