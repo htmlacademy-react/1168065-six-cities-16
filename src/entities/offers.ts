@@ -1,4 +1,4 @@
-type Location = {
+export type Location = {
   latitude: number;
   longitude: number;
   zoom: number;
@@ -24,8 +24,6 @@ export type OffersByCity = {
   // Как сделать, чтобы ключом был именно city.name? Или можно оставить и так?
   [key: string]: Offer[] | undefined;
 };
-
-export type Place = Omit<Offer, 'location' | 'city'>;
 
 export type OfferDetailed = Omit<Offer, 'previewImage'> & {
   description: string;

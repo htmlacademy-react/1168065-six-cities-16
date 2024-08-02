@@ -68,7 +68,7 @@ export default function MainPage({ city }: MainPageProps): JSX.Element {
                 <Sorting />
 
                 <PlaceCardList
-                  places={offersByCity}
+                  offers={offersByCity}
                   setSelectedOffer={setSelectedOffer}
                 />
               </section>
