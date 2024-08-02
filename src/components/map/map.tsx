@@ -48,6 +48,8 @@ export default function Map({
 
   useEffect(() => {
     if (map) {
+      map.panTo({ lat: location.latitude, lng: location.longitude });
+
       offers.forEach(({ id, location }) => {
         leaflet
           .marker(
