@@ -1,3 +1,7 @@
-export default function Map(): JSX.Element {
-  return <section className="cities__map map"></section>;
+type MapProps = {
+  bemblock: string;
+};
+
+export default function Map({ bemblock }: MapProps): JSX.Element {
+  return <section className={`${bemblock}__map map`}></section>;
 }

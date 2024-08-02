@@ -12,6 +12,7 @@ import ReviewForm from './components/review-form';
 import { offers } from '@src/mocks/offers';
 import PlaceCard from '@src/components/place-card/place-card';
 import { capitalizeFirstLetter } from '@src/utils/capitalizeFirstLetter';
+import Map from '@src/components/map/map';
 
 type OfferPageProps = {
   userStatus: AuthStatus;
@@ -124,7 +125,7 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
             </div>
           </div>
 
-          <section className="offer__map map"></section>
+          <Map bemblock="offer" />
         </section>
 
         <div className="container">

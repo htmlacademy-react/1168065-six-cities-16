@@ -17,9 +17,9 @@ export default function App(): JSX.Element {
   /**
    * Сгенерированные роуты по городам
    */
-  const citiesRoutes = CITIES.map(({ slug, name }) => ({
+  const citiesRoutes = CITIES.map(({ slug, name, location }) => ({
     path: slug,
-    element: <MainPage city={name} />,
+    element: <MainPage city={name} location={location} />,
   }));
 
   /**
