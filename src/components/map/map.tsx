@@ -67,14 +67,13 @@ export default function Map({
           .addTo(map);
       });
     }
-  }, [map, offers, active]);
+  }, [map, offers, active, location]);
 
   return (
     <section
       className={`${bemblock}__map map`}
       style={size}
       ref={mapRef}
-    >
-    </section>
+    ></section>
   );
 }
