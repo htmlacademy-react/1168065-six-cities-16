@@ -1,12 +1,12 @@
 import { CITIES } from '@src/const';
 import { NavLink } from 'react-router-dom';
-import { CityRoute } from '@entities/cities';
+import type { CityConfig } from '@entities/cities';
 import clsx from 'clsx';
 
 /**
  * Элемент навигации
  */
-function LocationItem({ slug, name }: CityRoute) {
+function LocationItem({ slug, name }: CityConfig) {
   return (
     <li className="locations__item">
       <NavLink
@@ -24,7 +24,7 @@ function LocationItem({ slug, name }: CityRoute) {
 }
 
 type LocationListProps = {
-  locations: CityRoute[];
+  locations: CityConfig[];
 };
 
 /**
@@ -33,7 +33,7 @@ type LocationListProps = {
 function LocationList({ locations }: LocationListProps) {
   return (
     <ul className="locations__list tabs__list">
-      {locations.map((city: CityRoute) => (
+      {locations.map((city: CityConfig) => (
         <LocationItem key={city.name} {...city} />
       ))}
     </ul>

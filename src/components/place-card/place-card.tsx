@@ -1,23 +1,26 @@
 import { AppRoute } from '@src/const';
-import { Place } from '@src/entities/offers';
-import { HTMLProps } from 'react';
+import type { Offer } from '@src/entities/offers';
+import type { HTMLProps } from 'react';
 import { Link } from 'react-router-dom';
 import BookmarkButton from '../bookmark-button/bookmark-button';
 import Rating from '../rating/rating';
+import { capitalizeFirstLetter } from '@src/utils/capitalizeFirstLetter';
 
-type PlaceCard = Place &
-  HTMLProps<HTMLElement> & {
-    bemblock: string;
-    imageSize: {
-      width: number | string;
-      height: number | string;
-    };
+type PlaceCard = HTMLProps<HTMLElement> & {
+  place: Omit<Offer, 'city'>;
+  bemblock: string;
+  imageSize: {
+    width: number | string;
+    height: number | string;
   };
+};
 
 /**
  * Карточка объявления
  */
 export default function PlaceCard(props: PlaceCard): JSX.Element {
+  const { place, bemblock, imageSize, ...htmlProps } = props;
+
   const {
     id,
     title,
@@ -27,10 +30,7 @@ export default function PlaceCard(props: PlaceCard): JSX.Element {
     isPremium,
     rating,
     previewImage,
-    bemblock,
-    imageSize,
-    ...htmlProps
-  } = props;
+  } = place;
 
   return (
     <article className={`${bemblock}__card place-card`} {...htmlProps}>
@@ -76,7 +76,7 @@ export default function PlaceCard(props: PlaceCard): JSX.Element {
         <h2 className="place-card__name">
           <a href="#">{title}</a>
         </h2>
-        <p className="place-card__type">{type}</p>
+        <p className="place-card__type">{capitalizeFirstLetter(type)}</p>
       </div>
     </article>
   );

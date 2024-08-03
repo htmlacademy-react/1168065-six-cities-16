@@ -8,11 +8,10 @@ export default function ReviewForm() {
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>('');
 
-  const validateForm = () => (
+  const validateForm = () =>
     rating &&
-      comment.length >= COMMENT_LENGTH.min &&
-      comment.length <= COMMENT_LENGTH.max
-  );
+    comment.length >= COMMENT_LENGTH.min &&
+    comment.length <= COMMENT_LENGTH.max;
 
   const isDisabled = !validateForm();
 

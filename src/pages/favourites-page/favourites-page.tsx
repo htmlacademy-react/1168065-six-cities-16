@@ -71,7 +71,7 @@ export default function FavouritesPage(): JSX.Element {
                             key={offer.id}
                             bemblock="favorites"
                             imageSize={{ width: 150, height: 110 }}
-                            {...offer}
+                            place={offer}
                           />
                         ))}
                       </div>

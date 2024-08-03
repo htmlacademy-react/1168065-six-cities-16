@@ -11,6 +11,8 @@ import Comments from './components/comments';
 import ReviewForm from './components/review-form';
 import { offers } from '@src/mocks/offers';
 import PlaceCard from '@src/components/place-card/place-card';
+import { capitalizeFirstLetter } from '@src/utils/capitalizeFirstLetter';
+import Map from '@src/components/map/map';
 
 type OfferPageProps = {
   userStatus: AuthStatus;
@@ -34,6 +36,8 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
     host,
     description,
   } = singleOffer;
+
+  const offersNearby = offers.slice(0, OFFER_MAX_NEARBY);
 
   return (
     <Layout className="page">
@@ -68,7 +72,7 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
               {/* Основные характеристики */}
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">
-                  {type.charAt(0).toUpperCase() + type.slice(1)}
+                  {capitalizeFirstLetter(type)}
                 </li>
                 {bedrooms && (
                   <li className="offer__feature offer__feature--bedrooms">
@@ -123,7 +127,12 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
             </div>
           </div>
 
-          <section className="offer__map map"></section>
+          <Map
+            bemblock="offer"
+            active={singleOffer}
+            location={singleOffer.city.location}
+            offers={[singleOffer, ...offersNearby]}
+          />
         </section>
 
         <div className="container">
@@ -133,12 +142,12 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
             </h2>
 
             <div className="near-places__list places__list">
-              {offers.slice(0, OFFER_MAX_NEARBY).map((item) => (
+              {offersNearby.map((item) => (
                 <PlaceCard
                   key={item.id}
                   bemblock="near-places"
                   imageSize={{ width: 260, height: 200 }}
-                  {...item}
+                  place={item}
                 />
               ))}
             </div>
