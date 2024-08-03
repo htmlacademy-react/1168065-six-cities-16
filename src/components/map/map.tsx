@@ -67,7 +67,7 @@ export default function Map({
           .addTo(map);
       });
     }
-  }, [map, offers, active]);
+  }, [map, offers, active, location]);
 
   return (
     <section
