@@ -1,15 +1,20 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Offer } from '@src/entities/offers';
+
+type OffersState = {
+  offers: Offer[];
+};
 
 const initialState = {
   offers: [],
-};
+} as OffersState;
 
 const offersSlice = createSlice({
   name: 'offers',
   initialState,
   reducers: {
-    setOffers: (state, action) => {
-      state.offers.push(action.payload);
+    setOffers: (state, action: PayloadAction<Offer[]>) => {
+      state.offers = action.payload;
     },
   },
 });
