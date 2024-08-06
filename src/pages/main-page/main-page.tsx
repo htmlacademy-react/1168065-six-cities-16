@@ -6,7 +6,7 @@ import { offers as offerMocks } from '@src/mocks/offers';
 import clsx from 'clsx';
 import PlaceCardList from './components/place-card-list';
 import { useEffect, useState } from 'react';
-import type { Offer, OffersByCity, Location } from '@src/entities/offers';
+import type { Offer, Location } from '@src/entities/offers';
 import { useAppDispatch, useAppSelector } from '@src/hooks/store-hooks';
 import { offersSelector, setOffers } from '@src/features/offers/offers-slice';
 
