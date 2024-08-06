@@ -5,8 +5,10 @@ import Layout from '@components/layout/layout';
 import { offers as offerMocks } from '@src/mocks/offers';
 import clsx from 'clsx';
 import PlaceCardList from './components/place-card-list';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Offer, OffersByCity, Location } from '@src/entities/offers';
+import { useAppDispatch, useAppSelector } from '@src/hooks/store-hooks';
+import { offersSelector, setOffers } from '@src/features/offers/offers-slice';
 
 /**
  * Если объявлений нет
@@ -37,11 +39,16 @@ export default function MainPage({
   location,
 }: MainPageProps): JSX.Element {
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
-  const [offers] = useState<OffersByCity>(
-    Object.groupBy(offerMocks, (item) => item.city.name)
-  );
 
-  const offersByCity = offers[city] ?? [];
+  const offers = useAppSelector(offersSelector);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setOffers(offerMocks));
+  }, [dispatch]);
+
+  const offersByCity =
+    Object.groupBy(offers, (item) => item.city.name)[city] ?? [];
 
   const mainClass = clsx(
     'page__main page__main--index',
