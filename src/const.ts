@@ -1,4 +1,5 @@
 import type { CityConfig } from '@entities/cities';
+import type { SortingConfig } from './entities/sorting';
 
 /**
  * Роут приложения
@@ -132,3 +133,25 @@ export const RATING_CONFIG = [
     title: 'terribly',
   },
 ];
+
+/**
+ * Конфигурация опций для сортировки
+ */
+export const SORTING_CONFIG = [
+  {
+    title: 'Popular',
+    value: 'popular',
+  },
+  {
+    title: 'Price: low to high',
+    value: 'price-lth',
+  },
+  {
+    title: 'Price: high to low',
+    value: 'preci-htl',
+  },
+  {
+    title: 'Top rated first',
+    value: 'rating-htl',
+  },
+] as SortingConfig[];
