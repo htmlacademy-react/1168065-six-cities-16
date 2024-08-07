@@ -11,7 +11,7 @@ import Comments from './components/comments';
 import ReviewForm from './components/review-form';
 import { offers } from '@src/mocks/offers';
 import PlaceCard from '@src/components/place-card/place-card';
-import { capitalizeFirstLetter } from '@src/utils/capitalizeFirstLetter';
+import { capitalizeFirstLetter } from '@src/utils/formatters';
 import Map from '@src/components/map/map';
 
 type OfferPageProps = {

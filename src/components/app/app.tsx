@@ -10,6 +10,8 @@ import FavouritesPage from '@src/pages/favourites-page/favourites-page';
 import NotFoundPage from '@src/pages/error-page/not-found-page';
 import { PrivateRoute } from '../access-route/access-route';
 import LoginPage from '@src/pages/login-page/login-page';
+import { Provider } from 'react-redux';
+import store from '@src/store';
 
 export default function App(): JSX.Element {
   const userStatus: AuthStatus = AuthStatus.Auth;
@@ -59,5 +61,9 @@ export default function App(): JSX.Element {
     ...citiesRoutes,
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  );
 }
