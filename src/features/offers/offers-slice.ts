@@ -10,6 +10,9 @@ const initialState = {
   offers: [],
 } as OffersState;
 
+/**
+ * Слайс для работы с предложениями
+ */
 const offersSlice = createSlice({
   name: 'offers',
   initialState,

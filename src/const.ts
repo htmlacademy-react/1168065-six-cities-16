@@ -137,7 +137,7 @@ export const RATING_CONFIG = [
 /**
  * Конфигурация опций для сортировки
  */
-export const SORTING_CONFIG = [
+export const SORTING_CONFIG: Array<SortingConfig> = [
   {
     title: 'Popular',
     value: 'popular',
@@ -148,10 +148,10 @@ export const SORTING_CONFIG = [
   },
   {
     title: 'Price: high to low',
-    value: 'preci-htl',
+    value: 'price-htl',
   },
   {
     title: 'Top rated first',
     value: 'rating-htl',
   },
-] as SortingConfig[];
+];

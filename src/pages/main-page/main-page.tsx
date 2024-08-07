@@ -5,10 +5,11 @@ import Layout from '@components/layout/layout';
 import { offers as offerMocks } from '@src/mocks/offers';
 import clsx from 'clsx';
 import PlaceCardList from './components/place-card-list';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { Offer, Location } from '@src/entities/offers';
 import { useAppDispatch, useAppSelector } from '@src/hooks/store-hooks';
 import { offersSelector, setOffers } from '@src/features/offers/offers-slice';
+import { sortingSelector } from '@src/features/sorting/sorting-slice';
 
 /**
  * Если объявлений нет
@@ -41,14 +42,29 @@ export default function MainPage({
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
 
   const offers = useAppSelector(offersSelector);
+  const activeSorting = useAppSelector(sortingSelector);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(setOffers(offerMocks));
   }, [dispatch]);
 
-  const offersByCity =
-    Object.groupBy(offers, (item) => item.city.name)[city] ?? [];
+  const offersByCity = useMemo(
+    () =>
+      Object.groupBy(offers, (item) => item.city.name)[city]?.sort((a, b) => {
+        switch (activeSorting.value) {
+          case 'price-htl':
+            return b.price - a.price;
+          case 'price-lth':
+            return a.price - b.price;
+          case 'rating-htl':
+            return b.rating - a.rating;
+          default:
+            return 0;
+        }
+      }) ?? [],
+    [offers, location, activeSorting]
+  );
 
   const mainClass = clsx(
     'page__main page__main--index',

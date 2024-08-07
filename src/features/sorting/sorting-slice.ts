@@ -11,6 +11,9 @@ const initialState = {
   sorting: SORTING_CONFIG[0],
 } as SortingType;
 
+/**
+ * Слайс для работы с сортировкой
+ */
 const sortingSlice = createSlice({
   name: 'sorting',
   initialState,

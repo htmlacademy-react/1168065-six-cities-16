@@ -4,7 +4,7 @@ import type { HTMLProps } from 'react';
 import { Link } from 'react-router-dom';
 import BookmarkButton from '../bookmark-button/bookmark-button';
 import Rating from '../rating/rating';
-import { capitalizeFirstLetter } from '@src/utils/capitalizeFirstLetter';
+import { capitalizeFirstLetter } from '@src/utils/formatters';
 
 type PlaceCard = HTMLProps<HTMLElement> & {
   place: Omit<Offer, 'city'>;
