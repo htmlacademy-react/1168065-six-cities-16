@@ -63,7 +63,7 @@ export default function MainPage({
             return 0;
         }
       }) ?? [],
-    [offers, location, activeSorting]
+    [offers, city, activeSorting]
   );
 
   const mainClass = clsx(
