@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '@src/hooks/store-hooks';
 import {
   setActiveSorting,
   sortingSelector,
-} from '@src/features/sorting/sorting-slice';
+} from '@src/store/slices/sorting-slice';
 
 export default function Sorting(): JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean>(false);

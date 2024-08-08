@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import offers from '@src/features/offers/offers-slice';
-import sorting from '@src/features/sorting/sorting-slice';
+import offers from '@src/store/slices/offers-slice';
+import sorting from '@src/store/slices/sorting-slice';
 
 const store = configureStore({
   reducer: { offers, sorting },

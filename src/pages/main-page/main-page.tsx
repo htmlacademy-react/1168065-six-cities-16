@@ -8,8 +8,8 @@ import PlaceCardList from './components/place-card-list';
 import { useEffect, useMemo, useState } from 'react';
 import type { Offer, Location } from '@src/entities/offers';
 import { useAppDispatch, useAppSelector } from '@src/hooks/store-hooks';
-import { offersSelector, setOffers } from '@src/features/offers/offers-slice';
-import { sortingSelector } from '@src/features/sorting/sorting-slice';
+import { offersSelector, setOffers } from '@src/store/slices/offers-slice';
+import { sortingSelector } from '@src/store/slices/sorting-slice';
 
 /**
  * Если объявлений нет
