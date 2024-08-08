@@ -10,6 +10,7 @@ import type { Offer, Location } from '@src/entities/offers';
 import { useAppDispatch, useAppSelector } from '@src/hooks/store-hooks';
 import { offersSelector, setOffers } from '@src/store/slices/offers-slice';
 import { sortingSelector } from '@src/store/slices/sorting-slice';
+import { SortingOptionValue } from '@src/const';
 
 /**
  * Если объявлений нет
@@ -65,11 +66,11 @@ export default function MainPage({
     () =>
       currentOffers.toSorted((a, b) => {
         switch (activeSorting.value) {
-          case 'price-htl':
+          case SortingOptionValue.PriceHighToLow:
             return b.price - a.price;
-          case 'price-lth':
+          case SortingOptionValue.PriceLowToHigh:
             return a.price - b.price;
-          case 'rating-htl':
+          case SortingOptionValue.TopRatedFirst:
             return b.rating - a.rating;
           default:
             return 0;
