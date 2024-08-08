@@ -32,6 +32,8 @@ type MainPageProps = {
   location: Location;
 };
 
+const OFFERS_FALLBACK = [] as Offer[];
+
 /**
  * Страница объявлений по выбранному городу
  */
@@ -49,9 +51,19 @@ export default function MainPage({
     dispatch(setOffers(offerMocks));
   }, [dispatch]);
 
+  // группируем полученные предложения по городам
   const offersByCity = useMemo(
+    () => Object.groupBy(offers, (item) => item.city.name),
+    [offers]
+  );
+
+  // выбираем объявления по текущему городу
+  const currentOffers = offersByCity[city] ?? OFFERS_FALLBACK;
+
+  // сортировка оъявлений по выбранному фильтру
+  const offersByCitySorted = useMemo(
     () =>
-      Object.groupBy(offers, (item) => item.city.name)[city]?.sort((a, b) => {
+      currentOffers.toSorted((a, b) => {
         switch (activeSorting.value) {
           case 'price-htl':
             return b.price - a.price;
@@ -62,18 +74,18 @@ export default function MainPage({
           default:
             return 0;
         }
-      }) ?? [],
-    [offers, city, activeSorting]
+      }),
+    [currentOffers, activeSorting.value]
   );
 
   const mainClass = clsx(
     'page__main page__main--index',
-    offersByCity?.length === 0 && 'page__main--index-empty'
+    currentOffers?.length === 0 && 'page__main--index-empty'
   );
 
   const placesContainerClass = clsx(
     'cities__places-container container',
-    offersByCity?.length === 0 && 'cities__places-container--empty'
+    currentOffers?.length === 0 && 'cities__places-container--empty'
   );
 
   return (
@@ -85,17 +97,17 @@ export default function MainPage({
 
         <div className="cities">
           <div className={placesContainerClass}>
-            {offersByCity?.length > 0 ? (
+            {currentOffers?.length > 0 ? (
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
                 <b className="places__found">
-                  {offersByCity.length} places to stay in {city}
+                  {currentOffers.length} places to stay in {city}
                 </b>
 
                 <Sorting />
 
                 <PlaceCardList
-                  offers={offersByCity}
+                  offers={offersByCitySorted}
                   setSelectedOffer={setSelectedOffer}
                 />
               </section>
@@ -104,12 +116,12 @@ export default function MainPage({
             )}
 
             <div className="cities__right-section">
-              {offersByCity?.length > 0 && (
+              {currentOffers?.length > 0 && (
                 <Map
                   bemblock="cities"
                   size={{ height: '100%' }}
                   location={location}
-                  offers={offersByCity}
+                  offers={currentOffers}
                   active={selectedOffer}
                 />
               )}
