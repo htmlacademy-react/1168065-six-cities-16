@@ -134,24 +134,31 @@ export const RATING_CONFIG = [
   },
 ];
 
+export const SortingOptionValue = {
+  Popular: 'POPULAR',
+  PriceLowToHigh: 'PRICE_LTH',
+  PriceHighToLow: 'PRICE_HTL',
+  TopRatedFirst: 'RATING_HTL',
+} as const;
+
 /**
  * Конфигурация опций для сортировки
  */
 export const SORTING_CONFIG: Array<SortingConfig> = [
   {
     title: 'Popular',
-    value: 'popular',
+    value: SortingOptionValue.Popular,
   },
   {
     title: 'Price: low to high',
-    value: 'price-lth',
+    value: SortingOptionValue.PriceLowToHigh,
   },
   {
     title: 'Price: high to low',
-    value: 'price-htl',
+    value: SortingOptionValue.PriceHighToLow,
   },
   {
     title: 'Top rated first',
-    value: 'rating-htl',
+    value: SortingOptionValue.TopRatedFirst,
   },
 ];

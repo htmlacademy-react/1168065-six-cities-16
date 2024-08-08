@@ -1,8 +1,7 @@
+import type { SortingOptionValue } from '@src/const';
+
 export type SortingOption =
-  | 'popular'
-  | 'price-lth'
-  | 'price-htl'
-  | 'rating-htl';
+  (typeof SortingOptionValue)[keyof typeof SortingOptionValue];
 
 export type SortingConfig = {
   title: string;
