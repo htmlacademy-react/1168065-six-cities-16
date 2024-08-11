@@ -14,7 +14,7 @@ import {
 } from '@src/store/slices/offers-slice';
 import { getActiveSorting } from '@src/store/slices/sorting-slice';
 import { SortingOptionValue } from '@src/const';
-import Spinner from '@src/components/spinner/Spinner';
+import Spinner from '@src/components/spinner/spinner';
 
 /**
  * Если объявлений нет
