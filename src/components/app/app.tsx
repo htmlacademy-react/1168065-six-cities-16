@@ -8,13 +8,20 @@ import OfferPage from '@src/pages/offer-page/offer-page';
 import MainPage from '@src/pages/main-page/main-page';
 import FavouritesPage from '@src/pages/favourites-page/favourites-page';
 import NotFoundPage from '@src/pages/error-page/not-found-page';
-import { PrivateRoute } from '../access-route/access-route';
+import { PrivateRoute, PublicRoute } from '../access-route/access-route';
 import LoginPage from '@src/pages/login-page/login-page';
-import { Provider } from 'react-redux';
-import store from '@src/store';
+import { useAppDispatch, useAppSelector } from '@src/hooks/store-hooks';
+import { checkAuth, getAuthStatus } from '@src/store/slices/user-slice';
+import { useEffect } from 'react';
 
 export default function App(): JSX.Element {
-  const userStatus: AuthStatus = AuthStatus.Auth;
+  const userStatus: AuthStatus = useAppSelector(getAuthStatus);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
 
   /**
    * Сгенерированные роуты по городам
@@ -34,6 +41,16 @@ export default function App(): JSX.Element {
     },
   ];
 
+  /**
+   * Публичные роуты
+   */
+  const publicRoutes = [
+    {
+      path: AppRoute.Login,
+      element: <LoginPage />,
+    },
+  ];
+
   const router = createBrowserRouter([
     {
       path: AppRoute.Main,
@@ -46,8 +63,8 @@ export default function App(): JSX.Element {
       children: privateRoutes,
     },
     {
-      path: AppRoute.Login,
-      element: <LoginPage />,
+      element: <PublicRoute status={userStatus} />,
+      children: publicRoutes,
     },
     {
       path: AppRoute.Offer,
@@ -61,9 +78,5 @@ export default function App(): JSX.Element {
     ...citiesRoutes,
   ]);
 
-  return (
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
-  );
+  return <RouterProvider router={router} />;
 }

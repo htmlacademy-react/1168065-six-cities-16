@@ -7,11 +7,11 @@ import type { Offer } from '@src/entities/offers';
 import type { State } from '@src/entities/state';
 import { APIRoute } from '@src/const';
 import { AxiosInstance } from 'axios';
-import { Status } from '@src/entities/status';
+import { LoadingStatus } from '@src/entities/statuses';
 
 type OffersState = {
   offers: Offer[];
-  offersLoadingStatus: Status;
+  offersLoadingStatus: LoadingStatus;
   offersError: boolean;
 };
 
@@ -60,7 +60,7 @@ export const offersSlice = createSlice({
 });
 
 export const getOffers = (state: State): Offer[] => state.offers.offers;
-export const getOffersLoadingStatus = (state: State): Status =>
+export const getOffersLoadingStatus = (state: State): LoadingStatus =>
   state.offers.offersLoadingStatus;
 export const getOffersError = (state: State): boolean =>
   state.offers.offersError;
