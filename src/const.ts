@@ -168,4 +168,6 @@ export const SORTING_CONFIG: SortingConfig[] = [
 
 export const APIRoute = {
   Offers: '/offers',
+  Login: '/login',
+  Logout: '/logout',
 } as const;
