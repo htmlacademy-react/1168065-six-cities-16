@@ -134,6 +134,9 @@ export const RATING_CONFIG = [
   },
 ];
 
+/**
+ * Значения для сортировки
+ */
 export const SortingOptionValue = {
   Popular: 'POPULAR',
   PriceLowToHigh: 'PRICE_LTH',
@@ -162,3 +165,7 @@ export const SORTING_CONFIG: SortingConfig[] = [
     value: SortingOptionValue.TopRatedFirst,
   },
 ];
+
+export const APIRoute = {
+  Offers: '/offers',
+} as const;

@@ -2,14 +2,13 @@ import Map from '@components/map/map';
 import Navigation from '@components/navigation/navigation';
 import Sorting from '@components/sorting/sorting';
 import Layout from '@components/layout/layout';
-import { offers as offerMocks } from '@src/mocks/offers';
 import clsx from 'clsx';
 import PlaceCardList from './components/place-card-list';
 import { useEffect, useMemo, useState } from 'react';
 import type { Offer, Location } from '@src/entities/offers';
 import { useAppDispatch, useAppSelector } from '@src/hooks/store-hooks';
-import { offersSelector, setOffers } from '@src/store/slices/offers-slice';
-import { sortingSelector } from '@src/store/slices/sorting-slice';
+import { fetchOffers, getOffers } from '@src/store/slices/offers-slice';
+import { getActiveSorting } from '@src/store/slices/sorting-slice';
 import { SortingOptionValue } from '@src/const';
 
 /**
@@ -44,12 +43,12 @@ export default function MainPage({
 }: MainPageProps): JSX.Element {
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
 
-  const offers = useAppSelector(offersSelector);
-  const activeSorting = useAppSelector(sortingSelector);
+  const offers = useAppSelector(getOffers);
+  const activeSorting = useAppSelector(getActiveSorting);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(setOffers(offerMocks));
+    dispatch(fetchOffers());
   }, [dispatch]);
 
   // группируем полученные предложения по городам

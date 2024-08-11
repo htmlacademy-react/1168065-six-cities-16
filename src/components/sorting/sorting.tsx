@@ -4,13 +4,13 @@ import clsx from 'clsx';
 import { useAppDispatch, useAppSelector } from '@src/hooks/store-hooks';
 import {
   setActiveSorting,
-  sortingSelector,
+  getActiveSorting,
 } from '@src/store/slices/sorting-slice';
 
 export default function Sorting(): JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const activeSorting = useAppSelector(sortingSelector);
+  const activeSorting = useAppSelector(getActiveSorting);
   const dispatch = useAppDispatch();
 
   const optionListClasses = clsx(

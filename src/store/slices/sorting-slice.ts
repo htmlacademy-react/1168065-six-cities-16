@@ -24,7 +24,5 @@ export const sortingSlice = createSlice({
   },
 });
 
-const { actions } = sortingSlice;
-export const { setActiveSorting } = actions;
-
-export const sortingSelector = (state: State) => state.sorting.sorting;
+export const { setActiveSorting } = sortingSlice.actions;
+export const getActiveSorting = (state: State) => state.sorting.sorting;
