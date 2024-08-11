@@ -13,7 +13,7 @@ const initialState = {
 /**
  * Слайс для работы с предложениями
  */
-const offersSlice = createSlice({
+export const offersSlice = createSlice({
   name: 'offers',
   initialState,
   reducers: {
@@ -23,8 +23,7 @@ const offersSlice = createSlice({
   },
 });
 
-const { actions, reducer } = offersSlice;
+const { actions } = offersSlice;
+export const { setOffers } = actions;
 
 export const offersSelector = (state: State) => state.offers.offers;
-export const { setOffers } = actions;
-export default reducer;

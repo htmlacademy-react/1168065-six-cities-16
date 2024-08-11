@@ -14,7 +14,7 @@ const initialState = {
 /**
  * Слайс для работы с сортировкой
  */
-const sortingSlice = createSlice({
+export const sortingSlice = createSlice({
   name: 'sorting',
   initialState,
   reducers: {
@@ -24,8 +24,7 @@ const sortingSlice = createSlice({
   },
 });
 
-const { actions, reducer } = sortingSlice;
+const { actions } = sortingSlice;
+export const { setActiveSorting } = actions;
 
 export const sortingSelector = (state: State) => state.sorting.sorting;
-export const { setActiveSorting } = actions;
-export default reducer;
