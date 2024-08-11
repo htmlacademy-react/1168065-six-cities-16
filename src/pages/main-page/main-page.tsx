@@ -7,9 +7,14 @@ import PlaceCardList from './components/place-card-list';
 import { useEffect, useMemo, useState } from 'react';
 import type { Offer, Location } from '@src/entities/offers';
 import { useAppDispatch, useAppSelector } from '@src/hooks/store-hooks';
-import { fetchOffers, getOffers } from '@src/store/slices/offers-slice';
+import {
+  fetchOffers,
+  getOffers,
+  getOffersLoadingStatus,
+} from '@src/store/slices/offers-slice';
 import { getActiveSorting } from '@src/store/slices/sorting-slice';
 import { SortingOptionValue } from '@src/const';
+import Spinner from '@src/components/spinner/Spinner';
 
 /**
  * Если объявлений нет
@@ -45,6 +50,7 @@ export default function MainPage({
 
   const offers = useAppSelector(getOffers);
   const activeSorting = useAppSelector(getActiveSorting);
+  const offersLoadingStatus = useAppSelector(getOffersLoadingStatus);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -96,37 +102,41 @@ export default function MainPage({
         <Navigation />
 
         <div className="cities">
-          <div className={placesContainerClass}>
-            {currentOffers?.length > 0 ? (
-              <section className="cities__places places">
-                <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">
-                  {currentOffers.length} places to stay in {city}
-                </b>
+          {!offersLoadingStatus && (
+            <div className={placesContainerClass}>
+              {currentOffers?.length > 0 ? (
+                <section className="cities__places places">
+                  <h2 className="visually-hidden">Places</h2>
+                  <b className="places__found">
+                    {currentOffers.length} places to stay in {city}
+                  </b>
 
-                <Sorting />
+                  <Sorting />
 
-                <PlaceCardList
-                  offers={offersByCitySorted}
-                  setSelectedOffer={setSelectedOffer}
-                />
-              </section>
-            ) : (
-              <PlacesEmpty />
-            )}
-
-            <div className="cities__right-section">
-              {currentOffers?.length > 0 && (
-                <Map
-                  bemblock="cities"
-                  size={{ height: '100%' }}
-                  location={location}
-                  offers={currentOffers}
-                  active={selectedOffer}
-                />
+                  <PlaceCardList
+                    offers={offersByCitySorted}
+                    setSelectedOffer={setSelectedOffer}
+                  />
+                </section>
+              ) : (
+                <PlacesEmpty />
               )}
+
+              <div className="cities__right-section">
+                {currentOffers?.length > 0 && (
+                  <Map
+                    bemblock="cities"
+                    size={{ height: '100%' }}
+                    location={location}
+                    offers={currentOffers}
+                    active={selectedOffer}
+                  />
+                )}
+              </div>
             </div>
-          </div>
+          )}
+
+          {offersLoadingStatus && <Spinner />}
         </div>
       </main>
     </Layout>
