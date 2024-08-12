@@ -6,20 +6,23 @@ import {
 import type { State } from '@src/entities/state';
 import { APIRoute, AuthStatus } from '@src/const';
 import type { AxiosInstance } from 'axios';
-import type { AuthData } from '@src/entities/auth';
+import type { AuthData, ValidationError } from '@src/entities/auth';
 import type { UserData } from '@src/entities/user';
 import { removeToken, setToken } from '@src/services/token';
 
 const INITIAL_USER = {} as UserData;
+const INITIAL_VALIDATION = [] as ValidationError[];
 
 type UserState = {
   authStatus: AuthStatus;
   user: UserData;
+  validation: ValidationError[];
 };
 
 const initialState = {
   authStatus: AuthStatus.Unknown,
   user: INITIAL_USER,
+  validation: INITIAL_VALIDATION,
 } as UserState;
 
 export const checkAuth = createAsyncThunk<

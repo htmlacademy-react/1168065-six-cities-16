@@ -3,7 +3,7 @@ import { AppRoute } from '@src/const';
 import type { AuthData } from '@src/entities/auth';
 import { useAppDispatch } from '@src/hooks/store-hooks';
 import { loginUser } from '@src/store/slices/user-slice';
-import { useRef, type FormEvent } from 'react';
+import { useRef, type FormEvent, type ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 /**
@@ -13,6 +13,9 @@ export default function LoginPage(): JSX.Element {
   const formRef = useRef<HTMLFormElement>(null);
   const dispatch = useAppDispatch();
 
+  /**
+   * Обработчик отправки формы
+   */
   const handleSubmit = (evt: FormEvent): void => {
     evt.preventDefault();
 
@@ -23,6 +26,13 @@ export default function LoginPage(): JSX.Element {
 
       dispatch(loginUser(formData));
     }
+  };
+
+  /**
+   * Обработчик ввода пароля
+   */
+  const handlePasswordInput = (evt: ChangeEvent<HTMLInputElement>) => {
+    evt.target.value = evt.target.value.replace(/\s/g, '');
   };
 
   return (
@@ -59,6 +69,7 @@ export default function LoginPage(): JSX.Element {
                   name="password"
                   placeholder="Password"
                   required
+                  onChange={handlePasswordInput}
                 />
               </div>
               <button
