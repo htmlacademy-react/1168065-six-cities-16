@@ -1,6 +1,10 @@
 import { AppRoute, AuthStatus } from '@src/const';
-import { useAppSelector } from '@src/hooks/store-hooks';
-import { getAuthStatus } from '@src/store/slices/user-slice';
+import { useAppDispatch, useAppSelector } from '@src/hooks/store-hooks';
+import {
+  getAuthStatus,
+  getUserData,
+  logoutUser,
+} from '@src/store/slices/user-slice';
 import { Link } from 'react-router-dom';
 
 /**
@@ -8,6 +12,12 @@ import { Link } from 'react-router-dom';
  */
 export default function HeaderNav() {
   const userStatus = useAppSelector(getAuthStatus);
+  const { email } = useAppSelector(getUserData);
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  };
 
   return (
     <nav className="header__nav">
@@ -20,14 +30,12 @@ export default function HeaderNav() {
                 to={AppRoute.Favourites}
               >
                 <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                <span className="header__user-name user__name">
-                  Oliver.conner@gmail.com
-                </span>
+                <span className="header__user-name user__name">{email}</span>
                 <span className="header__favorite-count">3</span>
               </Link>
             </li>
             <li className="header__nav-item">
-              <a className="header__nav-link" href="#">
+              <a className="header__nav-link" onClick={handleLogout}>
                 <span className="header__signout">Sign out</span>
               </a>
             </li>

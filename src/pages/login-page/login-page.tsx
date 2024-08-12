@@ -1,11 +1,30 @@
 import Layout from '@components/layout/layout';
 import { AppRoute } from '@src/const';
+import type { AuthData } from '@src/entities/auth';
+import { useAppDispatch } from '@src/hooks/store-hooks';
+import { loginUser } from '@src/store/slices/user-slice';
+import { useRef, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 /**
  * Страница логина
  */
 export default function LoginPage(): JSX.Element {
+  const formRef = useRef<HTMLFormElement>(null);
+  const dispatch = useAppDispatch();
+
+  const handleSubmit = (evt: FormEvent): void => {
+    evt.preventDefault();
+
+    if (formRef.current) {
+      const formData = Object.fromEntries(
+        new FormData(formRef.current)
+      ) as AuthData;
+
+      dispatch(loginUser(formData));
+    }
+  };
+
   return (
     <Layout
       className="page page--gray page--login"
@@ -15,7 +34,13 @@ export default function LoginPage(): JSX.Element {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="#" method="post">
+            <form
+              className="login__form form"
+              action="#"
+              method="post"
+              ref={formRef}
+              onSubmit={handleSubmit}
+            >
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input

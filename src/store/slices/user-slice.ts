@@ -1,42 +1,52 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSlice,
+  type PayloadAction,
+} from '@reduxjs/toolkit';
 import type { State } from '@src/entities/state';
 import { APIRoute, AuthStatus } from '@src/const';
-import { AxiosInstance } from 'axios';
-import { AuthData } from '@src/entities/auth';
-import { UserData } from '@src/entities/user';
+import type { AxiosInstance } from 'axios';
+import type { AuthData } from '@src/entities/auth';
+import type { UserData } from '@src/entities/user';
 import { removeToken, setToken } from '@src/services/token';
+
+const INITIAL_USER = {} as UserData;
 
 type UserState = {
   authStatus: AuthStatus;
+  user: UserData;
 };
 
 const initialState = {
   authStatus: AuthStatus.Unknown,
+  user: INITIAL_USER,
 } as UserState;
 
 export const checkAuth = createAsyncThunk<
-  void,
+  UserData,
   undefined,
   {
     state: State;
     extra: AxiosInstance;
   }
 >('user/checkAuth', async (_arg, { extra: api }) => {
-  await api.get(APIRoute.Login);
+  const { data } = await api.get<UserData>(APIRoute.Login);
+  return data;
 });
 
 export const loginUser = createAsyncThunk<
-  void,
+  UserData,
   AuthData,
   {
     state: State;
     extra: AxiosInstance;
   }
->('user/login', async ({ login: email, password }, { extra: api }) => {
-  const {
-    data: { token },
-  } = await api.post<UserData>(APIRoute.Login, { email, password });
-  setToken(token);
+>('user/login', async ({ email, password }, { extra: api }) => {
+  const { data } = await api.post<UserData>(APIRoute.Login, {
+    email,
+    password,
+  });
+  return data;
 });
 
 export const logoutUser = createAsyncThunk<
@@ -48,7 +58,6 @@ export const logoutUser = createAsyncThunk<
   }
 >('user/logout', async (_arg, { extra: api }) => {
   await api.delete(APIRoute.Logout);
-  removeToken();
 });
 
 /**
@@ -60,14 +69,35 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(checkAuth.fulfilled, (state) => {
-        state.authStatus = AuthStatus.Auth;
-      })
+      .addCase(
+        checkAuth.fulfilled,
+        (state, action: PayloadAction<UserData>) => {
+          state.authStatus = AuthStatus.Auth;
+          state.user = action.payload;
+        }
+      )
       .addCase(checkAuth.rejected, (state) => {
         state.authStatus = AuthStatus.NoAuth;
+      })
+      .addCase(
+        loginUser.fulfilled,
+        (state, action: PayloadAction<UserData>) => {
+          state.authStatus = AuthStatus.Auth;
+          state.user = action.payload;
+          setToken(action.payload.token ?? '');
+        }
+      )
+      .addCase(loginUser.rejected, (state) => {
+        state.authStatus = AuthStatus.NoAuth;
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.authStatus = AuthStatus.NoAuth;
+        state.user = INITIAL_USER;
+        removeToken();
       });
   },
 });
 
 export const getAuthStatus = (state: State): AuthStatus =>
   state.user.authStatus;
+export const getUserData = (state: State): UserData => state.user.user;
