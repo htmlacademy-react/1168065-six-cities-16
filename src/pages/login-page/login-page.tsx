@@ -1,11 +1,16 @@
 import Layout from '@components/layout/layout';
+import { AppRoute } from '@src/const';
+import { Link } from 'react-router-dom';
 
 /**
  * Страница логина
  */
 export default function LoginPage(): JSX.Element {
   return (
-    <Layout className="page page--gray page--login">
+    <Layout
+      className="page page--gray page--login"
+      headerProps={{ withNav: false }}
+    >
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <section className="login">
@@ -41,9 +46,9 @@ export default function LoginPage(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
+              <Link to={AppRoute.Main} className="locations__item-link">
                 <span>Amsterdam</span>
-              </a>
+              </Link>
             </div>
           </section>
         </div>

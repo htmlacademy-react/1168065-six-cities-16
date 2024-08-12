@@ -1,7 +1,11 @@
 import HeaderNav from './components/header-nav';
 import Logo from './components/logo';
 
-export default function Header(): JSX.Element {
+export type HeaderProps = {
+  withNav?: boolean;
+};
+
+export default function Header({ withNav = true }: HeaderProps): JSX.Element {
   return (
     <header className="header">
       <div className="container">
@@ -10,7 +14,7 @@ export default function Header(): JSX.Element {
             <Logo />
           </div>
 
-          <HeaderNav />
+          {withNav && <HeaderNav />}
         </div>
       </div>
     </header>
