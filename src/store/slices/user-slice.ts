@@ -5,8 +5,8 @@ import {
 } from '@reduxjs/toolkit';
 import type { State } from '@src/entities/state';
 import { APIRoute, AuthStatus } from '@src/const';
-import type { AxiosInstance } from 'axios';
-import type { AuthData, ValidationError } from '@src/entities/auth';
+import type { AxiosError, AxiosInstance } from 'axios';
+import type { AuthData, AuthError, ValidationError } from '@src/entities/auth';
 import type { UserData } from '@src/entities/user';
 import { removeToken, setToken } from '@src/services/token';
 
@@ -43,14 +43,30 @@ export const loginUser = createAsyncThunk<
   {
     state: State;
     extra: AxiosInstance;
+    rejectedValue: AuthError;
   }
->('user/login', async ({ email, password }, { extra: api }) => {
-  const { data } = await api.post<UserData>(APIRoute.Login, {
-    email,
-    password,
-  });
-  return data;
-});
+>(
+  'user/login',
+  async ({ email, password }, { extra: api, rejectWithValue }) => {
+    try {
+      const { data } = await api.post<UserData>(APIRoute.Login, {
+        email,
+        password,
+      });
+
+      return data;
+    } catch (error) {
+      // Type 'unknown' is not assignable to type 'AxiosError<AuthError, any>'
+      const serverError: AxiosError<AuthError> = error;
+
+      if (!serverError.response) {
+        throw error;
+      }
+
+      return rejectWithValue(serverError.response.data);
+    }
+  }
+);
 
 export const logoutUser = createAsyncThunk<
   void,
@@ -87,12 +103,17 @@ export const userSlice = createSlice({
         (state, action: PayloadAction<UserData>) => {
           state.authStatus = AuthStatus.Auth;
           state.user = action.payload;
+          state.validation = INITIAL_VALIDATION;
           setToken(action.payload.token ?? '');
         }
       )
-      .addCase(loginUser.rejected, (state) => {
-        state.authStatus = AuthStatus.NoAuth;
-      })
+      .addCase(
+        loginUser.rejected,
+        (state, action: PayloadAction<AuthError>) => {
+          state.authStatus = AuthStatus.NoAuth;
+          state.validation = action.payload.details;
+        }
+      )
       .addCase(logoutUser.fulfilled, (state) => {
         state.authStatus = AuthStatus.NoAuth;
         state.user = INITIAL_USER;
@@ -104,3 +125,5 @@ export const userSlice = createSlice({
 export const getAuthStatus = (state: State): AuthStatus =>
   state.user.authStatus;
 export const getUserData = (state: State): UserData => state.user.user;
+export const getValidation = (state: State): ValidationError[] =>
+  state.user.validation;
