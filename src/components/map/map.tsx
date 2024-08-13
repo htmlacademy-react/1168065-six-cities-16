@@ -3,6 +3,8 @@ import type { Location, Offer } from '@src/entities/offers';
 import { useEffect, useRef } from 'react';
 import { useLeaflet } from '@src/hooks/leaflet-hook';
 import leaflet from 'leaflet';
+import { useAppSelector } from '@src/hooks/store-hooks';
+import { getActiveOffer } from '@src/store/slices/offers-slice';
 
 /**
  * иконка точки на карте
@@ -23,7 +25,6 @@ const activePinIcon = leaflet.icon({
 });
 
 type MapProps = {
-  active: Pick<Offer, 'id'> | null;
   bemblock: string;
   location: Location;
   offers: Pick<Offer, 'id' | 'location'>[];
@@ -37,7 +38,6 @@ type MapProps = {
  * Компонент карты предложений
  */
 export default function Map({
-  active,
   bemblock,
   location,
   offers,
@@ -45,6 +45,7 @@ export default function Map({
 }: MapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useLeaflet(mapRef, location);
+  const active = useAppSelector(getActiveOffer);
 
   useEffect(() => {
     if (map) {
@@ -61,7 +62,7 @@ export default function Map({
               lng: offer.location.longitude,
             },
             {
-              icon: active?.id === offer.id ? activePinIcon : defaultPinIcon,
+              icon: active === offer.id ? activePinIcon : defaultPinIcon,
             }
           )
           .addTo(map);
@@ -74,7 +75,6 @@ export default function Map({
       className={`${bemblock}__map map`}
       style={size}
       ref={mapRef}
-    >
-    </section>
+    ></section>
   );
 }

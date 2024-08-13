@@ -3,7 +3,7 @@ import {
   Navigate,
   RouterProvider,
 } from 'react-router-dom';
-import { AppRoute, AuthStatus, CITIES } from '@src/const';
+import { AppRoute, CITIES } from '@src/const';
 import OfferPage from '@src/pages/offer-page/offer-page';
 import MainPage from '@src/pages/main-page/main-page';
 import FavouritesPage from '@src/pages/favourites-page/favourites-page';
@@ -15,13 +15,13 @@ import { checkAuth, getAuthStatus } from '@src/store/slices/user-slice';
 import { useEffect } from 'react';
 
 export default function App(): JSX.Element {
-  const userStatus: AuthStatus = useAppSelector(getAuthStatus);
+  const userStatus = useAppSelector(getAuthStatus);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(checkAuth());
-  }, [dispatch]);
+  }, []);
 
   /**
    * Сгенерированные роуты по городам

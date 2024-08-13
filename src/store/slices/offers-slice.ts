@@ -1,17 +1,19 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import type { Offer } from '@src/entities/offers';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { ActiveOffer, Offer } from '@src/entities/offers';
 import type { State } from '@src/entities/state';
 import { APIRoute } from '@src/const';
 import type { AxiosInstance } from 'axios';
 import type { LoadingStatus } from '@src/entities/statuses';
 
 type OffersState = {
+  activeOffer: ActiveOffer;
   offers: Offer[];
   offersLoadingStatus: LoadingStatus;
   offersError: boolean;
 };
 
 const initialState = {
+  activeOffer: null,
   offers: [],
   offersLoadingStatus: 'idle',
   offersError: false,
@@ -38,7 +40,14 @@ export const fetchOffers = createAsyncThunk<
 export const offersSlice = createSlice({
   name: 'offers',
   initialState,
-  reducers: {},
+  reducers: {
+    /**
+     * Запись активного объявления
+     */
+    setActiveOffer: (state, action: PayloadAction<ActiveOffer>) => {
+      state.activeOffer = action.payload;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchOffers.pending, (state) => {
@@ -55,10 +64,18 @@ export const offersSlice = createSlice({
   },
 });
 
+export const { setActiveOffer } = offersSlice.actions;
+
 /**
  * Объявления
  */
 export const getOffers = (state: State): Offer[] => state.offers.offers;
+
+/**
+ * Активное объявление
+ */
+export const getActiveOffer = (state: State): ActiveOffer =>
+  state.offers.activeOffer;
 
 /**
  * Статус загрузки объявлений

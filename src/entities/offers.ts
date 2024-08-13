@@ -20,6 +20,8 @@ export interface Offer {
   previewImage: string;
 }
 
+export type ActiveOffer = string | null;
+
 export type OffersByCity = {
   [key: string]: Offer[] | undefined;
 };
