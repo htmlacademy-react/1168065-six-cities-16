@@ -9,6 +9,7 @@ import type { AxiosError, AxiosInstance } from 'axios';
 import type { AuthData, AuthError, ValidationError } from '@src/entities/auth';
 import type { UserData } from '@src/entities/user';
 import { removeToken, setToken } from '@src/services/token';
+import axios from 'axios';
 
 const INITIAL_USER = {} as UserData;
 const INITIAL_VALIDATION = [] as ValidationError[];
@@ -43,7 +44,7 @@ export const loginUser = createAsyncThunk<
   {
     state: State;
     extra: AxiosInstance;
-    rejectedValue: AuthError;
+    rejectValue: AuthError;
   }
 >(
   'user/login',
@@ -56,14 +57,14 @@ export const loginUser = createAsyncThunk<
 
       return data;
     } catch (error) {
-      // Type 'unknown' is not assignable to type 'AxiosError<AuthError, any>'
-      const serverError: AxiosError<AuthError> = error;
+      const serverError = axios.isAxiosError(error);
 
-      if (!serverError.response) {
-        throw error;
+      if (serverError && error.response) {
+        // Unsafe argument of type `any` assigned to a parameter of type `AuthError`
+        return rejectWithValue(error.response.data);
       }
 
-      return rejectWithValue(serverError.response.data);
+      throw error;
     }
   }
 );
