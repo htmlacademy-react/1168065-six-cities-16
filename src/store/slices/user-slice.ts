@@ -57,10 +57,9 @@ export const loginUser = createAsyncThunk<
 
       return data;
     } catch (error) {
-      const serverError = axios.isAxiosError(error);
+      const serverError = axios.isAxiosError<AuthError>(error);
 
       if (serverError && error.response) {
-        // Unsafe argument of type `any` assigned to a parameter of type `AuthError`
         return rejectWithValue(error.response.data);
       }
 
@@ -108,6 +107,7 @@ export const userSlice = createSlice({
           setToken(action.payload.token ?? '');
         }
       )
+      // No overload matches this call.
       .addCase(
         loginUser.rejected,
         (state, action: PayloadAction<AuthError>) => {
