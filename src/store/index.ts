@@ -6,6 +6,9 @@ import { userSlice } from '@src/store/slices/user-slice';
 
 export const api = createAPI();
 
+/**
+ * Хранилище
+ */
 const store = configureStore({
   reducer: {
     [userSlice.name]: userSlice.reducer,
