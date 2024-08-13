@@ -6,8 +6,8 @@ import {
 import type { Offer } from '@src/entities/offers';
 import type { State } from '@src/entities/state';
 import { APIRoute } from '@src/const';
-import { AxiosInstance } from 'axios';
-import { LoadingStatus } from '@src/entities/statuses';
+import type { AxiosInstance } from 'axios';
+import type { LoadingStatus } from '@src/entities/statuses';
 
 type OffersState = {
   offers: Offer[];
@@ -21,6 +21,9 @@ const initialState = {
   offersError: false,
 } as OffersState;
 
+/**
+ * Загрузка объявлений
+ */
 export const fetchOffers = createAsyncThunk<
   Offer[],
   undefined,
@@ -59,8 +62,19 @@ export const offersSlice = createSlice({
   },
 });
 
+/**
+ * Объявления
+ */
 export const getOffers = (state: State): Offer[] => state.offers.offers;
+
+/**
+ * Статус загрузки объявлений
+ */
 export const getOffersLoadingStatus = (state: State): LoadingStatus =>
   state.offers.offersLoadingStatus;
+
+/**
+ * Статус ошибки по загрузке объявлений
+ */
 export const getOffersError = (state: State): boolean =>
   state.offers.offersError;

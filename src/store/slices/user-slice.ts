@@ -26,6 +26,9 @@ const initialState = {
   validation: INITIAL_VALIDATION,
 } as UserState;
 
+/**
+ * Проверка статуса авторизации пользователя
+ */
 export const checkAuth = createAsyncThunk<
   UserData,
   undefined,
@@ -38,6 +41,9 @@ export const checkAuth = createAsyncThunk<
   return data;
 });
 
+/**
+ * Авторизовать пользователя
+ */
 export const loginUser = createAsyncThunk<
   UserData,
   AuthData,
@@ -68,6 +74,9 @@ export const loginUser = createAsyncThunk<
   }
 );
 
+/**
+ * Разлогинить пользователя
+ */
 export const logoutUser = createAsyncThunk<
   void,
   undefined,
@@ -80,7 +89,7 @@ export const logoutUser = createAsyncThunk<
 });
 
 /**
- * Слайс для работы с предложениями
+ * Слайс для работы с авторизацией
  */
 export const userSlice = createSlice({
   name: 'user',
@@ -123,8 +132,19 @@ export const userSlice = createSlice({
   },
 });
 
+/**
+ * Статус авторизации
+ */
 export const getAuthStatus = (state: State): AuthStatus =>
   state.user.authStatus;
+
+/**
+ * Данные пользователя
+ */
 export const getUserData = (state: State): UserData => state.user.user;
+
+/**
+ * Валидация от сервера
+ */
 export const getValidation = (state: State): ValidationError[] =>
   state.user.validation;

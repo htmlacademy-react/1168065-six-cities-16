@@ -18,6 +18,9 @@ export const sortingSlice = createSlice({
   name: 'sorting',
   initialState,
   reducers: {
+    /**
+     * Установить значение текущей сортировки
+     */
     setActiveSorting: (state, action: PayloadAction<SortingConfig>) => {
       state.sorting = action.payload;
     },
@@ -25,4 +28,8 @@ export const sortingSlice = createSlice({
 });
 
 export const { setActiveSorting } = sortingSlice.actions;
+
+/**
+ * Значение текущей сортировки
+ */
 export const getActiveSorting = (state: State) => state.sorting.sorting;
