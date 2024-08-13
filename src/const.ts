@@ -4,7 +4,7 @@ import type { SortingConfig } from './entities/sorting';
 /**
  * Роут приложения
  */
-export enum AppRoute {
+export const enum AppRoute {
   Main = '/',
   Favourites = '/favourites',
   Login = '/login',
@@ -14,7 +14,7 @@ export enum AppRoute {
 /**
  * Статус авторизации
  */
-export enum AuthStatus {
+export const enum AuthStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
@@ -23,7 +23,7 @@ export enum AuthStatus {
 /**
  * Конфигурация городов
  */
-export const CITIES: Array<CityConfig> = [
+export const CITIES: CityConfig[] = [
   {
     slug: '/paris',
     name: 'Paris',
@@ -134,6 +134,9 @@ export const RATING_CONFIG = [
   },
 ];
 
+/**
+ * Значения для сортировки
+ */
 export const SortingOptionValue = {
   Popular: 'POPULAR',
   PriceLowToHigh: 'PRICE_LTH',
@@ -144,7 +147,7 @@ export const SortingOptionValue = {
 /**
  * Конфигурация опций для сортировки
  */
-export const SORTING_CONFIG: Array<SortingConfig> = [
+export const SORTING_CONFIG: SortingConfig[] = [
   {
     title: 'Popular',
     value: SortingOptionValue.Popular,
@@ -162,3 +165,7 @@ export const SORTING_CONFIG: Array<SortingConfig> = [
     value: SortingOptionValue.TopRatedFirst,
   },
 ];
+
+export const APIRoute = {
+  Offers: '/offers',
+} as const;
