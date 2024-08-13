@@ -1,8 +1,4 @@
-import {
-  createAsyncThunk,
-  createSlice,
-  type PayloadAction,
-} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { Offer } from '@src/entities/offers';
 import type { State } from '@src/entities/state';
 import { APIRoute } from '@src/const';
@@ -48,13 +44,10 @@ export const offersSlice = createSlice({
       .addCase(fetchOffers.pending, (state) => {
         state.offersLoadingStatus = true;
       })
-      .addCase(
-        fetchOffers.fulfilled,
-        (state, action: PayloadAction<Offer[]>) => {
-          state.offers = action.payload;
-          state.offersLoadingStatus = false;
-        }
-      )
+      .addCase(fetchOffers.fulfilled, (state, action) => {
+        state.offers = action.payload;
+        state.offersLoadingStatus = false;
+      })
       .addCase(fetchOffers.rejected, (state) => {
         state.offersLoadingStatus = false;
         state.offersError = true;

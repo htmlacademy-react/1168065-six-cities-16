@@ -1,14 +1,10 @@
-import {
-  createAsyncThunk,
-  createSlice,
-  type PayloadAction,
-} from '@reduxjs/toolkit';
-import type { State } from '@src/entities/state';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { APIRoute, AuthStatus } from '@src/const';
-import type { AxiosError, AxiosInstance } from 'axios';
 import type { AuthData, AuthError, ValidationError } from '@src/entities/auth';
+import type { State } from '@src/entities/state';
 import type { UserData } from '@src/entities/user';
 import { removeToken, setToken } from '@src/services/token';
+import type { AxiosInstance } from 'axios';
 import axios from 'axios';
 
 const INITIAL_USER = {} as UserData;
@@ -97,33 +93,26 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(
-        checkAuth.fulfilled,
-        (state, action: PayloadAction<UserData>) => {
-          state.authStatus = AuthStatus.Auth;
-          state.user = action.payload;
-        }
-      )
+      .addCase(checkAuth.fulfilled, (state, action) => {
+        state.authStatus = AuthStatus.Auth;
+        state.user = action.payload;
+      })
       .addCase(checkAuth.rejected, (state) => {
         state.authStatus = AuthStatus.NoAuth;
       })
-      .addCase(
-        loginUser.fulfilled,
-        (state, action: PayloadAction<UserData>) => {
-          state.authStatus = AuthStatus.Auth;
-          state.user = action.payload;
-          state.validation = INITIAL_VALIDATION;
-          setToken(action.payload.token ?? '');
-        }
-      )
-      // No overload matches this call.
-      .addCase(
-        loginUser.rejected,
-        (state, action: PayloadAction<AuthError>) => {
-          state.authStatus = AuthStatus.NoAuth;
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.authStatus = AuthStatus.Auth;
+        state.user = action.payload;
+        state.validation = INITIAL_VALIDATION;
+        setToken(action.payload.token ?? '');
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.authStatus = AuthStatus.NoAuth;
+
+        if (action.payload?.details) {
           state.validation = action.payload.details;
         }
-      )
+      })
       .addCase(logoutUser.fulfilled, (state) => {
         state.authStatus = AuthStatus.NoAuth;
         state.user = INITIAL_USER;
