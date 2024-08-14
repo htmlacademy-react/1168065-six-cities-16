@@ -75,6 +75,7 @@ export default function Map({
       className={`${bemblock}__map map`}
       style={size}
       ref={mapRef}
-    ></section>
+    >
+    </section>
   );
 }

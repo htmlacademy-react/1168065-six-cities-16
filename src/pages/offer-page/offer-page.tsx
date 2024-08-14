@@ -13,6 +13,9 @@ import { offers } from '@src/mocks/offers';
 import PlaceCard from '@src/components/place-card/place-card';
 import { capitalizeFirstLetter } from '@src/utils/formatters';
 import Map from '@src/components/map/map';
+import { useAppDispatch } from '@src/hooks/store-hooks';
+import { setActiveOffer } from '@src/store/slices/offers-slice';
+import { useEffect } from 'react';
 
 type OfferPageProps = {
   userStatus: AuthStatus;
@@ -23,6 +26,7 @@ type OfferPageProps = {
  */
 export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
   const {
+    id,
     images,
     isPremium,
     isFavorite,
@@ -36,6 +40,16 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
     host,
     description,
   } = singleOffer;
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setActiveOffer(id));
+
+    return () => {
+      dispatch(setActiveOffer(null));
+    };
+  }, []);
 
   const offersNearby = offers.slice(0, OFFER_MAX_NEARBY);
 
@@ -129,7 +143,6 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
 
           <Map
             bemblock="offer"
-            active={singleOffer}
             location={singleOffer.city.location}
             offers={[singleOffer, ...offersNearby]}
           />
