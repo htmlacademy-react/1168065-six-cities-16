@@ -1,26 +1,27 @@
-import {
-  createAsyncThunk,
-  createSlice,
-  type PayloadAction,
-} from '@reduxjs/toolkit';
-import type { Offer } from '@src/entities/offers';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { ActiveOffer, Offer } from '@src/entities/offers';
 import type { State } from '@src/entities/state';
 import { APIRoute } from '@src/const';
-import { AxiosInstance } from 'axios';
-import { Status } from '@src/entities/status';
+import type { AxiosInstance } from 'axios';
+import type { LoadingStatus } from '@src/entities/statuses';
 
 type OffersState = {
+  activeOffer: ActiveOffer;
   offers: Offer[];
-  offersLoadingStatus: Status;
+  offersLoadingStatus: LoadingStatus;
   offersError: boolean;
 };
 
 const initialState = {
+  activeOffer: null,
   offers: [],
   offersLoadingStatus: 'idle',
   offersError: false,
 } as OffersState;
 
+/**
+ * Загрузка объявлений
+ */
 export const fetchOffers = createAsyncThunk<
   Offer[],
   undefined,
@@ -39,19 +40,23 @@ export const fetchOffers = createAsyncThunk<
 export const offersSlice = createSlice({
   name: 'offers',
   initialState,
-  reducers: {},
+  reducers: {
+    /**
+     * Запись активного объявления
+     */
+    setActiveOffer: (state, action: PayloadAction<ActiveOffer>) => {
+      state.activeOffer = action.payload;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchOffers.pending, (state) => {
         state.offersLoadingStatus = true;
       })
-      .addCase(
-        fetchOffers.fulfilled,
-        (state, action: PayloadAction<Offer[]>) => {
-          state.offers = action.payload;
-          state.offersLoadingStatus = false;
-        }
-      )
+      .addCase(fetchOffers.fulfilled, (state, action) => {
+        state.offers = action.payload;
+        state.offersLoadingStatus = false;
+      })
       .addCase(fetchOffers.rejected, (state) => {
         state.offersLoadingStatus = false;
         state.offersError = true;
@@ -59,8 +64,27 @@ export const offersSlice = createSlice({
   },
 });
 
+export const { setActiveOffer } = offersSlice.actions;
+
+/**
+ * Объявления
+ */
 export const getOffers = (state: State): Offer[] => state.offers.offers;
-export const getOffersLoadingStatus = (state: State): Status =>
+
+/**
+ * Активное объявление
+ */
+export const getActiveOffer = (state: State): ActiveOffer =>
+  state.offers.activeOffer;
+
+/**
+ * Статус загрузки объявлений
+ */
+export const getOffersLoadingStatus = (state: State): LoadingStatus =>
   state.offers.offersLoadingStatus;
+
+/**
+ * Статус ошибки по загрузке объявлений
+ */
 export const getOffersError = (state: State): boolean =>
   state.offers.offersError;

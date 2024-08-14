@@ -4,7 +4,7 @@ import type { SortingConfig } from './entities/sorting';
 /**
  * Роут приложения
  */
-export const enum AppRoute {
+export enum AppRoute {
   Main = '/',
   Favourites = '/favourites',
   Login = '/login',
@@ -14,7 +14,7 @@ export const enum AppRoute {
 /**
  * Статус авторизации
  */
-export const enum AuthStatus {
+export enum AuthStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
@@ -166,6 +166,11 @@ export const SORTING_CONFIG: SortingConfig[] = [
   },
 ];
 
+/**
+ * Эндпоинты для запросов по апи
+ */
 export const APIRoute = {
   Offers: '/offers',
+  Login: '/login',
+  Logout: '/logout',
 } as const;

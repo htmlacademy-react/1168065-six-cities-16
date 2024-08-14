@@ -4,7 +4,7 @@ import Sorting from '@components/sorting/sorting';
 import Layout from '@components/layout/layout';
 import clsx from 'clsx';
 import PlaceCardList from './components/place-card-list';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import type { Offer, Location } from '@src/entities/offers';
 import { useAppDispatch, useAppSelector } from '@src/hooks/store-hooks';
 import {
@@ -13,8 +13,9 @@ import {
   getOffersLoadingStatus,
 } from '@src/store/slices/offers-slice';
 import { getActiveSorting } from '@src/store/slices/sorting-slice';
-import { SortingOptionValue } from '@src/const';
+import { AuthStatus, SortingOptionValue } from '@src/const';
 import Spinner from '@src/components/spinner/spinner';
+import { getAuthStatus } from '@src/store/slices/user-slice';
 
 /**
  * Если объявлений нет
@@ -46,16 +47,17 @@ export default function MainPage({
   city,
   location,
 }: MainPageProps): JSX.Element {
-  const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
-
+  const userStatus = useAppSelector(getAuthStatus);
   const offers = useAppSelector(getOffers);
   const activeSorting = useAppSelector(getActiveSorting);
   const offersLoadingStatus = useAppSelector(getOffersLoadingStatus);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchOffers());
-  }, [dispatch]);
+    if (userStatus !== AuthStatus.Unknown) {
+      dispatch(fetchOffers());
+    }
+  }, [userStatus]);
 
   // группируем полученные предложения по городам
   const offersByCity = useMemo(
@@ -113,10 +115,7 @@ export default function MainPage({
 
                   <Sorting />
 
-                  <PlaceCardList
-                    offers={offersByCitySorted}
-                    setSelectedOffer={setSelectedOffer}
-                  />
+                  <PlaceCardList offers={offersByCitySorted} />
                 </section>
               ) : (
                 <PlacesEmpty />
@@ -129,7 +128,6 @@ export default function MainPage({
                     size={{ height: '100%' }}
                     location={location}
                     offers={currentOffers}
-                    active={selectedOffer}
                   />
                 )}
               </div>
