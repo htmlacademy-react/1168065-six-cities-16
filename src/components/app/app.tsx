@@ -1,15 +1,19 @@
 import {
   createBrowserRouter,
   Navigate,
+  redirect,
   RouterProvider,
 } from 'react-router-dom';
-import { AppRoute, CITIES } from '@src/const';
+import { APIRoute, AppRoute, CITIES } from '@src/const';
 import OfferPage from '@src/pages/offer-page/offer-page';
 import MainPage from '@src/pages/main-page/main-page';
 import FavoritesPage from '@src/pages/favorites-page/favorites-page';
 import NotFoundPage from '@src/pages/error-page/not-found-page';
 import { PrivateRoute, PublicRoute } from '../access-route/access-route';
 import LoginPage from '@src/pages/login-page/login-page';
+import type { OfferDetailed, Offer } from '@src/entities/offers';
+import store, { api } from '@src/store';
+import { fetchNearbyOffers, fetchOfferDetails } from '@src/store/thunks/offers';
 
 export default function App(): JSX.Element {
   /**
@@ -65,30 +69,27 @@ export default function App(): JSX.Element {
         {
           path: ':id',
           element: <OfferPage />,
-          // loader: async ({ params: { id } }) => {
-          //   const { data: offerData } = await api.get<OfferDetailed>(
-          //     `${APIRoute.Offers}/${id}`
-          //   );
+          // loader: async ({ params }) => {
+          //   const id = params.id!; // id будет всегда
 
-          //   const { data: commentsData } = await api.get<Comment[]>(
-          //     `${APIRoute.Comments}/${id}`
-          //   );
+          //   const offerData = store.dispatch(fetchOfferDetails(id)).unwrap();
+          //   const nearbyOffersData = store
+          //     .dispatch(fetchNearbyOffers(id))
+          //     .unwrap();
 
-          //   const { data: nearbyOffersData } = await api.get<Offer[]>(
-          //     `${APIRoute.Offers}/${id}${APIRoute.Nearby}`
-          //   );
-
-          //   Promise.allSettled([
+          //   return await Promise.allSettled([
           //     offerData,
-          //     commentsData,
+          //     // commentsData,
           //     nearbyOffersData,
-          //   ]).then(([offer, comments, nearbyOffers]) => {
-          //     if (offer.status === 'rejected') {
-          //       redirect(AppRoute.NotFound);
-          //     }
-          //   });
+          //   ]).then(([offer]) => {
+          //     console.log(offer);
 
-          //   return null;
+          //     if (offer.status === 'rejected') {
+          //       return redirect(AppRoute.NotFound);
+          //     }
+
+          //     return null;
+          //   });
           // },
         },
       ],
