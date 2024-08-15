@@ -10,16 +10,14 @@ import FavoritesPage from '@src/pages/favorites-page/favorites-page';
 import NotFoundPage from '@src/pages/error-page/not-found-page';
 import { PrivateRoute, PublicRoute } from '../access-route/access-route';
 import LoginPage from '@src/pages/login-page/login-page';
-import { useAppDispatch, useAppSelector } from '@src/hooks/store-hooks';
-import { checkAuth, getAuthStatus } from '@src/store/slices/user-slice';
-import { useEffect } from 'react';
+import { useAppDispatch } from '@src/hooks/store-hooks';
+import { checkAuth } from '@src/store/slices/user-slice';
+import { useLayoutEffect } from 'react';
 
 export default function App(): JSX.Element {
-  const userStatus = useAppSelector(getAuthStatus);
-
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     dispatch(checkAuth());
   }, []);
 
@@ -59,11 +57,11 @@ export default function App(): JSX.Element {
       errorElement: <NotFoundPage />,
     },
     {
-      element: <PrivateRoute status={userStatus} />,
+      element: <PrivateRoute />,
       children: privateRoutes,
     },
     {
-      element: <PublicRoute status={userStatus} />,
+      element: <PublicRoute />,
       children: publicRoutes,
     },
     {
@@ -71,7 +69,7 @@ export default function App(): JSX.Element {
       children: [
         {
           path: ':id',
-          element: <OfferPage userStatus={userStatus} />,
+          element: <OfferPage />,
         },
       ],
     },

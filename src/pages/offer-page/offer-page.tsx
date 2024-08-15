@@ -13,18 +13,15 @@ import { offers } from '@src/mocks/offers';
 import PlaceCard from '@src/components/place-card/place-card';
 import { capitalizeFirstLetter } from '@src/utils/formatters';
 import Map from '@src/components/map/map';
-import { useAppDispatch } from '@src/hooks/store-hooks';
+import { useAppDispatch, useAppSelector } from '@src/hooks/store-hooks';
 import { setActiveOffer } from '@src/store/slices/offers-slice';
 import { useEffect } from 'react';
-
-type OfferPageProps = {
-  userStatus: AuthStatus;
-};
+import { getAuthStatus } from '@src/store/slices/user-slice';
 
 /**
  * Страница предложения
  */
-export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
+export default function OfferPage(): JSX.Element {
   const {
     id,
     images,
@@ -41,6 +38,7 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
     description,
   } = singleOffer;
 
+  const userStatus = useAppSelector(getAuthStatus);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
