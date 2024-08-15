@@ -6,7 +6,7 @@ import type { SortingConfig } from './entities/sorting';
  */
 export enum AppRoute {
   Main = '/',
-  Favorites = '/Favorites',
+  Favorites = '/favorites',
   Login = '/login',
   Offer = '/offer',
 }
