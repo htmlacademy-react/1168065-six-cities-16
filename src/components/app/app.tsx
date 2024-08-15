@@ -3,24 +3,18 @@ import {
   Navigate,
   RouterProvider,
 } from 'react-router-dom';
-import { AppRoute, CITIES } from '@src/const';
+import { APIRoute, AppRoute, CITIES } from '@src/const';
 import OfferPage from '@src/pages/offer-page/offer-page';
 import MainPage from '@src/pages/main-page/main-page';
 import FavoritesPage from '@src/pages/favorites-page/favorites-page';
 import NotFoundPage from '@src/pages/error-page/not-found-page';
 import { PrivateRoute, PublicRoute } from '../access-route/access-route';
 import LoginPage from '@src/pages/login-page/login-page';
-import { useAppDispatch } from '@src/hooks/store-hooks';
-import { checkAuth } from '@src/store/slices/user-slice';
-import { useLayoutEffect } from 'react';
+import { api } from '@src/store';
+import type { Offer, OfferDetailed } from '@src/entities/offers';
+import type { Comment } from '@src/entities/comments';
 
 export default function App(): JSX.Element {
-  const dispatch = useAppDispatch();
-
-  useLayoutEffect(() => {
-    dispatch(checkAuth());
-  }, []);
-
   /**
    * Сгенерированные роуты по городам
    */
@@ -54,7 +48,11 @@ export default function App(): JSX.Element {
       path: AppRoute.Main,
       element: <Navigate to={CITIES[0].slug} />,
       index: true,
-      errorElement: <NotFoundPage />,
+      errorElement: <Navigate to={AppRoute.NotFound} />,
+    },
+    {
+      path: AppRoute.NotFound,
+      element: <NotFoundPage />,
     },
     {
       element: <PrivateRoute />,
@@ -70,6 +68,31 @@ export default function App(): JSX.Element {
         {
           path: ':id',
           element: <OfferPage />,
+          // loader: async ({ params: { id } }) => {
+          //   const { data: offerData } = await api.get<OfferDetailed>(
+          //     `${APIRoute.Offers}/${id}`
+          //   );
+
+          //   const { data: commentsData } = await api.get<Comment[]>(
+          //     `${APIRoute.Comments}/${id}`
+          //   );
+
+          //   const { data: nearbyOffersData } = await api.get<Offer[]>(
+          //     `${APIRoute.Offers}/${id}${APIRoute.Nearby}`
+          //   );
+
+          //   return Promise.allSettled([
+          //     offerData,
+          //     commentsData,
+          //     nearbyOffersData,
+          //   ]).then((results) => {
+          //     results.forEach((result) => {
+          //       if (result.status === 'fulfilled') {
+          //         console.log(result);
+          //       }
+          //     });
+          //   });
+          // },
         },
       ],
     },

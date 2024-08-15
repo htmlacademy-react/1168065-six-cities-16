@@ -9,6 +9,7 @@ export enum AppRoute {
   Favorites = '/favorites',
   Login = '/login',
   Offer = '/offer',
+  NotFound = '/404',
 }
 
 /**
@@ -173,4 +174,6 @@ export const APIRoute = {
   Offers: '/offers',
   Login: '/login',
   Logout: '/logout',
+  Comments: '/comments',
+  Nearby: '/nearby',
 } as const;
