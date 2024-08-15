@@ -74,7 +74,7 @@ export default function PlaceCard(props: PlaceCard): JSX.Element {
 
         {/* Название и тип */}
         <h2 className="place-card__name">
-          <a href="#">{title}</a>
+          <Link to={`${AppRoute.Offer}/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{capitalizeFirstLetter(type)}</p>
       </div>

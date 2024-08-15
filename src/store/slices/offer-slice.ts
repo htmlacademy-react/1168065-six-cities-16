@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { Offer, OfferDetailed } from '@src/entities/offers';
 import type { State } from '@src/entities/state';
 import type { LoadingStatus } from '@src/entities/statuses';
-import { fetchNearbyOffers, fetchOfferDetails } from '../thunks/offers';
+import { fetchNearbyOffers, fetchOfferDetails } from '../thunks/offer';
 import type { Status } from '@src/entities/status';
 
 type OfferState = {
@@ -56,4 +56,4 @@ export const getNearbyOffers = (state: State): Offer[] => state.offer.nearby;
  * Статус загрузки объявления
  */
 export const getOfferLoadingStatus = (state: State): LoadingStatus =>
-  state.offers.offersLoadingStatus;
+  state.offer.offerLoadingStatus;

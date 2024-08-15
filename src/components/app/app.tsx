@@ -13,7 +13,7 @@ import { PrivateRoute, PublicRoute } from '../access-route/access-route';
 import LoginPage from '@src/pages/login-page/login-page';
 import type { OfferDetailed, Offer } from '@src/entities/offers';
 import store, { api } from '@src/store';
-import { fetchNearbyOffers, fetchOfferDetails } from '@src/store/thunks/offers';
+import { fetchNearbyOffers, fetchOfferDetails } from '@src/store/thunks/offer';
 
 export default function App(): JSX.Element {
   /**
