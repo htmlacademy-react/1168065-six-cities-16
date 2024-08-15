@@ -9,8 +9,6 @@ import { getComments } from '@src/store/slices/comments-slice';
 import { getNearbyOffers, getOfferInfo } from '@src/store/slices/offer-slice';
 import { setActiveOffer } from '@src/store/slices/offers-slice';
 import { getAuthStatus } from '@src/store/slices/user-slice';
-import { fetchComments } from '@src/store/thunks/comments';
-import { fetchNearbyOffers, fetchOfferDetails } from '@src/store/thunks/offer';
 import { capitalizeFirstLetter } from '@src/utils/formatters';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -53,19 +51,12 @@ export default function OfferPage(): JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (id) {
-      Promise.allSettled([
-        dispatch(setActiveOffer(id)),
-        dispatch(fetchOfferDetails(id)),
-        dispatch(fetchComments(id)),
-        dispatch(fetchNearbyOffers(id)),
-      ]);
-    }
+    dispatch(setActiveOffer(id!));
 
     return () => {
       dispatch(setActiveOffer(null));
     };
-  }, [id]);
+  }, []);
 
   return (
     <Layout className="page">

@@ -1,4 +1,4 @@
-import React from 'react';
+import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from '@components/app/app';
 import { Provider } from 'react-redux';
@@ -12,9 +12,9 @@ const root = ReactDOM.createRoot(
 store.dispatch(checkAuth());
 
 root.render(
-  <React.StrictMode>
+  <StrictMode>
     <Provider store={store}>
       <App />
     </Provider>
-  </React.StrictMode>
+  </StrictMode>
 );

@@ -1,19 +1,16 @@
 import {
   createBrowserRouter,
   Navigate,
-  redirect,
   RouterProvider,
 } from 'react-router-dom';
-import { APIRoute, AppRoute, CITIES } from '@src/const';
+import { AppRoute, CITIES } from '@src/const';
 import OfferPage from '@src/pages/offer-page/offer-page';
 import MainPage from '@src/pages/main-page/main-page';
 import FavoritesPage from '@src/pages/favorites-page/favorites-page';
 import NotFoundPage from '@src/pages/error-page/not-found-page';
 import { PrivateRoute, PublicRoute } from '../access-route/access-route';
 import LoginPage from '@src/pages/login-page/login-page';
-import type { OfferDetailed, Offer } from '@src/entities/offers';
-import store, { api } from '@src/store';
-import { fetchNearbyOffers, fetchOfferDetails } from '@src/store/thunks/offer';
+import { offerLoader } from '@src/pages/offer-page/loader';
 
 export default function App(): JSX.Element {
   /**
@@ -69,28 +66,7 @@ export default function App(): JSX.Element {
         {
           path: ':id',
           element: <OfferPage />,
-          // loader: async ({ params }) => {
-          //   const id = params.id!; // id будет всегда
-
-          //   const offerData = store.dispatch(fetchOfferDetails(id)).unwrap();
-          //   const nearbyOffersData = store
-          //     .dispatch(fetchNearbyOffers(id))
-          //     .unwrap();
-
-          //   return await Promise.allSettled([
-          //     offerData,
-          //     // commentsData,
-          //     nearbyOffersData,
-          //   ]).then(([offer]) => {
-          //     console.log(offer);
-
-          //     if (offer.status === 'rejected') {
-          //       return redirect(AppRoute.NotFound);
-          //     }
-
-          //     return null;
-          //   });
-          // },
+          loader: offerLoader,
         },
       ],
     },
