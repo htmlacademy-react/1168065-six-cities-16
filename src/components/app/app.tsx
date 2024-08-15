@@ -6,7 +6,7 @@ import {
 import { AppRoute, CITIES } from '@src/const';
 import OfferPage from '@src/pages/offer-page/offer-page';
 import MainPage from '@src/pages/main-page/main-page';
-import FavouritesPage from '@src/pages/favourites-page/favourites-page';
+import FavoritesPage from '@src/pages/Favorites-page/Favorites-page';
 import NotFoundPage from '@src/pages/error-page/not-found-page';
 import { PrivateRoute, PublicRoute } from '../access-route/access-route';
 import LoginPage from '@src/pages/login-page/login-page';
@@ -36,8 +36,8 @@ export default function App(): JSX.Element {
    */
   const privateRoutes = [
     {
-      path: AppRoute.Favourites,
-      element: <FavouritesPage />,
+      path: AppRoute.Favorites,
+      element: <FavoritesPage />,
     },
   ];
 
