@@ -8,7 +8,6 @@ import { useEffect, useMemo } from 'react';
 import type { Offer, Location } from '@src/entities/offers';
 import { useAppDispatch, useAppSelector } from '@src/hooks/store-hooks';
 import {
-  fetchOffers,
   getOffers,
   getOffersLoadingStatus,
 } from '@src/store/slices/offers-slice';
@@ -16,6 +15,7 @@ import { getActiveSorting } from '@src/store/slices/sorting-slice';
 import { AuthStatus, SortingOptionValue } from '@src/const';
 import Spinner from '@src/components/spinner/spinner';
 import { getAuthStatus } from '@src/store/slices/user-slice';
+import { fetchOffers } from '@src/store/thunks/offers';
 
 /**
  * Если объявлений нет

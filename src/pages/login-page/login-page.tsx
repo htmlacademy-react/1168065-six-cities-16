@@ -2,7 +2,8 @@ import Layout from '@components/layout/layout';
 import { AppRoute } from '@src/const';
 import type { AuthData } from '@src/entities/auth';
 import { useAppDispatch } from '@src/hooks/store-hooks';
-import { loginUser } from '@src/store/slices/user-slice';
+import { loginUser } from '@src/store/thunks/user';
+
 import { useRef, type FormEvent, type ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 

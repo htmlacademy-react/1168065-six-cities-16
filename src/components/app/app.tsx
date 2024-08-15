@@ -3,16 +3,13 @@ import {
   Navigate,
   RouterProvider,
 } from 'react-router-dom';
-import { APIRoute, AppRoute, CITIES } from '@src/const';
+import { AppRoute, CITIES } from '@src/const';
 import OfferPage from '@src/pages/offer-page/offer-page';
 import MainPage from '@src/pages/main-page/main-page';
 import FavoritesPage from '@src/pages/favorites-page/favorites-page';
 import NotFoundPage from '@src/pages/error-page/not-found-page';
 import { PrivateRoute, PublicRoute } from '../access-route/access-route';
 import LoginPage from '@src/pages/login-page/login-page';
-import { api } from '@src/store';
-import type { Offer, OfferDetailed } from '@src/entities/offers';
-import type { Comment } from '@src/entities/comments';
 
 export default function App(): JSX.Element {
   /**
@@ -81,17 +78,17 @@ export default function App(): JSX.Element {
           //     `${APIRoute.Offers}/${id}${APIRoute.Nearby}`
           //   );
 
-          //   return Promise.allSettled([
+          //   Promise.allSettled([
           //     offerData,
           //     commentsData,
           //     nearbyOffersData,
-          //   ]).then((results) => {
-          //     results.forEach((result) => {
-          //       if (result.status === 'fulfilled') {
-          //         console.log(result);
-          //       }
-          //     });
+          //   ]).then(([offer, comments, nearbyOffers]) => {
+          //     if (offer.status === 'rejected') {
+          //       redirect(AppRoute.NotFound);
+          //     }
           //   });
+
+          //   return null;
           // },
         },
       ],

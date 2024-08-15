@@ -1,10 +1,7 @@
 import { AppRoute, AuthStatus } from '@src/const';
 import { useAppDispatch, useAppSelector } from '@src/hooks/store-hooks';
-import {
-  getAuthStatus,
-  getUserData,
-  logoutUser,
-} from '@src/store/slices/user-slice';
+import { getAuthStatus, getUserData } from '@src/store/slices/user-slice';
+import { logoutUser } from '@src/store/thunks/user';
 import { Link } from 'react-router-dom';
 
 /**
