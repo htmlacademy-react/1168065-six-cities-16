@@ -59,6 +59,7 @@ export default function LoginPage(): JSX.Element {
                   type="email"
                   name="email"
                   placeholder="Email"
+                  pattern="/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/"
                   required
                 />
               </div>
@@ -70,6 +71,7 @@ export default function LoginPage(): JSX.Element {
                   name="password"
                   placeholder="Password"
                   required
+                  pattern="^(?=.*[a-zA-Z])(?=.*\d).+$"
                   onChange={handlePasswordInput}
                 />
               </div>
