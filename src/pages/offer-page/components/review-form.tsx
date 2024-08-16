@@ -1,12 +1,24 @@
 import { COMMENT_LENGTH, RATING_CONFIG } from '@src/const';
-import { type FormEvent, Fragment, useState } from 'react';
+import { useAppDispatch } from '@src/hooks/store-hooks';
+import { postComment } from '@src/store/thunks/comments';
+import { type FormEvent, Fragment, useRef, useState } from 'react';
+
+type ReviewFormProps = {
+  offerID: string;
+};
+
+const INITIAL_RATING = 0;
+const INITIAL_COMMENT = '';
 
 /**
  * Компонент формы отзыва
  */
-export default function ReviewForm() {
-  const [rating, setRating] = useState<number>(0);
-  const [comment, setComment] = useState<string>('');
+export default function ReviewForm({ offerID }: ReviewFormProps) {
+  const [rating, setRating] = useState<number>(INITIAL_RATING);
+  const [comment, setComment] = useState<string>(INITIAL_COMMENT);
+
+  const dispatch = useAppDispatch();
+  const formRef = useRef<HTMLFormElement>(null);
 
   const validateForm = () =>
     rating &&
@@ -20,13 +32,18 @@ export default function ReviewForm() {
 
     const formData = { rating, comment };
 
-    // Добавил временный вывод в консоль
-    // eslint-disable-next-line no-console
-    console.log(formData);
+    dispatch(postComment({ offerID, ...formData }))
+      .unwrap()
+      .then(() => {
+        formRef.current?.reset();
+        setRating(INITIAL_RATING);
+        setComment(INITIAL_COMMENT);
+      });
   };
 
   return (
     <form
+      ref={formRef}
       className="reviews__form form"
       action="#"
       method="post"
@@ -45,7 +62,8 @@ export default function ReviewForm() {
               id={id}
               type="radio"
               onChange={(evt) =>
-                setRating(Number.parseInt(evt.target.value, 10))}
+                setRating(Number.parseInt(evt.target.value, 10))
+              }
             />
             <label
               htmlFor={id}

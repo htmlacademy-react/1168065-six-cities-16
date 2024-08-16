@@ -145,7 +145,7 @@ export default function OfferPage(): JSX.Element {
                 {comments?.length > 0 && <Comments comments={comments} />}
 
                 {/* Форма отправки отзыва (для авторизованного пользователя) */}
-                {userStatus === AuthStatus.Auth && <ReviewForm />}
+                {userStatus === AuthStatus.Auth && <ReviewForm offerID={id!} />}
               </section>
             </div>
           </div>

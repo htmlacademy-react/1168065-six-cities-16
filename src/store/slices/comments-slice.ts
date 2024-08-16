@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { State } from '@src/entities/state';
-import { Comment } from '@src/entities/comments';
-import { fetchComments } from '../thunks/comments';
+import type { Comment } from '@src/entities/comments';
+import { fetchComments, postComment } from '../thunks/comments';
 
 type CommentsState = {
   comments: Comment[];
@@ -19,9 +19,13 @@ export const commentsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers(builder) {
-    builder.addCase(fetchComments.fulfilled, (state, action) => {
-      state.comments = action.payload;
-    });
+    builder
+      .addCase(fetchComments.fulfilled, (state, action) => {
+        state.comments = action.payload;
+      })
+      .addCase(postComment.fulfilled, (state, action) => {
+        state.comments.push(action.payload);
+      });
   },
 });
 
