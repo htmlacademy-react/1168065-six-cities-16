@@ -1,7 +1,9 @@
 import { COMMENT_LENGTH, RATING_CONFIG } from '@src/const';
-import { useAppDispatch } from '@src/hooks/store-hooks';
+import { useAppDispatch, useAppSelector } from '@src/hooks/store-hooks';
+import { getCommentSubmitStatus } from '@src/store/slices/comments-slice';
 import { postComment } from '@src/store/thunks/comments';
 import { type FormEvent, Fragment, useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 
 type ReviewFormProps = {
   offerID: string;
@@ -17,15 +19,17 @@ export default function ReviewForm({ offerID }: ReviewFormProps) {
   const [rating, setRating] = useState<number>(INITIAL_RATING);
   const [comment, setComment] = useState<string>(INITIAL_COMMENT);
 
-  const dispatch = useAppDispatch();
   const formRef = useRef<HTMLFormElement>(null);
+
+  const submitStatus = useAppSelector(getCommentSubmitStatus);
+  const dispatch = useAppDispatch();
 
   const validateForm = () =>
     rating &&
     comment.length >= COMMENT_LENGTH.min &&
     comment.length <= COMMENT_LENGTH.max;
 
-  const isDisabled = !validateForm();
+  const isDisabled = !validateForm() || submitStatus === true;
 
   const formSubmitHandler = (evt: FormEvent) => {
     evt.preventDefault();
@@ -35,10 +39,12 @@ export default function ReviewForm({ offerID }: ReviewFormProps) {
     dispatch(postComment({ offerID, ...formData }))
       .unwrap()
       .then(() => {
+        toast.success('Your review has been added successfully');
         formRef.current?.reset();
         setRating(INITIAL_RATING);
         setComment(INITIAL_COMMENT);
-      });
+      })
+      .catch(() => toast.error('An error occured'));
   };
 
   return (
