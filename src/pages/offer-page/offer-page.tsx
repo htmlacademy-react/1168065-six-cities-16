@@ -3,14 +3,14 @@ import BookmarkButton from '@src/components/bookmark-button/bookmark-button';
 import Map from '@src/components/map/map';
 import PlaceCard from '@src/components/place-card/place-card';
 import Rating from '@src/components/rating/rating';
-import { AuthStatus, OFFER_MAX_NEARBY } from '@src/const';
+import { AuthStatus, OFFER_MAX_COMMENTS, OFFER_MAX_NEARBY } from '@src/const';
 import { useAppDispatch, useAppSelector } from '@src/hooks/store-hooks';
 import { getComments } from '@src/store/slices/comments-slice';
 import { getNearbyOffers, getOfferInfo } from '@src/store/slices/offer-slice';
 import { setActiveOffer } from '@src/store/slices/offers-slice';
 import { getAuthStatus } from '@src/store/slices/user-slice';
 import { capitalizeFirstLetter } from '@src/utils/formatters';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import Comments from './components/comments';
 import Gallery from './components/gallery';
@@ -47,6 +47,14 @@ export default function OfferPage(): JSX.Element {
     description,
     city,
   } = offerDetails;
+
+  const commentsToShow = useMemo(
+    () =>
+      comments
+        .toSorted((a, b) => b.date.localeCompare(a.date))
+        .slice(0, OFFER_MAX_COMMENTS),
+    [comments]
+  );
 
   const dispatch = useAppDispatch();
 
@@ -142,7 +150,7 @@ export default function OfferPage(): JSX.Element {
                 </h2>
 
                 {/* Отзывы */}
-                {comments?.length > 0 && <Comments comments={comments} />}
+                {comments?.length > 0 && <Comments comments={commentsToShow} />}
 
                 {/* Форма отправки отзыва (для авторизованного пользователя) */}
                 {userStatus === AuthStatus.Auth && <ReviewForm offerID={id!} />}
