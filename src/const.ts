@@ -6,9 +6,10 @@ import type { SortingConfig } from './entities/sorting';
  */
 export enum AppRoute {
   Main = '/',
-  Favourites = '/favourites',
+  Favorites = '/favorites',
   Login = '/login',
   Offer = '/offer',
+  NotFound = '/404',
 }
 
 /**
@@ -173,4 +174,6 @@ export const APIRoute = {
   Offers: '/offers',
   Login: '/login',
   Logout: '/logout',
+  Comments: '/comments',
+  Nearby: '/nearby',
 } as const;

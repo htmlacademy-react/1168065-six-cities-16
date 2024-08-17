@@ -1,6 +1,5 @@
 import type { Comment } from '@src/entities/comments';
 import Rating from '@src/components/rating/rating';
-import { OFFER_MAX_COMMENTS } from '@src/const';
 
 type CommentsProps = {
   comments: Array<Comment>;
@@ -12,7 +11,7 @@ type CommentsProps = {
 export default function Comments({ comments }: CommentsProps) {
   return (
     <ul className="reviews__list">
-      {comments.slice(0, OFFER_MAX_COMMENTS).map((item: Comment) => {
+      {comments.map((item: Comment) => {
         const { id, date, user, comment, rating } = item;
         const { name, avatarUrl } = user;
 

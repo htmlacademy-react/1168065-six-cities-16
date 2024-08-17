@@ -1,14 +1,14 @@
 import Layout from '@components/layout/layout';
-import { favourites as favouritesMocks } from '@src/mocks/favourites';
+import { Favorites as FavoritesMocks } from '@src/mocks/favorites';
 import clsx from 'clsx';
-import { OffersByCity, Offer } from '@src/entities/offers';
+import type { OffersByCity, Offer } from '@src/entities/offers';
 import { useState } from 'react';
 import PlaceCard from '@src/components/place-card/place-card';
 
 /**
  * Компонент страницы избранного при отсутствии добавленных объявлений
  */
-function FavouritesEmpty(): JSX.Element {
+function FavoritesEmpty(): JSX.Element {
   return (
     <div className="favorites__status-wrapper">
       <b className="favorites__status">Nothing yet saved.</b>
@@ -22,24 +22,24 @@ function FavouritesEmpty(): JSX.Element {
 /**
  * Страница избранного
  */
-export default function FavouritesPage(): JSX.Element {
-  const [favourites] = useState<Offer[]>(favouritesMocks);
-  const [favouritesByCity] = useState<OffersByCity>(
-    Object.groupBy(favourites, ({ city }: Offer) => city.name)
+export default function FavoritesPage(): JSX.Element {
+  const [Favorites] = useState<Offer[]>(FavoritesMocks);
+  const [FavoritesByCity] = useState<OffersByCity>(
+    Object.groupBy(Favorites, ({ city }: Offer) => city.name)
   );
 
   const layoutClasses = clsx(
     'page',
-    favourites?.length === 0 && 'page--favorites-empty'
+    Favorites?.length === 0 && 'page--favorites-empty'
   );
 
   const mainClasses = clsx(
     'page__main page__main--favorites',
-    favourites?.length === 0 && 'page__main--favorites-empty'
+    Favorites?.length === 0 && 'page__main--favorites-empty'
   );
 
   const pageHeading =
-    favourites?.length > 0 ? 'Saved listing' : 'Favorites (empty)';
+    Favorites?.length > 0 ? 'Saved listing' : 'Favorites (empty)';
 
   return (
     <Layout className={layoutClasses} showFooter>
@@ -48,9 +48,9 @@ export default function FavouritesPage(): JSX.Element {
           <section className="favorites">
             <h1 className="favorites__title">{pageHeading}</h1>
 
-            {favourites?.length > 0 ? (
+            {Favorites?.length > 0 ? (
               <ul className="favorites__list">
-                {Object.entries(favouritesByCity).map((item) => {
+                {Object.entries(FavoritesByCity).map((item) => {
                   const [city, offers] = item;
 
                   return (
@@ -80,7 +80,7 @@ export default function FavouritesPage(): JSX.Element {
                 })}
               </ul>
             ) : (
-              <FavouritesEmpty />
+              <FavoritesEmpty />
             )}
           </section>
         </div>

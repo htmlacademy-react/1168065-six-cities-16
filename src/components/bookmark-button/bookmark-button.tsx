@@ -16,6 +16,7 @@ export default function BookmarkButton({
   bemblock,
   isFavorite,
   iconSize,
+  ...props
 }: BookmarkButtonProps) {
   const bookmarkClass: string = clsx(
     `${bemblock}__bookmark-button button`,
@@ -23,7 +24,7 @@ export default function BookmarkButton({
   );
 
   return (
-    <button className={bookmarkClass} type="button">
+    <button className={bookmarkClass} type="button" {...props}>
       <svg className={`${bemblock}__bookmark-icon`} style={{ ...iconSize }}>
         <use xlinkHref="#icon-bookmark"></use>
       </svg>

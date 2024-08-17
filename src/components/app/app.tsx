@@ -6,23 +6,13 @@ import {
 import { AppRoute, CITIES } from '@src/const';
 import OfferPage from '@src/pages/offer-page/offer-page';
 import MainPage from '@src/pages/main-page/main-page';
-import FavouritesPage from '@src/pages/favourites-page/favourites-page';
+import FavoritesPage from '@src/pages/favorites-page/favorites-page';
 import NotFoundPage from '@src/pages/error-page/not-found-page';
 import { PrivateRoute, PublicRoute } from '../access-route/access-route';
 import LoginPage from '@src/pages/login-page/login-page';
-import { useAppDispatch, useAppSelector } from '@src/hooks/store-hooks';
-import { checkAuth, getAuthStatus } from '@src/store/slices/user-slice';
-import { useEffect } from 'react';
+import { offerLoader } from '@src/pages/offer-page/loader';
 
 export default function App(): JSX.Element {
-  const userStatus = useAppSelector(getAuthStatus);
-
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(checkAuth());
-  }, []);
-
   /**
    * Сгенерированные роуты по городам
    */
@@ -36,8 +26,8 @@ export default function App(): JSX.Element {
    */
   const privateRoutes = [
     {
-      path: AppRoute.Favourites,
-      element: <FavouritesPage />,
+      path: AppRoute.Favorites,
+      element: <FavoritesPage />,
     },
   ];
 
@@ -56,14 +46,18 @@ export default function App(): JSX.Element {
       path: AppRoute.Main,
       element: <Navigate to={CITIES[0].slug} />,
       index: true,
-      errorElement: <NotFoundPage />,
+      errorElement: <Navigate to={AppRoute.NotFound} />,
     },
     {
-      element: <PrivateRoute status={userStatus} />,
+      path: AppRoute.NotFound,
+      element: <NotFoundPage />,
+    },
+    {
+      element: <PrivateRoute />,
       children: privateRoutes,
     },
     {
-      element: <PublicRoute status={userStatus} />,
+      element: <PublicRoute />,
       children: publicRoutes,
     },
     {
@@ -71,7 +65,8 @@ export default function App(): JSX.Element {
       children: [
         {
           path: ':id',
-          element: <OfferPage userStatus={userStatus} />,
+          element: <OfferPage />,
+          loader: offerLoader,
         },
       ],
     },

@@ -1,15 +1,15 @@
 import { AppRoute, AuthStatus } from '@src/const';
 import { Navigate, Outlet } from 'react-router-dom';
 import Spinner from '../spinner/spinner';
-
-type AccessRouteProps = {
-  status: AuthStatus;
-};
+import { useAppSelector } from '@src/hooks/store-hooks';
+import { getAuthStatus } from '@src/store/slices/user-slice';
 
 const createAccessRoute = (statusToCheck: AuthStatus, fallback: AppRoute) =>
-  function AccessRoute({ status }: AccessRouteProps) {
+  function AccessRoute() {
+    const userStatus = useAppSelector(getAuthStatus);
+
     // сравниваем переданный статус и возвращаем нужный элемент
-    switch (status) {
+    switch (userStatus) {
       // вернет страницу при соответствии
       case statusToCheck:
         return <Outlet />;

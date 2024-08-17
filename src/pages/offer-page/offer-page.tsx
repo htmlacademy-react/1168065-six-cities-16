@@ -1,32 +1,38 @@
 import Layout from '@components/layout/layout';
 import BookmarkButton from '@src/components/bookmark-button/bookmark-button';
+import Map from '@src/components/map/map';
+import PlaceCard from '@src/components/place-card/place-card';
 import Rating from '@src/components/rating/rating';
-import { AuthStatus, OFFER_MAX_NEARBY } from '@src/const';
-import { comments } from '@src/mocks/comments';
-import { singleOffer } from '@src/mocks/single-offer';
+import { AuthStatus, OFFER_MAX_COMMENTS, OFFER_MAX_NEARBY } from '@src/const';
+import { useAppDispatch, useAppSelector } from '@src/hooks/store-hooks';
+import { getComments } from '@src/store/slices/comments-slice';
+import { getNearbyOffers, getOfferInfo } from '@src/store/slices/offer-slice';
+import { setActiveOffer } from '@src/store/slices/offers-slice';
+import { getAuthStatus } from '@src/store/slices/user-slice';
+import { capitalizeFirstLetter } from '@src/utils/formatters';
+import { useEffect, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
+import Comments from './components/comments';
 import Gallery from './components/gallery';
 import Goods from './components/goods';
 import Host from './components/host';
-import Comments from './components/comments';
 import ReviewForm from './components/review-form';
-import { offers } from '@src/mocks/offers';
-import PlaceCard from '@src/components/place-card/place-card';
-import { capitalizeFirstLetter } from '@src/utils/formatters';
-import Map from '@src/components/map/map';
-import { useAppDispatch } from '@src/hooks/store-hooks';
-import { setActiveOffer } from '@src/store/slices/offers-slice';
-import { useEffect } from 'react';
-
-type OfferPageProps = {
-  userStatus: AuthStatus;
-};
 
 /**
  * Страница предложения
  */
-export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
+export default function OfferPage(): JSX.Element {
+  const { id } = useParams();
+
+  const userStatus = useAppSelector(getAuthStatus);
+  const offerDetails = useAppSelector(getOfferInfo);
+  const comments = useAppSelector(getComments);
+  const nearbyOffers = useAppSelector(getNearbyOffers).slice(
+    0,
+    OFFER_MAX_NEARBY
+  );
+
   const {
-    id,
     images,
     isPremium,
     isFavorite,
@@ -39,19 +45,26 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
     goods,
     host,
     description,
-  } = singleOffer;
+    city,
+  } = offerDetails;
+
+  const commentsToShow = useMemo(
+    () =>
+      comments
+        .toSorted((a, b) => b.date.localeCompare(a.date))
+        .slice(0, OFFER_MAX_COMMENTS),
+    [comments]
+  );
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(setActiveOffer(id));
+    dispatch(setActiveOffer(id!));
 
     return () => {
       dispatch(setActiveOffer(null));
     };
   }, []);
-
-  const offersNearby = offers.slice(0, OFFER_MAX_NEARBY);
 
   return (
     <Layout className="page">
@@ -84,27 +97,31 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
               {rating && <Rating bemblock="offer" rating={rating} />}
 
               {/* Основные характеристики */}
-              <ul className="offer__features">
-                <li className="offer__feature offer__feature--entire">
-                  {capitalizeFirstLetter(type)}
-                </li>
-                {bedrooms && (
-                  <li className="offer__feature offer__feature--bedrooms">
-                    {bedrooms} Bedrooms
+              {type && (
+                <ul className="offer__features">
+                  <li className="offer__feature offer__feature--entire">
+                    {capitalizeFirstLetter(type)}
                   </li>
-                )}
-                {maxAdults && (
-                  <li className="offer__feature offer__feature--adults">
-                    Max {maxAdults} adults
-                  </li>
-                )}
-              </ul>
+                  {bedrooms && (
+                    <li className="offer__feature offer__feature--bedrooms">
+                      {bedrooms} Bedrooms
+                    </li>
+                  )}
+                  {maxAdults && (
+                    <li className="offer__feature offer__feature--adults">
+                      Max {maxAdults} adults
+                    </li>
+                  )}
+                </ul>
+              )}
 
               {/* Цена */}
-              <div className="offer__price">
-                <b className="offer__price-value">&euro;{price}</b>
-                <span className="offer__price-text">&nbsp;night</span>
-              </div>
+              {price && (
+                <div className="offer__price">
+                  <b className="offer__price-value">&euro;{price}</b>
+                  <span className="offer__price-text">&nbsp;night</span>
+                </div>
+              )}
 
               {/* Удобства */}
               {goods?.length > 0 && <Goods goods={goods} />}
@@ -113,7 +130,7 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
                 <h2 className="offer__host-title">Meet the host</h2>
 
                 {/* Хост */}
-                <Host host={host} />
+                {host && <Host host={host} />}
 
                 {/* Описание места */}
                 {description && (
@@ -128,24 +145,26 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
                 <h2 className="reviews__title">
                   Reviews &middot;{' '}
                   <span className="reviews__amount">
-                    {comments.length ?? 0}
+                    {comments?.length ?? 0}
                   </span>
                 </h2>
 
                 {/* Отзывы */}
-                {comments?.length > 0 && <Comments comments={comments} />}
+                {comments?.length > 0 && <Comments comments={commentsToShow} />}
 
                 {/* Форма отправки отзыва (для авторизованного пользователя) */}
-                {userStatus === AuthStatus.Auth && <ReviewForm />}
+                {userStatus === AuthStatus.Auth && <ReviewForm offerID={id!} />}
               </section>
             </div>
           </div>
 
-          <Map
-            bemblock="offer"
-            location={singleOffer.city.location}
-            offers={[singleOffer, ...offersNearby]}
-          />
+          {city && nearbyOffers && (
+            <Map
+              bemblock="offer"
+              location={city.location}
+              offers={[offerDetails, ...nearbyOffers]}
+            />
+          )}
         </section>
 
         <div className="container">
@@ -155,7 +174,7 @@ export default function OfferPage({ userStatus }: OfferPageProps): JSX.Element {
             </h2>
 
             <div className="near-places__list places__list">
-              {offersNearby.map((item) => (
+              {nearbyOffers.map((item) => (
                 <PlaceCard
                   key={item.id}
                   bemblock="near-places"

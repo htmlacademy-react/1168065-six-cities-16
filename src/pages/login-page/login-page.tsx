@@ -1,8 +1,10 @@
 import Layout from '@components/layout/layout';
-import { AppRoute } from '@src/const';
+import { CITIES } from '@src/const';
 import type { AuthData } from '@src/entities/auth';
 import { useAppDispatch } from '@src/hooks/store-hooks';
-import { loginUser } from '@src/store/slices/user-slice';
+import { loginUser } from '@src/store/thunks/user';
+import { getRandomElement } from '@src/utils/get-random-element';
+
 import { useRef, type FormEvent, type ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -35,6 +37,8 @@ export default function LoginPage(): JSX.Element {
     evt.target.value = evt.target.value.replace(/\s/g, '');
   };
 
+  const randomCity = getRandomElement(CITIES);
+
   return (
     <Layout
       className="page page--gray page--login"
@@ -58,6 +62,7 @@ export default function LoginPage(): JSX.Element {
                   type="email"
                   name="email"
                   placeholder="Email"
+                  pattern="/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/"
                   required
                 />
               </div>
@@ -69,6 +74,7 @@ export default function LoginPage(): JSX.Element {
                   name="password"
                   placeholder="Password"
                   required
+                  pattern="^(?=.*[a-zA-Z])(?=.*\d).+$"
                   onChange={handlePasswordInput}
                 />
               </div>
@@ -82,8 +88,8 @@ export default function LoginPage(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link to={AppRoute.Main} className="locations__item-link">
-                <span>Amsterdam</span>
+              <Link to={randomCity.slug} className="locations__item-link">
+                <span>{randomCity.name}</span>
               </Link>
             </div>
           </section>

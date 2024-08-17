@@ -3,6 +3,8 @@ import { sortingSlice } from '@src/store/slices/sorting-slice';
 import { offersSlice } from '@src/store/slices/offers-slice';
 import { createAPI } from '@src/services/api';
 import { userSlice } from '@src/store/slices/user-slice';
+import { offerSlice } from './slices/offer-slice';
+import { commentsSlice } from './slices/comments-slice';
 
 export const api = createAPI();
 
@@ -14,6 +16,8 @@ const store = configureStore({
     [userSlice.name]: userSlice.reducer,
     [offersSlice.name]: offersSlice.reducer,
     [sortingSlice.name]: sortingSlice.reducer,
+    [offerSlice.name]: offerSlice.reducer,
+    [commentsSlice.name]: commentsSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

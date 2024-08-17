@@ -1,9 +1,8 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { ActiveOffer, Offer } from '@src/entities/offers';
 import type { State } from '@src/entities/state';
-import { APIRoute } from '@src/const';
-import type { AxiosInstance } from 'axios';
 import type { LoadingStatus } from '@src/entities/statuses';
+import { fetchOffers } from '../thunks/offers';
 
 type OffersState = {
   activeOffer: ActiveOffer;
@@ -18,21 +17,6 @@ const initialState = {
   offersLoadingStatus: 'idle',
   offersError: false,
 } as OffersState;
-
-/**
- * Загрузка объявлений
- */
-export const fetchOffers = createAsyncThunk<
-  Offer[],
-  undefined,
-  {
-    state: State;
-    extra: AxiosInstance;
-  }
->('offers/fetchOffers', async (_arg, { extra: api }) => {
-  const { data } = await api.get<Offer[]>(APIRoute.Offers);
-  return data;
-});
 
 /**
  * Слайс для работы с предложениями
