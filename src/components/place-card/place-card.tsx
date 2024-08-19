@@ -1,10 +1,12 @@
-import { AppRoute } from '@src/const';
+import { AppRoute, AuthStatus } from '@src/const';
 import type { Offer } from '@src/entities/offers';
 import type { HTMLProps } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import BookmarkButton from '../bookmark-button/bookmark-button';
 import Rating from '../rating/rating';
 import { capitalizeFirstLetter } from '@src/utils/formatters';
+import { useAppSelector } from '@src/hooks/store-hooks';
+import { getAuthStatus } from '@src/store/slices/user-slice';
 
 type PlaceCard = HTMLProps<HTMLElement> & {
   place: Omit<Offer, 'city'>;
@@ -31,6 +33,15 @@ export default function PlaceCard(props: PlaceCard): JSX.Element {
     rating,
     previewImage,
   } = place;
+
+  const userStatus = useAppSelector(getAuthStatus);
+  const navigate = useNavigate();
+
+  const handleBookmarkClick = () => {
+    if (userStatus !== AuthStatus.Auth) {
+      navigate(AppRoute.Login);
+    }
+  };
 
   return (
     <article className={`${bemblock}__card place-card`} {...htmlProps}>
@@ -66,6 +77,7 @@ export default function PlaceCard(props: PlaceCard): JSX.Element {
             bemblock="place-card"
             isFavorite={isFavorite}
             iconSize={{ width: 18, height: 19 }}
+            onClick={handleBookmarkClick}
           />
         </div>
 

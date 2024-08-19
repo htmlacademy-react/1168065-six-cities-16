@@ -1,6 +1,7 @@
 import clsx from 'clsx';
+import { HTMLAttributes } from 'react';
 
-type BookmarkButtonProps = {
+type BookmarkButtonProps = HTMLAttributes<HTMLButtonElement> & {
   bemblock: string;
   isFavorite: boolean;
   iconSize: {
@@ -24,7 +25,7 @@ export default function BookmarkButton({
   );
 
   return (
-    <button className={bookmarkClass} type="button" {...props}>
+    <button className={bookmarkClass} type={'button'} {...props}>
       <svg className={`${bemblock}__bookmark-icon`} style={{ ...iconSize }}>
         <use xlinkHref="#icon-bookmark"></use>
       </svg>
