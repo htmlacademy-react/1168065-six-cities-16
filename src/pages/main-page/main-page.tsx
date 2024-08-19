@@ -16,17 +16,22 @@ import { AuthStatus, SortingOptionValue } from '@src/const';
 import Spinner from '@src/components/spinner/spinner';
 import { getAuthStatus } from '@src/store/slices/user-slice';
 import { fetchOffers } from '@src/store/thunks/offers';
+import { pluralize } from '@src/utils/formatters';
+
+type PlacesEmptyProps = {
+  city: string;
+};
 
 /**
  * Если объявлений нет
  */
-function PlacesEmpty(): JSX.Element {
+function PlacesEmpty({ city }: PlacesEmptyProps): JSX.Element {
   return (
     <section className="cities__no-places">
       <div className="cities__status-wrapper tabs__content">
         <b className="cities__status">No places to stay available</b>
         <p className="cities__status-description">
-          We could not find any property available at the moment in Dusseldorf
+          We could not find any property available at the moment in {city}
         </p>
       </div>
     </section>
@@ -110,7 +115,7 @@ export default function MainPage({
                 <section className="cities__places places">
                   <h2 className="visually-hidden">Places</h2>
                   <b className="places__found">
-                    {currentOffers.length} places to stay in {city}
+                    {pluralize(currentOffers.length, 'place')} to stay in {city}
                   </b>
 
                   <Sorting />
@@ -118,7 +123,7 @@ export default function MainPage({
                   <PlaceCardList offers={offersByCitySorted} />
                 </section>
               ) : (
-                <PlacesEmpty />
+                <PlacesEmpty city={city} />
               )}
 
               <div className="cities__right-section">
