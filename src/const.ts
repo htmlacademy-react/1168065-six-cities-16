@@ -176,4 +176,5 @@ export const APIRoute = {
   Logout: '/logout',
   Comments: '/comments',
   Nearby: '/nearby',
+  Favorite: '/favorite',
 } as const;
