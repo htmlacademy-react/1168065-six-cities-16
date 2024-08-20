@@ -178,3 +178,11 @@ export const APIRoute = {
   Nearby: '/nearby',
   Favorite: '/favorite',
 } as const;
+
+/**
+ * Значения для статуса избранного
+ */
+export const FavoriteValue = {
+  AddToFavorite: 1,
+  RemoveFromFavorite: 0,
+} as const;
