@@ -5,9 +5,9 @@ import type { State } from '@src/entities/state';
 import { Offer } from '@src/entities/offers';
 import { FavoriteValue } from '../../const';
 
-type HandleFavoriteArgsType = {
+type ChangeFavoriteArgs = {
   id: string;
-  status: (typeof FavoriteValue)[keyof typeof FavoriteValue];
+  status: FavoriteValue;
 };
 
 /**
@@ -30,7 +30,7 @@ export const fetchFavorites = createAsyncThunk<
  */
 export const changeFavorite = createAsyncThunk<
   Offer,
-  HandleFavoriteArgsType,
+  ChangeFavoriteArgs,
   {
     state: State;
     extra: AxiosInstance;

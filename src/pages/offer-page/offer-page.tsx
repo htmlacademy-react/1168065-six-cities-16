@@ -87,6 +87,7 @@ export default function OfferPage(): JSX.Element {
 
                 {/* Добавить в избранное */}
                 <BookmarkButton
+                  offerID={id!}
                   bemblock="offer"
                   isFavorite={isFavorite}
                   iconSize={{ width: 31, height: 33 }}

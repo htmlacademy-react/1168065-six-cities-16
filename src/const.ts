@@ -182,7 +182,7 @@ export const APIRoute = {
 /**
  * Значения для статуса избранного
  */
-export const FavoriteValue = {
-  AddToFavorite: 1,
-  RemoveFromFavorite: 0,
-} as const;
+export const enum FavoriteValue {
+  Add = 1,
+  Remove = 0,
+}

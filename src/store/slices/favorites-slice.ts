@@ -24,10 +24,14 @@ export const favoritesSlice = createSlice({
         state.favorites = action.payload;
       })
       .addCase(changeFavorite.fulfilled, (state, action) => {
+        // запишем добавленный в стейт
         if (action.payload.isFavorite) {
           state.favorites.push(action.payload);
         } else {
-          state.favorites.filter((item) => item.id !== action.payload.id);
+          // уберем убранный из стейта
+          state.favorites = state.favorites.filter(
+            (item) => item.id !== action.payload.id
+          );
         }
       });
   },
