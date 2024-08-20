@@ -40,7 +40,7 @@ export default function BookmarkButton({
   const handleBookmarkClick = () => {
     // если пользователь не авторизован, то перенаправляем на логин
     if (userStatus !== AuthStatus.Auth) {
-      navigate(AppRoute.Login);
+      return navigate(AppRoute.Login);
     }
 
     // конвертируем для удобства boolean в number для запроса по api
