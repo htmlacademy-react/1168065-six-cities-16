@@ -1,5 +1,6 @@
 import { AppRoute, AuthStatus } from '@src/const';
 import { useAppDispatch, useAppSelector } from '@src/hooks/store-hooks';
+import { getFavorites } from '@src/store/slices/favorites-slice';
 import { getAuthStatus, getUserData } from '@src/store/slices/user-slice';
 import { logoutUser } from '@src/store/thunks/user';
 import { Link } from 'react-router-dom';
@@ -10,6 +11,7 @@ import { Link } from 'react-router-dom';
 export default function HeaderNav() {
   const userStatus = useAppSelector(getAuthStatus);
   const { email } = useAppSelector(getUserData);
+  const favorites = useAppSelector(getFavorites);
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {
@@ -28,7 +30,9 @@ export default function HeaderNav() {
               >
                 <div className="header__avatar-wrapper user__avatar-wrapper"></div>
                 <span className="header__user-name user__name">{email}</span>
-                <span className="header__favorite-count">3</span>
+                <span className="header__favorite-count">
+                  {favorites.length}
+                </span>
               </Link>
             </li>
             <li className="header__nav-item">

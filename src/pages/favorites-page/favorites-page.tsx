@@ -1,9 +1,10 @@
 import Layout from '@components/layout/layout';
-import { Favorites as FavoritesMocks } from '@src/mocks/favorites';
 import clsx from 'clsx';
 import type { OffersByCity, Offer } from '@src/entities/offers';
-import { useState } from 'react';
+import { useMemo } from 'react';
 import PlaceCard from '@src/components/place-card/place-card';
+import { useAppSelector } from '@src/hooks/store-hooks';
+import { getFavorites } from '@src/store/slices/favorites-slice';
 
 /**
  * Компонент страницы избранного при отсутствии добавленных объявлений
@@ -23,34 +24,46 @@ function FavoritesEmpty(): JSX.Element {
  * Страница избранного
  */
 export default function FavoritesPage(): JSX.Element {
-  const [Favorites] = useState<Offer[]>(FavoritesMocks);
-  const [FavoritesByCity] = useState<OffersByCity>(
-    Object.groupBy(Favorites, ({ city }: Offer) => city.name)
+  const favorites = useAppSelector(getFavorites);
+
+  const favoritesByCity = useMemo<OffersByCity>(
+    () => Object.groupBy(favorites, ({ city }: Offer) => city.name),
+    [favorites]
   );
 
   const layoutClasses = clsx(
     'page',
-    Favorites?.length === 0 && 'page--favorites-empty'
+    favorites?.length === 0 && 'page--favorites-empty'
   );
 
   const mainClasses = clsx(
     'page__main page__main--favorites',
-    Favorites?.length === 0 && 'page__main--favorites-empty'
+    favorites.length === 0 && 'page__main--favorites-empty'
+  );
+
+  const sectionClasses = clsx(
+    'favorites',
+    favorites.length === 0 && 'favorites--empty'
+  );
+
+  const pageHeadingClasses = clsx(
+    'favorites__title',
+    favorites.length === 0 && 'visually-hidden'
   );
 
   const pageHeading =
-    Favorites?.length > 0 ? 'Saved listing' : 'Favorites (empty)';
+    favorites?.length > 0 ? 'Saved listing' : 'Favorites (empty)';
 
   return (
     <Layout className={layoutClasses} showFooter>
       <main className={mainClasses}>
         <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">{pageHeading}</h1>
+          <section className={sectionClasses}>
+            <h1 className={pageHeadingClasses}>{pageHeading}</h1>
 
-            {Favorites?.length > 0 ? (
+            {favorites?.length > 0 ? (
               <ul className="favorites__list">
-                {Object.entries(FavoritesByCity).map((item) => {
+                {Object.entries(favoritesByCity).map((item) => {
                   const [city, offers] = item;
 
                   return (

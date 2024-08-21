@@ -63,6 +63,7 @@ export default function PlaceCard(props: PlaceCard): JSX.Element {
 
           {/* Добавление в закладки */}
           <BookmarkButton
+            offerID={id}
             bemblock="place-card"
             isFavorite={isFavorite}
             iconSize={{ width: 18, height: 19 }}

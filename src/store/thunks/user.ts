@@ -4,6 +4,7 @@ import type { AuthData, AuthError } from '@src/entities/auth';
 import type { UserData } from '@src/entities/user';
 import axios, { type AxiosInstance } from 'axios';
 import type { State } from '@src/entities/state';
+import { fetchFavorites } from './favorites';
 
 /**
  * Проверка статуса авторизации пользователя
@@ -15,8 +16,10 @@ export const checkAuth = createAsyncThunk<
     state: State;
     extra: AxiosInstance;
   }
->('user/checkAuth', async (_arg, { extra: api }) => {
+>('user/checkAuth', async (_arg, { dispatch, extra: api }) => {
   const { data } = await api.get<UserData>(APIRoute.Login);
+
+  dispatch(fetchFavorites());
   return data;
 });
 

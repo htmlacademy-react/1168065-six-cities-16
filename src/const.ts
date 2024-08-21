@@ -176,4 +176,13 @@ export const APIRoute = {
   Logout: '/logout',
   Comments: '/comments',
   Nearby: '/nearby',
+  Favorite: '/favorite',
 } as const;
+
+/**
+ * Значения для статуса избранного
+ */
+export const enum FavoriteValue {
+  Add = 1,
+  Remove = 0,
+}
