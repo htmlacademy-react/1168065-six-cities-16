@@ -25,9 +25,11 @@ export default function ReviewForm({ offerID }: ReviewFormProps) {
   const dispatch = useAppDispatch();
 
   const validateForm = () =>
-    rating &&
-    comment.length >= COMMENT_LENGTH.min &&
-    comment.length <= COMMENT_LENGTH.max;
+    Boolean(
+      rating &&
+        comment.length >= COMMENT_LENGTH.min &&
+        comment.length <= COMMENT_LENGTH.max
+    );
 
   const isDisabled = !validateForm() || submitStatus === true;
 
@@ -68,7 +70,8 @@ export default function ReviewForm({ offerID }: ReviewFormProps) {
               id={id}
               type="radio"
               onChange={(evt) =>
-                setRating(Number.parseInt(evt.target.value, 10))}
+                setRating(Number.parseInt(evt.target.value, 10))
+              }
             />
             <label
               htmlFor={id}

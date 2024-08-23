@@ -129,7 +129,7 @@ export const RATING_CONFIG = [
     title: 'badly',
   },
   {
-    id: '1-star',
+    id: '1-stars',
     value: 1,
     title: 'terribly',
   },
