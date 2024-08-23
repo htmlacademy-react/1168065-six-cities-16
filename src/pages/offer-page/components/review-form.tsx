@@ -67,7 +67,8 @@ export default function ReviewForm({ offerID }: ReviewFormProps) {
             <input
               className="form__rating-input visually-hidden"
               name="rating"
-              value={value}
+              defaultValue={value}
+              checked={value === rating}
               id={id}
               type="radio"
               disabled={isSubmitting}
