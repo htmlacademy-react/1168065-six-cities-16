@@ -59,12 +59,14 @@ export default function OfferPage(): JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(setActiveOffer(id!));
+    if (id) {
+      dispatch(setActiveOffer(id));
+    }
 
     return () => {
       dispatch(setActiveOffer(null));
     };
-  }, []);
+  }, [dispatch, id]);
 
   return (
     <Layout className="page">
