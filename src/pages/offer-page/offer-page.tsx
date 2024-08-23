@@ -9,7 +9,7 @@ import { getComments } from '@src/store/slices/comments-slice';
 import { getNearbyOffers, getOfferInfo } from '@src/store/slices/offer-slice';
 import { setActiveOffer } from '@src/store/slices/offers-slice';
 import { getAuthStatus } from '@src/store/slices/user-slice';
-import { capitalizeFirstLetter } from '@src/utils/formatters';
+import { capitalizeFirstLetter, pluralize } from '@src/utils/formatters';
 import { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import Comments from './components/comments';
@@ -95,7 +95,7 @@ export default function OfferPage(): JSX.Element {
               </div>
 
               {/* Рейтинг */}
-              {rating && <Rating bemblock="offer" rating={rating} />}
+              {rating && <Rating bemblock="offer" rating={rating} showValue />}
 
               {/* Основные характеристики */}
               {type && (
@@ -105,12 +105,12 @@ export default function OfferPage(): JSX.Element {
                   </li>
                   {bedrooms && (
                     <li className="offer__feature offer__feature--bedrooms">
-                      {bedrooms} Bedrooms
+                      {pluralize(bedrooms, 'Bedroom')}
                     </li>
                   )}
                   {maxAdults && (
                     <li className="offer__feature offer__feature--adults">
-                      Max {maxAdults} adults
+                      Max {pluralize(maxAdults, 'adult')}
                     </li>
                   )}
                 </ul>

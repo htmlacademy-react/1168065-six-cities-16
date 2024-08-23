@@ -47,7 +47,7 @@ export default function FavoritesPage(): JSX.Element {
   );
 
   const pageHeadingClasses = clsx(
-    'favorites__title',
+    favorites.length > 0 && 'favorites__title',
     favorites.length === 0 && 'visually-hidden'
   );
 
