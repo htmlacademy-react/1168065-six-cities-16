@@ -20,9 +20,11 @@ export const favoritesSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
+      // загрузка избранного
       .addCase(fetchFavorites.fulfilled, (state, action) => {
         state.favorites = action.payload;
       })
+      // обработка изменения isFavorite
       .addCase(changeFavorite.fulfilled, (state, action) => {
         // запишем добавленный в стейт
         if (action.payload.isFavorite) {
