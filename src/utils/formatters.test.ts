@@ -2,8 +2,21 @@ import { capitalizeFirstLetter, pluralize } from './formatters';
 
 describe('String formatting functions', () => {
   describe('Function: capitalizeFirstLetter', () => {
-    it('should return capitalized first letter for provided string', () => {
+    it('should return only first capitalized letter for provided string', () => {
       expect(capitalizeFirstLetter('appartment')).toBe('Appartment');
+      expect(capitalizeFirstLetter('two bedrooms appartment')).toBe(
+        'Two bedrooms appartment'
+      );
+    });
+
+    it('should return empty string if provided', () => {
+      expect(capitalizeFirstLetter('')).toBe('');
+    });
+
+    it('should return the provided string if the first symbol is not a letter', () => {
+      expect(capitalizeFirstLetter('1string')).toBe('1string');
+      expect(capitalizeFirstLetter('!string')).toBe('!string');
+      expect(capitalizeFirstLetter(' string')).toBe(' string');
     });
   });
 
