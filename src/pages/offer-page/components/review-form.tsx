@@ -73,8 +73,7 @@ export default function ReviewForm({ offerID }: ReviewFormProps) {
               type="radio"
               disabled={isSubmitting}
               onChange={(evt) =>
-                setRating(Number.parseInt(evt.target.value, 10))
-              }
+                setRating(Number.parseInt(evt.target.value, 10))}
             />
             <label
               htmlFor={id}
