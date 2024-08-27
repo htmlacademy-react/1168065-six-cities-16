@@ -25,11 +25,14 @@ export default function ReviewForm({ offerID }: ReviewFormProps) {
   const dispatch = useAppDispatch();
 
   const validateForm = () =>
-    rating &&
-    comment.length >= COMMENT_LENGTH.min &&
-    comment.length <= COMMENT_LENGTH.max;
+    Boolean(
+      rating &&
+        comment.length >= COMMENT_LENGTH.min &&
+        comment.length <= COMMENT_LENGTH.max
+    );
 
-  const isDisabled = !validateForm() || submitStatus === true;
+  const isSubmitting = submitStatus === true;
+  const isSubmitDisabled = !validateForm() || isSubmitting;
 
   const formSubmitHandler = (evt: FormEvent) => {
     evt.preventDefault();
@@ -64,9 +67,11 @@ export default function ReviewForm({ offerID }: ReviewFormProps) {
             <input
               className="form__rating-input visually-hidden"
               name="rating"
-              value={value}
+              defaultValue={value}
+              checked={value === rating}
               id={id}
               type="radio"
+              disabled={isSubmitting}
               onChange={(evt) =>
                 setRating(Number.parseInt(evt.target.value, 10))}
             />
@@ -88,9 +93,8 @@ export default function ReviewForm({ offerID }: ReviewFormProps) {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        minLength={COMMENT_LENGTH.min}
-        maxLength={COMMENT_LENGTH.max}
         value={comment}
+        disabled={isSubmitting}
         onChange={(evt) => {
           setComment(evt.target.value);
         }}
@@ -109,7 +113,7 @@ export default function ReviewForm({ offerID }: ReviewFormProps) {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={isDisabled}
+          disabled={isSubmitDisabled}
         >
           Submit
         </button>

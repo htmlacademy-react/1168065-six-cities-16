@@ -62,7 +62,7 @@ export default function MainPage({
     if (userStatus !== AuthStatus.Unknown) {
       dispatch(fetchOffers());
     }
-  }, [userStatus]);
+  }, [userStatus, dispatch]);
 
   // группируем полученные предложения по городам
   const offersByCity = useMemo(

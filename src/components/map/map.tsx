@@ -1,33 +1,17 @@
 import 'leaflet/dist/leaflet.css';
-import type { Location, Offer } from '@src/entities/offers';
-import { useEffect, useRef } from 'react';
-import { useLeaflet } from '@src/hooks/leaflet-hook';
-import leaflet from 'leaflet';
-import { useAppSelector } from '@src/hooks/store-hooks';
-import { getActiveOffer } from '@src/store/slices/offers-slice';
-
-/**
- * иконка точки на карте
- */
-const defaultPinIcon = leaflet.icon({
-  iconUrl: '/img/pin.svg',
-  iconSize: [27, 39],
-  iconAnchor: [13.5, 39],
-});
-
-/**
- * иконка активной точки на карте
- */
-const activePinIcon = leaflet.icon({
-  iconUrl: '/img/pin-active.svg',
-  iconSize: [27, 39],
-  iconAnchor: [13.5, 39],
-});
+import type { Location, OfferForMap } from '@src/entities/offers';
+import { useRef } from 'react';
+import {
+  useInitLeaflet,
+  useRenderMarkers,
+  useUpdateLocation,
+} from '@src/hooks/leaflet-hooks';
+import { layerGroup } from 'leaflet';
 
 type MapProps = {
   bemblock: string;
   location: Location;
-  offers: Pick<Offer, 'id' | 'location'>[];
+  offers: OfferForMap[];
   size?: {
     height: number | string;
     width?: number | string;
@@ -44,31 +28,11 @@ export default function Map({
   size,
 }: MapProps): JSX.Element {
   const mapRef = useRef(null);
-  const map = useLeaflet(mapRef, location);
-  const active = useAppSelector(getActiveOffer);
+  const layer = useRef(layerGroup());
+  const map = useInitLeaflet(mapRef, location);
 
-  useEffect(() => {
-    if (map) {
-      map.flyTo(
-        { lat: location.latitude, lng: location.longitude },
-        location.zoom
-      );
-
-      offers.forEach((offer) => {
-        leaflet
-          .marker(
-            {
-              lat: offer.location.latitude,
-              lng: offer.location.longitude,
-            },
-            {
-              icon: active === offer.id ? activePinIcon : defaultPinIcon,
-            }
-          )
-          .addTo(map);
-      });
-    }
-  }, [map, offers, active, location]);
+  useRenderMarkers(map, offers, layer);
+  useUpdateLocation(map, location, layer);
 
   return (
     <section

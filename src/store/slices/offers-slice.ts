@@ -3,6 +3,7 @@ import type { ActiveOffer, Offer } from '@src/entities/offers';
 import type { State } from '@src/entities/state';
 import type { LoadingStatus } from '@src/entities/statuses';
 import { fetchOffers } from '../thunks/offers';
+import { changeFavorite } from '../thunks/favorites';
 
 type OffersState = {
   activeOffer: ActiveOffer;
@@ -34,6 +35,7 @@ export const offersSlice = createSlice({
   },
   extraReducers(builder) {
     builder
+      // загрузка объявлений
       .addCase(fetchOffers.pending, (state) => {
         state.offersLoadingStatus = true;
       })
@@ -44,6 +46,18 @@ export const offersSlice = createSlice({
       .addCase(fetchOffers.rejected, (state) => {
         state.offersLoadingStatus = false;
         state.offersError = true;
+      })
+      // обработка изменения isFavorite
+      .addCase(changeFavorite.fulfilled, (state, action) => {
+        const changedOffer = action.payload;
+
+        const existingOffer = state.offers.find(
+          (item) => item.id === changedOffer.id
+        );
+
+        if (existingOffer) {
+          existingOffer.isFavorite = changedOffer.isFavorite;
+        }
       });
   },
 });

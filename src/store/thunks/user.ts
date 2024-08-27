@@ -2,39 +2,27 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { APIRoute } from '@src/const';
 import type { AuthData, AuthError } from '@src/entities/auth';
 import type { UserData } from '@src/entities/user';
-import axios, { type AxiosInstance } from 'axios';
-import type { State } from '@src/entities/state';
+import { isAxiosError } from 'axios';
+import type { ThunksAPI } from '@src/entities/state';
 import { fetchFavorites } from './favorites';
 
 /**
  * Проверка статуса авторизации пользователя
  */
-export const checkAuth = createAsyncThunk<
-  UserData,
-  undefined,
-  {
-    state: State;
-    extra: AxiosInstance;
-  }
->('user/checkAuth', async (_arg, { dispatch, extra: api }) => {
-  const { data } = await api.get<UserData>(APIRoute.Login);
+export const checkAuth = createAsyncThunk<UserData, undefined, ThunksAPI>(
+  'user/checkAuth',
+  async (_arg, { dispatch, extra: api }) => {
+    const { data } = await api.get<UserData>(APIRoute.Login);
 
-  dispatch(fetchFavorites());
-  return data;
-});
+    dispatch(fetchFavorites());
+    return data;
+  }
+);
 
 /**
  * Авторизовать пользователя
  */
-export const loginUser = createAsyncThunk<
-  UserData,
-  AuthData,
-  {
-    state: State;
-    extra: AxiosInstance;
-    rejectValue: AuthError;
-  }
->(
+export const loginUser = createAsyncThunk<UserData, AuthData, ThunksAPI>(
   'user/login',
   async ({ email, password }, { extra: api, rejectWithValue }) => {
     try {
@@ -45,7 +33,7 @@ export const loginUser = createAsyncThunk<
 
       return data;
     } catch (error) {
-      const serverError = axios.isAxiosError<AuthError>(error);
+      const serverError = isAxiosError<AuthError>(error);
 
       if (serverError && error.response) {
         return rejectWithValue(error.response.data);
@@ -59,13 +47,9 @@ export const loginUser = createAsyncThunk<
 /**
  * Разлогинить пользователя
  */
-export const logoutUser = createAsyncThunk<
-  void,
-  undefined,
-  {
-    state: State;
-    extra: AxiosInstance;
+export const logoutUser = createAsyncThunk<void, undefined, ThunksAPI>(
+  'user/logout',
+  async (_arg, { extra: api }) => {
+    await api.delete(APIRoute.Logout);
   }
->('user/logout', async (_arg, { extra: api }) => {
-  await api.delete(APIRoute.Logout);
-});
+);

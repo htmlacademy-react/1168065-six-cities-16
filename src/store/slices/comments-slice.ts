@@ -6,12 +6,12 @@ import type { Status } from '@src/entities/status';
 
 type CommentsState = {
   comments: Comment[];
-  isSubmittingComment: Status;
+  isSubmittingComment: boolean;
 };
 
 const initialState = {
   comments: [],
-  isSubmittingComment: 'idle',
+  isSubmittingComment: false,
 } as CommentsState;
 
 /**
